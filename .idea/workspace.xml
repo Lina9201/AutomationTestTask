@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1289f41b-55da-4c95-8165-b27850012cc3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/admin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/admin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmdb/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmdb/test_category_v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/test_category_v2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmdb/test_category.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/test_category.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmdb/test_category_v2.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,34 +14,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1213">
-              <caret line="196" column="31" selection-start-line="196" selection-start-column="31" selection-end-line="196" selection-end-column="31" />
+            <state relative-caret-position="247">
+              <caret line="19" column="29" lean-forward="true" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
-                <element signature="e#6377#8189#0" />
-                <element signature="e#8315#8581#0" />
-                <element signature="e#8797#8951#0" />
-                <element signature="e#9928#10636#0" />
-                <element signature="e#3855#4503#0" />
+                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#2133#3074#0" />
+                <element signature="e#1915#2242#0" />
+                <element signature="e#2303#2460#0" />
+                <element signature="e#2555#2991#0" />
+                <element signature="e#2997#3423#0" />
+                <element signature="e#3605#4058#0" />
+                <element signature="e#3741#4870#0" />
+                <element signature="e#5608#7308#0" />
+                <element signature="e#12887#15776#0" />
+                <element signature="e#8717#9925#0" />
+                <element signature="e#14035#16403#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cmdb/test_category_v2.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://C:/Program Files/Python37/Lib/http/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="365" column="57" lean-forward="true" selection-start-line="365" selection-start-column="57" selection-end-line="365" selection-end-column="57" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#1915#2242#0" />
-                <element signature="e#2303#2460#0" />
-                <element signature="e#3741#4870#0" />
-              </folding>
+            <state relative-caret-position="352">
+              <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -78,8 +78,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmdb/conftest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+            <state relative-caret-position="117">
+              <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -116,10 +116,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="34" />
-    <option name="width" value="1339" />
-    <option name="height" value="735" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="51" />
+    <option name="y" value="86" />
+    <option name="width" value="1108" />
+    <option name="height" value="649" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -140,6 +141,11 @@
               <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
               <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
               <item name="cmdb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
+              <item name="cmp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
@@ -218,15 +224,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="34" y="0" width="1339" height="735" extended-state="0" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15757109" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15252976" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" weight="0.32858709" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.44592345" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.29836065" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -245,18 +251,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/cmdb/test_category.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/cmdb/test_category_v2.py</url>
           <line>96</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/cmdb/test_category_v2.py</url>
+          <url>file://$PROJECT_DIR$/cmdb/test_category.py</url>
           <line>108</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cmdb/test_category.py</url>
+          <line>76</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -291,20 +297,26 @@
     <entry file="file://$PROJECT_DIR$/cmdb/test_config_item.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://C:/Program Files/Python37/Lib/http/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cmdb/conftest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="117">
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1213">
-          <caret line="196" column="31" selection-start-line="196" selection-start-column="31" selection-end-line="196" selection-end-column="31" />
+        <state>
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#6377#8189#0" />
             <element signature="e#8315#8581#0" />
             <element signature="e#8797#8951#0" />
             <element signature="e#9928#10636#0" />
@@ -313,15 +325,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmdb/test_category_v2.py">
+    <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="365" column="57" lean-forward="true" selection-start-line="365" selection-start-column="57" selection-end-line="365" selection-end-column="57" />
+        <state relative-caret-position="247">
+          <caret line="19" column="29" lean-forward="true" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#2133#3074#0" />
             <element signature="e#1915#2242#0" />
             <element signature="e#2303#2460#0" />
+            <element signature="e#2555#2991#0" />
+            <element signature="e#2997#3423#0" />
+            <element signature="e#3605#4058#0" />
             <element signature="e#3741#4870#0" />
+            <element signature="e#5608#7308#0" />
+            <element signature="e#12887#15776#0" />
+            <element signature="e#8717#9925#0" />
+            <element signature="e#14035#16403#0" />
           </folding>
         </state>
       </provider>
