@@ -16,7 +16,7 @@ def headers():
 
 def pytest_addoption(parser):
     parser.addoption("--ip", action="store", default="172.21.1.132", help="please input target VM ip.")
-    parser.addoption("--port", action="store", default="8888", help="please input target service port.")
+    parser.addoption("--port", action="store", default="8000", help="please input target service port.")
 
 
 @pytest.fixture

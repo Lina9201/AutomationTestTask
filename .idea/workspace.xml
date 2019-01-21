@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1289f41b-55da-4c95-8165-b27850012cc3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/admin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmdb/test_category_v2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/admin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/admin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmdb/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmdb/test_category.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/test_category.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmdb/test_category_v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/test_category_v2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="871">
-              <caret line="178" column="43" lean-forward="true" selection-start-line="178" selection-start-column="43" selection-end-line="178" selection-end-column="43" />
+            <state relative-caret-position="1213">
+              <caret line="196" column="31" selection-start-line="196" selection-start-column="31" selection-end-line="196" selection-end-column="31" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
                 <element signature="e#6377#8189#0" />
@@ -36,11 +34,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cmdb/test_category_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="115" column="1" lean-forward="true" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
+            <state relative-caret-position="191">
+              <caret line="365" column="57" lean-forward="true" selection-start-line="365" selection-start-column="57" selection-end-line="365" selection-end-column="57" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#487#2103#0" />
+                <element signature="e#1915#2242#0" />
+                <element signature="e#2303#2460#0" />
+                <element signature="e#3741#4870#0" />
               </folding>
             </state>
           </provider>
@@ -78,8 +78,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmdb/conftest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="21" column="15" lean-forward="true" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+            <state relative-caret-position="260">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
             </state>
           </provider>
         </entry>
@@ -96,6 +96,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>path_value</find>
+      <find>has_key</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -109,16 +110,16 @@
         <option value="$PROJECT_DIR$/cmdb/test_property.py" />
         <option value="$PROJECT_DIR$/cmdb/dictionary.py" />
         <option value="$PROJECT_DIR$/cmdb/test_relationship.py" />
-        <option value="$PROJECT_DIR$/cmdb/conftest.py" />
         <option value="$PROJECT_DIR$/cmdb/test_category.py" />
+        <option value="$PROJECT_DIR$/cmdb/conftest.py" />
         <option value="$PROJECT_DIR$/cmdb/test_category_v2.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1655" />
-    <option name="width" value="1544" />
-    <option name="height" value="1047" />
+    <option name="x" value="34" />
+    <option name="width" value="1339" />
+    <option name="height" value="735" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -217,15 +218,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1655" y="0" width="1544" height="1047" extended-state="0" />
+    <frame x="34" y="0" width="1339" height="735" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13612218" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15757109" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" weight="0.32858709" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.18400876" />
+      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.44592345" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -249,13 +250,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/cmdb/test_category_v2.py</url>
-          <line>85</line>
+          <line>96</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/cmdb/test_category_v2.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="5" />
+          <line>108</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -292,15 +293,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cmdb/conftest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="21" column="15" lean-forward="true" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+        <state relative-caret-position="260">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="871">
-          <caret line="178" column="43" lean-forward="true" selection-start-line="178" selection-start-column="43" selection-end-line="178" selection-end-column="43" />
+        <state relative-caret-position="1213">
+          <caret line="196" column="31" selection-start-line="196" selection-start-column="31" selection-end-line="196" selection-end-column="31" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
             <element signature="e#6377#8189#0" />
@@ -314,11 +315,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cmdb/test_category_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="115" column="1" lean-forward="true" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
+        <state relative-caret-position="191">
+          <caret line="365" column="57" lean-forward="true" selection-start-line="365" selection-start-column="57" selection-end-line="365" selection-end-column="57" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#487#2103#0" />
+            <element signature="e#1915#2242#0" />
+            <element signature="e#2303#2460#0" />
+            <element signature="e#3741#4870#0" />
           </folding>
         </state>
       </provider>
