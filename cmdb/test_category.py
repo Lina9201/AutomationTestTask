@@ -295,12 +295,13 @@ def test_crud10_scenario(ip, port, criteria, headers):
     response_payload_snippets = criteria['response_payload_snippets']
 
     category_keys = []
+    category = copy.deepcopy(json_category)
 
     # create 10 new category.
     for x in range(0, 10):
         category_name = 'category_' + str(x)
         post_response = requests.post(url=ip_address + base_url_path,
-                                      json=parametrize_payload(json_category, 'category/name', category_name),
+                                      json=parametrize_payload(category, 'category/name', category_name),
                                       headers=headers)
 
         assert post_response.status_code == requests.status_codes.codes.OK
