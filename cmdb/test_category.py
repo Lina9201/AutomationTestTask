@@ -12,7 +12,7 @@ base_url_path_validate_code = "/v1/categories/validate_code"
 
 json_category_basic = {
     "_key": "447fdcb0e12e4a2395157eab415f4f6f",
-    "code": "switch",
+    "code": "kaka",
     "createTime": "2018-11-29",
     "icon": "iconfont icon-default",
     "modifyTime": "2018-12-20",
@@ -110,14 +110,14 @@ test_create_criteria = [
     {'query_strings': 'value',  # dictionary
      'payload': parametrize_payload_mul(json_category, {
          'category/_key': 'id......!',
-         'category/code': 'rocking',
-         'category/icon': 'icon-font rocking',
-         'category/icon': 'icon-font rocking',
+         'category/code': 'shaking',
+         'category/icon': 'icon-font shaking',
      }),
      'response_status_code': '200',
      'response_payload_status': '200',
-     'response_payload_snippets': ['icon-font rocking',
-                                   'rocking']  # contains strings.
+     'response_payload_snippets': [
+         'icon-font shaking',
+         'shaking']  # contains strings.
      },
 
     {'query_strings': 'value',  # dictionary
@@ -152,7 +152,7 @@ test_update_criteria = [
     {'query_strings': 'value',  # dictionary
      'payload': parametrize_payload_mul(json_category_basic, {
          '_key': 'id......!',
-         'code': 'rocking',
+         'code': 'rocking1',
          'icon': 'icon-font rocking'
      }),
      'response_status_code': '200',
@@ -163,7 +163,7 @@ test_update_criteria = [
     {'query_strings': 'value',  # dictionary
      'payload': parametrize_payload_mul(json_category_basic, {
          '_key': 'id......!',
-         'code': 'rocking',
+         'code': 'rocking2',
          'icon': 'icon-font rocking'
      }),
      'response_status_code': '200',
@@ -174,7 +174,7 @@ test_update_criteria = [
     {'query_strings': 'value',  # dictionary
      'payload': parametrize_payload_mul(json_category_basic, {
          '_key': 'what is the id!',
-         'code': 'shaking',
+         'code': 'shaking3',
          'icon': 'icon-font shaking',
          'propGroups': None
      }),
@@ -235,9 +235,9 @@ def test_create_scenario(ip, port, criteria, headers):
 
 
 @pytest.mark.parametrize("criteria", test_update_criteria)
-def test_update_scenario(ip, port, criteria, headers):
+def test_updat_scenario(ip, port, criteria, headers):
     ip_address = "http://%s:%s" % (ip, port)
-    print(criteria)
+    print(headers)
     query_values = criteria['query_strings']
     payload = criteria['payload']
     response_status_code = criteria['response_status_code']
@@ -252,6 +252,28 @@ def test_update_scenario(ip, port, criteria, headers):
 
     assert post_response.status_code == requests.status_codes.codes.OK
     resp_payload = post_response.json()
+    print(resp_payload)
+
+
+@pytest.mark.parametrize("criteria", test_update_criteria)
+def test_update_scenario(ip, port, criteria, headers):
+    ip_address = "http://%s:%s" % (ip, port)
+    print(headers)
+    query_values = criteria['query_strings']
+    payload = criteria['payload']
+    response_status_code = criteria['response_status_code']
+    response_payload_status = criteria['response_payload_status']
+    response_payload_snippets = criteria['response_payload_snippets']
+
+    # create new category.
+    post_response = requests.post(url=ip_address + base_url_path,
+                                  json=json_category,
+                                  params=query_values,
+                                  headers=headers)
+
+    assert post_response.status_code == requests.status_codes.codes.OK
+    resp_payload = post_response.json()
+    print(resp_payload)
     assert resp_payload['status'] == 200  # to be defined.
 
     category_key = resp_payload['data']['category']['_key']
