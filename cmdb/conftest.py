@@ -6,8 +6,8 @@ authentication_url_path = "/v1/tokens"
 json_login = {
     "authType": "password",
     "params": {
-        "username": "default",
-        "password": "default"
+        "username": "vic",
+        "password": "12345678"
     }
 }
 
@@ -22,12 +22,18 @@ def ip(request):
     return request.config.getoption("--ip")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def port(request):
     return request.config.getoption("--port")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
+def ip_address(ip, port):
+    ip_address = "http://%s:%s" % (ip, port)
+    return ip_address
+
+
+@pytest.fixture(scope="module")
 def auth_token(ip, port):
     ip_address = "http://%s:%s" % (ip, port)
     headers = {"User-Agent": "automation",
@@ -46,7 +52,7 @@ def auth_token(ip, port):
     return auth_token
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def headers(ip, port):
     ip_address = "http://%s:%s" % (ip, port)
     headers = {"User-Agent": "automation",
