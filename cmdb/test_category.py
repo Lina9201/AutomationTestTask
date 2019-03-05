@@ -162,7 +162,7 @@ test_updating_criteria = [
 
 
 @pytest.mark.parametrize("criteria", test_creating_criteria)
-def test_create_scenario(ip_address, criteria, headers):
+def test_scenario_creating(ip_address, criteria, headers):
     print(criteria)
     query_values = criteria['query_strings']
     payload = criteria['payload']
@@ -207,7 +207,7 @@ def test_create_scenario(ip_address, criteria, headers):
 
 
 @pytest.mark.parametrize("criteria", test_updating_criteria)
-def test_update_scenario(ip, port, criteria, headers):
+def test_scenario_updating(ip, port, criteria, headers):
     ip_address = "http://%s:%s" % (ip, port)
     print(headers)
     query_values = criteria['query_strings']
@@ -259,7 +259,7 @@ def test_update_scenario(ip, port, criteria, headers):
 
 
 @pytest.mark.parametrize("criteria", test_updating_criteria)
-def test_crud10_scenario(ip_address, criteria, headers):
+def test_scenario_crud10(ip_address, criteria, headers):
     query_values = criteria['query_strings']
     payload = criteria['payload']
     response_status_code = criteria['response_status_code']
@@ -326,7 +326,7 @@ def test_crud10_scenario(ip_address, criteria, headers):
         assert 'data' not in get_resp_payload
 
 
-def test_exceptions_scenario(ip_address, headers):
+def test_scenario_exceptions(ip_address, headers):
     # create new category.
     category_name = str(uuid.uuid1())
     post_response = requests.post(url=ip_address + base_url_path,
@@ -378,7 +378,7 @@ def test_exceptions_scenario(ip_address, headers):
     assert resp_payload['status'] == 404
 
 
-def test_query_tree_scenario(ip_address, headers):
+def test_scenario_query_tree(ip_address, headers):
     # create 1st category.
     category_name = str(uuid.uuid1())
     post_response = requests.post(url=ip_address + base_url_path,
@@ -456,3 +456,131 @@ def test_query_tree_scenario(ip_address, headers):
                             assert len(sub_child['children']) == 0
 
     assert error_flag is False
+
+
+def test_scenario_query_properties(ip_address, headers):
+    # create 1st category.
+    category_name = str(uuid.uuid1())
+
+    json_property_group_temp1 = parametrize_payload_mul(json_property_group, {
+        'name': 'what-is-the-props-group-name-1',
+        'type': 'what-is-the-props-group-type-1',
+    })
+
+    json_property_group_temp2 = parametrize_payload_mul(json_property_group, {
+        'name': 'what-is-the-props-group-name-2',
+        'type': 'what-is-the-props-group-type-2',
+    })
+
+    json_property_temp1 = parametrize_payload_mul(json_property, {
+        'code': 'what-is-the-property-code-1',
+        'value': 'what-is-the-property-value-1',
+    })
+
+    json_property_temp2 = parametrize_payload_mul(json_property, {
+        'code': 'what-is-the-property-code-2',
+        'value': 'what-is-the-property-value-2',
+    })
+
+    json_category['propGroups'].append(
+        {
+            "group": json_property_group_temp1,
+            "properties": [
+                json_property_temp1,
+                json_property_temp2
+            ]
+        })
+
+    json_category['propGroups'].append(
+        {
+            "group": json_property_group_temp2,
+            "properties": [
+                json_property_temp1,
+                json_property_temp2,
+            ]
+        })
+
+    post_response = requests.post(url=ip_address + base_url_path,
+                                  json=parametrize_payload_mul(json_category, {
+                                      'category/name': category_name + '-name',
+                                      'category/code': category_name + '-code',
+                                  }),
+                                  headers=headers)
+
+    assert post_response.status_code == requests.status_codes.codes.OK
+    resp_payload = post_response.json()
+    assert resp_payload['status'] == 200  # to be defined.
+    category_key = resp_payload['data']['category']['_key']
+
+    url = (ip_address + base_url_path_key_properties).replace('{categoryKey}', category_key)
+    get_response = requests.get(url=url, headers=headers)
+    assert get_response.status_code == requests.status_codes.codes.OK
+    resp_payload = get_response.json()
+    assert resp_payload['status'] == 200
+    assert 'data' in resp_payload
+    assert len(resp_payload['data']) == 6
+    assert str(resp_payload['data']).count('what-is-the-property-code-1') == 2
+    assert str(resp_payload['data']).count('what-is-the-property-value-2') == 2
+
+    # delete what was created
+    url = (ip_address + base_url_path_gdp).replace('{categoryKey}', category_key)
+    delete_response = requests.delete(url=url, headers=headers)
+    assert delete_response.status_code == requests.status_codes.codes.OK
+    resp_payload = delete_response.json()
+    assert resp_payload['status'] == 200
+
+
+def test_scenario_query_relationships(ip_address, headers):
+    # create 1st category.
+    category_name = str(uuid.uuid1())
+    post_response = requests.post(url=ip_address + base_url_path,
+                                  json=parametrize_payload_mul(json_category, {
+                                      'category/name': category_name,
+                                      'category/code': category_name,
+                                  }),
+                                  headers=headers)
+
+    assert post_response.status_code == requests.status_codes.codes.OK
+    resp_payload = post_response.json()
+    assert resp_payload['status'] == 200  # to be defined.
+    category_key = resp_payload['data']['category']['_key']
+    first_key = category_key
+
+    # create 2nd category.
+    category_name = str(uuid.uuid1())
+    post_response = requests.post(url=ip_address + base_url_path,
+                                  json=parametrize_payload_mul(json_category, {
+                                      'category/parentCategoryKey': first_key,
+                                      'category/name': category_name,
+                                      'category/code': category_name,
+                                  }),
+                                  headers=headers)
+    assert post_response.status_code == requests.status_codes.codes.OK
+    resp_payload = post_response.json()
+    assert resp_payload['status'] == 200  # to be defined.
+    category_key = resp_payload['data']['category']['_key']
+    second_key = category_key
+
+    # create 3rd category.
+    category_name = str(uuid.uuid1())
+    post_response = requests.post(url=ip_address + base_url_path,
+                                  json=parametrize_payload_mul(json_category, {
+                                      'category/parentCategoryKey': first_key,
+                                      'category/name': category_name,
+                                      'category/code': category_name,
+                                  }),
+                                  headers=headers)
+    assert post_response.status_code == requests.status_codes.codes.OK
+    resp_payload = post_response.json()
+    assert resp_payload['status'] == 200  # to be defined.
+    category_key = resp_payload['data']['category']['_key']
+    third_key = category_key
+
+    url = (ip_address + base_url_path_next_to_topo).replace('{categoryKey}', first_key)
+    get_response = requests.get(url=url, headers=headers)
+    assert get_response.status_code == requests.status_codes.codes.OK
+    resp_payload = get_response.json()
+    assert resp_payload['status'] == 200  # to be defined.
+    assert 'data' in resp_payload
+    assert len(resp_payload['data']) > 0
+    print(resp_payload['data'])

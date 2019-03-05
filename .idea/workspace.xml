@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1289f41b-55da-4c95-8165-b27850012cc3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/admin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/admin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmdb/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/conftest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmdb/test_category.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/test_category.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,13 +15,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="74" column="10" lean-forward="true" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
+            <state relative-caret-position="509">
+              <caret line="578" column="86" selection-start-line="578" selection-start-column="86" selection-end-line="578" selection-end-column="86" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#473#705#0" />
-                <element signature="e#723#1275#0" />
-                <element signature="e#1299#1480#0" />
                 <element signature="e#2729#4045#0" />
                 <element signature="e#3939#5082#0" />
                 <element signature="e#5345#7071#0" />
@@ -35,7 +28,12 @@
                 <element signature="e#11042#11054#0" />
                 <element signature="e#11130#12637#0" />
                 <element signature="e#11913#14261#0" />
-                <element signature="e#13946#16950#0" />
+                <element signature="e#18281#18490#0" />
+                <element signature="e#18483#18574#0" />
+                <element signature="e#18644#18727#0" />
+                <element signature="e#18795#18892#0" />
+                <element signature="e#18277#18403#0" />
+                <element signature="e#18472#18582#0" />
               </folding>
             </state>
           </provider>
@@ -135,10 +133,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="886" />
-    <option name="y" value="31" />
+    <option name="x" value="799" />
+    <option name="y" value="1" />
     <option name="width" value="1299" />
-    <option name="height" value="1017" />
+    <option name="height" value="1063" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -242,7 +240,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="886" y="31" width="1299" height="1017" extended-state="0" />
+    <frame x="799" y="1" width="1299" height="1063" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16256939" />
@@ -256,13 +254,24 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.18006796" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.30462864" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3274918" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cmdb/test_category.py</url>
+          <line>380</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/cmdb/__init__.py" />
@@ -318,13 +327,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="74" column="10" lean-forward="true" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
+        <state relative-caret-position="509">
+          <caret line="578" column="86" selection-start-line="578" selection-start-column="86" selection-end-line="578" selection-end-column="86" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#473#705#0" />
-            <element signature="e#723#1275#0" />
-            <element signature="e#1299#1480#0" />
             <element signature="e#2729#4045#0" />
             <element signature="e#3939#5082#0" />
             <element signature="e#5345#7071#0" />
@@ -333,7 +340,12 @@
             <element signature="e#11042#11054#0" />
             <element signature="e#11130#12637#0" />
             <element signature="e#11913#14261#0" />
-            <element signature="e#13946#16950#0" />
+            <element signature="e#18281#18490#0" />
+            <element signature="e#18483#18574#0" />
+            <element signature="e#18644#18727#0" />
+            <element signature="e#18795#18892#0" />
+            <element signature="e#18277#18403#0" />
+            <element signature="e#18472#18582#0" />
           </folding>
         </state>
       </provider>
