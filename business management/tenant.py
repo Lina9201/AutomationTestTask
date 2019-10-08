@@ -1,6 +1,5 @@
 import pytest
 import requests
-import tcrc.function.user
 
 url = "/admin/v1/vdcs"
 create_param = [{
@@ -76,7 +75,7 @@ def test_detail(ip, port, headers):
     # 获取要查询的租户的id
     id_1 = test_check(ip, port, headers)[0]
     # 组成查看详情url
-    detail_url = "/admin/v1/vdcs/%i" % id_1
+
     detail_response = requests.get(url=ip_address+detail_url, headers=headers)
     code = detail_response.status_code
     assert code == 200
@@ -107,4 +106,4 @@ def test_delete(ip, port, headers):
 
 
 if __name__ == '__main__':
-    pytest.main(['-q', 'tenant.py'])
+    pytest.main(['-q', 'test_tenant.py'])
