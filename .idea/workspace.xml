@@ -58,7 +58,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test_vlanpool">
+  <component name="RunManager" selected="Python.test_category">
     <configuration name="test_category" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="tcrc_api_testing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -103,6 +103,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_category" />
         <item itemvalue="Python.test_vlanpool" />
       </list>
     </recent_temporary>
