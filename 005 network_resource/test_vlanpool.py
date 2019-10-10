@@ -1,6 +1,6 @@
 import pytest
 import requests
-# from 005 network_resource.conftest import read_excel_dic, write_excel
+# from network_resource.conftest import read_excel_dic, write_excel
 
 
 
