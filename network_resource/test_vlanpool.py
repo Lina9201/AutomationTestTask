@@ -1,23 +1,20 @@
 import pytest
 import requests
+from network_resource.conftest import read_excel_dic
+
+
+# 路径
+## 创建网络
+create_network_url_path = "/admin/v1/networks"
+
+
+# 构造测试数据
+## 创建网络
+param_network = read_excel_dic("测试数据.xlsx","创建网络")
+print(param_network)
 
 
 
-
-
-
-a = read_excel_dic()
-
-
-
-
-
-
-#
-# #
-# # 定义网络管理路径
-# ## 创建网络
-# create_network_url_path = "/admin/v1/networks"
 # ## 获取网络列表
 # get_network_url_path = "/admin/v1/networks/page"
 # # create_subnet_url_path = "/admin/v1/subnets?networkId="
@@ -37,10 +34,9 @@ a = read_excel_dic()
 # # delete_network_objects_url_path = "/admin/v1/network_objects/"
 # # ## 修改子网ip的ip信息状态的路径
 # # # update_subnet_ip_status_path = "http://172.50.10.42:8000/admin/v1/subnet_ips/not_used"
-#
-# # 构造测试数据
-# ## 创建网络
-param_network = read_excel_dic("测试数据.xlsx","创建网络")
+
+
+
 # ## 编辑网络
 # param_update_network = read_excel_dic("测试数据.xlsx","编辑网络")
 #
