@@ -55,7 +55,7 @@ def headers(token):
     }
     return headers
 
-
+# 读取工作簿，表，列，该列以列表形式展示['A2', 'A3', 'A4', 'A5', 'A6']
 def read_excel(bookname, sheetname,columnname):
     # 打开已存在的workbook
     wb = load_workbook(bookname)
@@ -74,7 +74,7 @@ def read_excel(bookname, sheetname,columnname):
                 b.append(a[j].value)
             return (b)
 
-# 读取工作簿，表，以字典的形式展示
+# 读取工作簿，表，以列表中元组的形式展示[('A2', 'B2', 'C2'), ('A3', 'B3', 'C3'), ('A4', 'B4', 'C4')]
 def read_excel_tuple(bookname, sheetname):
     # 打开已存在的workbook
     wb = load_workbook(bookname)
@@ -96,7 +96,7 @@ def read_excel_tuple(bookname, sheetname):
             param.append(paramrow_value_tuple)
         return (param)
 
-# 读取工作簿，表，以字典的形式展示
+# 读取工作簿，表，以列表中字典的形式展示[{'A1': 'A2', 'B1': 'B2', 'C1': 'C2'}, {'A1': 'A3', 'B1': 'B3', 'C1': 'C3'}]
 def read_excel_dic(bookname, sheetname):
     # 打开已存在的workbook
     wb = load_workbook(bookname)
