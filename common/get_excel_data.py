@@ -29,12 +29,15 @@ class OperationExcleData():
             for j in range(2, tcols):
                 case_key = sheet.cell_value(0, j)
                 case_value = sheet.cell_value(i, j)
-                if sheet.cell_value(1, j) == "datacenter":
+                # if sheet.cell_value(0, j) != "" and sheet.cell_value(0, j + 1) == "":
+                #     childdict = {}
+                if sheet.cell_value(1, j) != "":
                     childdict = {}
                     childcase_key = sheet.cell_value(1, j)
                     childdict[childcase_key] = sheet.cell_value(i, j)
                     case_value = childdict
-                tmpdict[case_key] = case_value
+                if case_key != "":
+                    tmpdict[case_key] = case_value
             self.caseList.append(tmpdict)
         return self.caseList
 
@@ -51,7 +54,7 @@ class OperationExcleData():
             pass
 
 if __name__=="__main__":
-    excelFile = "E:\\AutomationTestTask\\Test_data\\计算资源\\资源池.xlsx"
+    excelFile = "E:\\AutomationTestTask\\test_data\\cmp\\资源池.xlsx"
     sheetName = "添加资源池"
     ed = OperationExcleData(excelFile, sheetName)
     resourcepool_data = ed.getCaseList(excelFile, sheetName)
