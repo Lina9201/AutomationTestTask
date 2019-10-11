@@ -1,6 +1,6 @@
 import pytest
 import requests
-from network_resource.conftest import read_excel,read_excel_tuple, read_excel_dic, write_excel
+from network_resource.conftest import read_excel, read_excel_tuple, read_excel_dic, write_excel
 
 # 路径
 ## 创建VLAN池
@@ -18,7 +18,7 @@ param_create_vlanpool = read_excel_tuple('测试数据.xlsx', '创建VLAN池')
 ## 编辑VLAN池
 param_update_vlanpool = read_excel_tuple('测试数据.xlsx', '编辑VLAN池')
 ## 删除VLAN池
-param_delete_vlanpool = read_excel('测试数据.xlsx', '删除VLAN池','name')
+param_delete_vlanpool = read_excel('测试数据.xlsx', '删除VLAN池', 'name')
 
 
 # 定义函数
