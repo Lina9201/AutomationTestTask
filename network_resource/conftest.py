@@ -55,8 +55,9 @@ def headers(token):
     }
     return headers
 
+
 # 读取工作簿，表，列，该列以列表形式展示['A2', 'A3', 'A4', 'A5', 'A6']
-def read_excel(bookname, sheetname,columnname):
+def read_excel(bookname, sheetname, columnname):
     # 打开已存在的workbook
     wb = load_workbook(bookname)
     # 通过sheet名打开sheet页
@@ -66,13 +67,14 @@ def read_excel(bookname, sheetname,columnname):
     columns = ws.max_column
     # print(list(ws.columns))
     for i in range(columns):
-        a= list(ws.columns)[i]
+        a = list(ws.columns)[i]
         # print(a)
         b = []
         if columnname == a[0].value:
             for j in range(1, rows):
                 b.append(a[j].value)
             return (b)
+
 
 # 读取工作簿，表，以列表中元组的形式展示[('A2', 'B2', 'C2'), ('A3', 'B3', 'C3'), ('A4', 'B4', 'C4')]
 def read_excel_tuple(bookname, sheetname):
@@ -87,7 +89,7 @@ def read_excel_tuple(bookname, sheetname):
         print('没数据')
     else:
         param = []
-        for i in range(1,rows):
+        for i in range(1, rows):
             paramrow = list(ws.rows)[i]
             paramrow_value = []
             for j in range(columns):
@@ -95,6 +97,7 @@ def read_excel_tuple(bookname, sheetname):
             paramrow_value_tuple = tuple(paramrow_value)
             param.append(paramrow_value_tuple)
         return (param)
+
 
 # 读取工作簿，表，以列表中字典的形式展示[{'A1': 'A2', 'B1': 'B2', 'C1': 'C2'}, {'A1': 'A3', 'B1': 'B3', 'C1': 'C3'}]
 def read_excel_dic(bookname, sheetname):
