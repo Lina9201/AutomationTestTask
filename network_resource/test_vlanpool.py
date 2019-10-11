@@ -1,14 +1,13 @@
 import pytest
 import requests
-from network_resource.conftest import read_excel_dic, write_excel
+from network_resource.conftest import read_excel,read_excel_dic, write_excel
 
 ## 创建网络路径
 create_network_url_path = '/admin/v1/networks'
 
 # 构造测试数据
 ## 创建网络
-param_network = read_excel_dic('测试数据.xlsx', '创建VLAN池')
-print(param_network)
+
 
 # ## 获取网络列表
 # get_network_url_path = "/admin/v1/networks/page"
@@ -133,9 +132,17 @@ print(param_network)
 # # 测试用例
 # ## 创建网络
 # ### 通过选择VLAN池创建网络
-# @pytest.mark.parametrize("param__network",param_network)
-# def test_create_network(ip,port,headers,param__network):
-#     ip_address = "http://%s:%s" % (ip,port)
+@pytest.mark.parametrize("param__network",param_network)
+def test_create_network(ip,port,headers,param__network):
+    ip_address = "http://%s:%s" % (ip,port)
+    param_create_network = {
+        'name' : read_excel('测试数据.xlsx', '创建VLAN池','name'),
+        'tag' :  read_excel('测试数据.xlsx', '创建VLAN池','tag'),
+        'vlanPoolResourcePoolList' : read_excel('测试数据.xlsx', '创建VLAN池','vlanPoolResourcePoolList'),
+        'vlanTagStart' : read_excel('测试数据.xlsx', '创建VLAN池','vlanTagStart'),
+        'vlanTagEnd' : read_excel('测试数据.xlsx', '创建VLAN池','vlanTagEnd')
+    }
+    print(param_create_network)
 #     create_network_response = requests.post(url = ip_address + create_network_url_path,
 #                                             headers = headers,
 #                                             json = param__network
