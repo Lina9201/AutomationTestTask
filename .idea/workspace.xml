@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1289f41b-55da-4c95-8165-b27850012cc3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_resource/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_resource/conftest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network_resource/test_vlanpool.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_resource/test_vlanpool.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network_resource/测试数据.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/network_resource/测试数据.xlsx" afterDir="false" />
     </list>
@@ -268,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570773337938</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Default Changelist">
+      <created>1570775857006</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1570775857006</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
