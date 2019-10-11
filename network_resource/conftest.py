@@ -64,16 +64,14 @@ def readexcel(bookname, sheetname):
     # 获取sheet页最大行数，最大列数
     rows = ws.max_row
     columns = ws.max_column
-
-    sheetvlaues = []
-    sheetvlauesa = []
-
-    for i in range(1, rows):
-        for j in range(columns):
-            sheetvlauesa.append(sheetname.cell(i, j).value)
-        sheetvlaues.append(tuple(sheetvlauesa))
-        sheetvlauesa = []
-    return sheetvlaues
+    # print(list(ws.columns))
+    for i in range(columns):
+        a = list(ws.columns)[i]
+        # print(a)
+        b = []
+        for j in range(1, rows):
+            b.append(a[j].value)
+        return (b)
 
 
 # 读取工作簿，表，以字典的形式展示

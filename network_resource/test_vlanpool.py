@@ -4,24 +4,42 @@ from network_resource.conftest import read_excel_dic,write_excel
 
 
 # 获取资源池路径
-get_resourcepool_url_path = "/admin/v1/resourcepools/"
+get_resourcepool_url_path = '/admin/v1/resourcepools/'
 # 获取资源池列表函数
 def get_resourcepools_list(ip,port,headers):
-    ip_address = "http://%s:%s" % (ip,port)
+    ip_address = 'http://%s:%s' % (ip,port)
     resourcepools_list_response = requests.get(
         url = ip_address + get_resourcepool_url_path,
         headers = headers
     ).json()
-    resourcepools_list = resourcepools_list_response["data"]
+    resourcepools_list = resourcepools_list_response['data']
     return resourcepools_list
 # 获取第一个VMware资源池ID函数
 def get_resourcepool_id(ip,port,headers):
     resourcepool_id = []
     for i in get_resourcepools_list(ip,port,headers):
-        if i["type"] == "vmware":
-            resourcepool_id.append(i["id"])
+        if i['type'] == 'vmware':
+            resourcepool_id.append(i['id'])
     return resourcepool_id[0]
-write_excel("")
+# 写入资源池ID到创建VLAN池表格中国
+def write_resourcepool_id(ip,port,headers):
+    vlanPoolResourcePoolList = []
+    resourcePoolId = {}
+    resourcePoolId["resourcePoolId"] = get_resourcepool_id(ip,port,headers)
+    vlanPoolResourcePoolList.append(resourcePoolId)
+    write_excel('测试数据.xlsx','创建VLAN池',2,3,vlanPoolResourcePoolList)
+# 定义变量
+login_url_path = '/v1/tokens'
+ip = '172.50.10.42'
+port = '8000'
+login_json = {'authType': "password",'params': {'username': "duxiangyu", 'password': "eSXUb22UfzfFT+1L8/LinQ=="}}
+headers = { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json;charset=UTF-8',}
+ip_address = 'http://%s:%s' % (ip, port)
+login_request = requests.post(url=ip_address + login_url_path, json=login_json, headers=headers)
+login_reponse = login_request.json()
+token = login_reponse['data']['key']
+headers = {"User-Agent": "automation",'Content-Type': 'application/json;charset=UTF-8','T-AUTH-TOKEN': token}
+write_resourcepool_id(ip,port,headers)
 ## 创建网络路径
 create_network_url_path = '/admin/v1/networks'
 
