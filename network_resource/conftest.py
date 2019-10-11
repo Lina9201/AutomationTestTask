@@ -56,7 +56,7 @@ def headers(token):
     return headers
 
 
-def readexcel(bookname, sheetname):
+def readexcel(bookname, sheetname,columnname):
     # 打开已存在的workbook
     wb = load_workbook(bookname)
     # 通过sheet名打开sheet页
@@ -66,12 +66,13 @@ def readexcel(bookname, sheetname):
     columns = ws.max_column
     # print(list(ws.columns))
     for i in range(columns):
-        a = list(ws.columns)[i]
+        a= list(ws.columns)[i]
         # print(a)
         b = []
-        for j in range(1, rows):
-            b.append(a[j].value)
-        return (b)
+        if columnname == a[0].value:
+            for j in range(1, rows):
+                b.append(a[j].value)
+            print(b)
 
 
 # 读取工作簿，表，以字典的形式展示
