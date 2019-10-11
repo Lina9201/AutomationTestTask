@@ -58,7 +58,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test_category">
+  <component name="RunManager" selected="Python.test_vlanpool">
     <configuration name="test_category" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="tcrc_api_testing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -103,8 +103,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_category" />
         <item itemvalue="Python.test_vlanpool" />
+        <item itemvalue="Python.test_category" />
       </list>
     </recent_temporary>
   </component>
@@ -203,7 +203,21 @@
       <option name="project" value="LOCAL" />
       <updated>1570698421032</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Default Changelist">
+      <created>1570703748557</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1570703748558</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Default Changelist">
+      <created>1570703854901</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1570703854901</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

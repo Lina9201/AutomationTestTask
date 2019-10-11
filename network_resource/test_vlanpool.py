@@ -1,16 +1,34 @@
 import pytest
 import requests
-from network_resource.conftest import read_excel_dic
+from network_resource.conftest import read_excel_dic,write_excel
 
 
-# 路径
-## 创建网络
-create_network_url_path = "/admin/v1/networks"
+# 获取资源池路径
+get_resourcepool_url_path = "/admin/v1/resourcepools/"
+# 获取资源池列表函数
+def get_resourcepools_list(ip,port,headers):
+    ip_address = "http://%s:%s" % (ip,port)
+    resourcepools_list_response = requests.get(
+        url = ip_address + get_resourcepool_url_path,
+        headers = headers
+    ).json()
+    resourcepools_list = resourcepools_list_response["data"]
+    return resourcepools_list
+# 获取第一个VMware资源池ID函数
+def get_resourcepool_id(ip,port,headers):
+    resourcepool_id = []
+    for i in get_resourcepools_list(ip,port,headers):
+        if i["type"] == "vmware":
+            resourcepool_id.append(i["id"])
+    return resourcepool_id[0]
+write_excel("")
+## 创建网络路径
+create_network_url_path = '/admin/v1/networks'
 
 
 # 构造测试数据
 ## 创建网络
-param_network = read_excel_dic("测试数据.xlsx","创建网络")
+param_network = read_excel_dic('测试数据.xlsx','创建VLAN池')
 print(param_network)
 
 
@@ -53,7 +71,8 @@ print(param_network)
 # # update_subnet_name = "自动化创建子网修改"
 # # object_name = "自动创建对象8"
 # #
-# # 定义函数
+# 定义函数
+
 # ## 获取网络列表
 # def get_network_list(ip,port,headers):
 #     ip_address = "http://%s:%s" % (ip,port)

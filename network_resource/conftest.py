@@ -22,10 +22,10 @@ def port():
 @pytest.fixture()
 def login_json():
     login_json = {
-        'authType': "password",
+        'authType': 'password',
         'params': {
-            'username': "duxiangyu",
-            'password': "eSXUb22UfzfFT+1L8/LinQ=="
+            'username': 'duxiangyu',
+            'password': 'eSXUb22UfzfFT+1L8/LinQ=='
         }
     }
     return login_json
@@ -49,7 +49,7 @@ def token(ip, port, login_json):
 @pytest.fixture()
 def headers(token):
     headers = {
-        "User-Agent": "automation",
+        'User-Agent': 'automation',
         'Content-Type': 'application/json;charset=UTF-8',
         'T-AUTH-TOKEN': token
     }
@@ -87,7 +87,7 @@ def read_excel_dic(bookname, sheetname):
     columns = ws.max_column
     title = list(ws.rows)[0]
     if rows <= 1:
-        print("没数据")
+        print('没数据')
     else:
         param = []
         key = []
