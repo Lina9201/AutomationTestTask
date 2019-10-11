@@ -1,13 +1,14 @@
 import pytest
 import requests
-from network.conftest import read_excel_dic, write_excel
-#
-# #
-# # 定义网络管理路径
-# ## 创建网络
-# create_network_url_path = "/admin/v1/networks"
-# ## 获取网络列表
-# get_network_url_path = "/admin/v1/networks/page"
+from network_resource.conftest import read_excel, read_excel_tuple, read_excel_dic, write_excel
+
+# 路径
+## 创建网络
+create_network_url_path = '/admin/v1/networks/'
+## 获取网络列表
+get_network_url_path = '/admin/v1/networks/page/'
+## 编辑网络
+update_network_url_path = '/admin/v1/networks/'
 # # create_subnet_url_path = "/admin/v1/subnets?networkId="
 # # get_subnet_url_path = "/admin/v1/subnets/page?networkId="
 # # update_subnet_url_path = "/admin/v1/subnets/"
@@ -25,51 +26,48 @@ from network.conftest import read_excel_dic, write_excel
 # # delete_network_objects_url_path = "/admin/v1/network_objects/"
 # # ## 修改子网ip的ip信息状态的路径
 # # # update_subnet_ip_status_path = "http://172.50.10.42:8000/admin/v1/subnet_ips/not_used"
+
+# 构造测试数据
+## 创建网络
+param_create_network = read_excel_tuple('测试数据.xlsx', '创建网络')
+## 编辑网络
+param_update_network = read_excel_tuple('测试数据.xlsx', '编辑网络')
+## 创建子网
+param_create_subnet = read_excel_tuple('测试数据.xlsx','创建子网')
 #
-# # 构造测试数据
-# ## 创建网络
-# param_network = read_excel_dic("测试数据.xlsx","创建网络")
-# ## 编辑网络
-# param_update_network = read_excel_dic("测试数据.xlsx","编辑网络")
-#
-# # param_subnet = {
-# # 	"name": "自动化创建子网",
-# # 	"ipProtocol": "IPV4",
-# # 	"cidr": "192.168.1.1/24",
-# # 	"isGatewayDisabled": "false",
-# # 	"gatewayIp": "192.168.1.1",
-# # 	"ipPools": "192.168.1.2,192.168.1.200",
-# # 	"preferredDns": "114.114.114.114",
-# # 	"alternateDns": "115.115.115.115"
-# # }
+
 # # update_subnet_name = "自动化创建子网修改"
 # # object_name = "自动创建对象8"
-# #
-# # 定义函数
-# ## 获取网络列表
-# def get_network_list(ip,port,headers):
-#     ip_address = "http://%s:%s" % (ip,port)
-#     network_list_response = requests.get(
-#         url = ip_address + get_network_url_path,
-#         headers=headers
-#     ).json()
-#     network_list = network_list_response["data"]["list"]
-#     return network_list
-#
-# ## 获取网络名称
-# def get_network_name_list(ip,port,headers):
-#     network_name_list = []
-#     for i in get_network_list(ip,port,headers):
-#         network_name_list.append(i["name"])
-#     return network_name_list
-#
-# ## 获取网络ID
-# def get_network_id (ip,port,headers,network_name):
-#     network_id = []
-#     for i in get_network_list(ip,port,headers):
-#         if network_name == i["name"]:
-#             network_id.append(i["id"])
-#     return network_id
+
+# 定义函数
+## 获取网络列表
+def get_network_list(ip, port, headers):
+    ip_address = 'http://%s:%s' % (ip, port)
+    network_list_response = requests.get(
+        url=ip_address + get_network_url_path,
+        headers=headers
+    ).json()
+    network_list = network_list_response['data']['list']
+    return network_list
+
+
+## 获取网络名称
+def get_network_name_list(ip, port, headers):
+    network_name_list = []
+    for i in get_network_list(ip, port, headers):
+        network_name_list.append(i['name'])
+    return network_name_list
+
+
+## 获取网络ID
+def get_network_id(ip, port, headers, network_name):
+    network_id = []
+    for i in get_network_list(ip, port, headers):
+        if network_name == i["name"]:
+            network_id.append(i["id"])
+    return network_id
+
+
 #
 # # ## 获取子网列表
 # # def get_subnet_list(ip,port,headers):
@@ -126,61 +124,73 @@ from network.conftest import read_excel_dic, write_excel
 # # ## 修改子网ip的ip信息状态
 # # # def update_subnet_ip_status(ip,port,headers):
 # #
-# #
-# # 测试用例
-# ## 创建网络
-# ### 通过选择VLAN池创建网络
-# @pytest.mark.parametrize("param__network",param_network)
-# def test_create_network(ip,port,headers,param__network):
-#     ip_address = "http://%s:%s" % (ip,port)
-#     create_network_response = requests.post(url = ip_address + create_network_url_path,
-#                                             headers = headers,
-#                                             json = param__network
-#                                             ).json()
-#     code = create_network_response["status"]
-#     assert code == 200
-#     # assert param_network["name"] in get_network_name_list(ip,port,headers)
-#
-# # 编辑网络
-# @pytest.mark.parametrize("param__network",param_network)
-# @pytest.mark.parametrize("param__updatenetwork",param_update_network)
-# def test_update_network(ip,port,headers,param__network,param__updatenetwork):
-#     ip_address = "http://%s:%s" % (ip,port)
-#     network_id = str(get_network_id(ip,port,headers,param__network["name"])[0])
-#     write_excel("测试数据.xlsx","编辑网络",2,1,network_id)
-#     # param_update_network = {
-#     #     "category": "BUSINESS",
-#     #     "description": "修改后的描述",
-#     #     "id": network_id,
-#     #     "name": update_network_name,
-#     #     "resourcePoolIds": [114],
-#     #     "tagType": "OUTER_NET",
-#     #     "type": "VLAN",
-#     #     "vlanPoolId": 141,
-#     #     "vlanTag": 26
-#     # }
-#     update_network_response = requests.put(url = ip_address + create_network_url_path + "/" + network_id,
-#                                             headers = headers,
-#                                             json = param__updatenetwork
-#                                           ).json()
-#     print(update_network_response)
-#     code = update_network_response["status"]
-#     assert code == 200
-#     assert param_update_network["name"] in get_network_name_list(ip,port,headers)
-#
-# # # 创建子网
-# # def test_create_subnet(ip,port,headers):
-# #     ip_address = "http://%s:%s" % (ip,port)
-# #     network_id = get_network_id(ip,port,headers,update_network_name)[0]
-# #     create_subnet_response = requests.post(
-# #         url = ip_address + create_subnet_url_path + str(network_id),
-# #         headers = headers,
-# #         json = param_subnet
-# #     ).json()
-# #     code = create_subnet_response["status"]
-# #     assert code == 200
-# #     assert param_subnet["name"] in get_subnet_name_list(ip,port,headers)
-# #
+
+# 测试用例
+## 创建网络
+### 通过选择VLAN池创建网络
+@pytest.mark.parametrize('name,type,vlanPoolId,vlanId,category,tagType,description', param_create_network)
+def test_create_network(ip, port, headers, name, type, vlanPoolId, vlanId, category, tagType,
+                        description):
+    ip_address = "http://%s:%s" % (ip, port)
+    param = {
+        'name': name,
+        'type': type,
+        'vlanPoolId': vlanPoolId,
+        'vlanId': vlanId,
+        'category': category,
+        'tagType': tagType,
+        'description': description
+    }
+    create_network_response = requests.post(
+        url=ip_address + create_network_url_path,
+        headers=headers,
+        json=param
+    ).json()
+    code = create_network_response['status']
+    assert code == 200
+    assert name in get_network_name_list(ip, port, headers)
+
+
+## 编辑网络
+@pytest.mark.parametrize('name,update_name,type,vlanPoolId,vlanTag,category,tagType,description,resourcePoolIds',
+                         param_update_network)
+def test_update_network(ip, port, headers, name, update_name, type, vlanPoolId, vlanTag, category, tagType, description,
+                        resourcePoolIds):
+    ip_address = 'http://%s:%s' % (ip, port)
+    network_id = get_network_id(ip, port, headers, name)[0]
+    param = {
+        'id': network_id,
+        'name': update_name,
+        'type': type,
+        "vlanPoolId": vlanPoolId,
+        'vlanTag': vlanTag,
+        'category': category,
+        'tagType': tagType,
+        'description': description,
+        'resourcePoolIds': [114]
+    }
+    update_network_response = requests.put(
+        url=ip_address + update_network_url_path + str(network_id),
+        headers=headers,
+        json=param
+    ).json()
+    code = update_network_response['status']
+    assert code == 200
+    assert update_name in get_network_name_list(ip, port, headers)
+
+# 创建子网
+def test_create_subnet(ip,port,headers):
+    ip_address = 'http://%s:%s' % (ip,port)
+    network_id = get_network_id(ip,port,headers,update_network_name)[0]
+    create_subnet_response = requests.post(
+        url = ip_address + create_subnet_url_path + str(network_id),
+        headers = headers,
+        json = param_subnet
+    ).json()
+    code = create_subnet_response["status"]
+    assert code == 200
+    assert param_subnet["name"] in get_subnet_name_list(ip,port,headers)
+
 # # # 编辑子网
 # # def test_update_subnet(ip,port,headers):
 # #     ip_address = "http://%s:%s" % (ip,port)
@@ -266,7 +276,6 @@ from network.conftest import read_excel_dic, write_excel
 # # #     code =delete_network_response["status"]
 # # #     assert code == 200
 # # #     assert update_network_name not in get_network_name_list(ip,port,headers)
-
 
 # import pytest
 # import requests

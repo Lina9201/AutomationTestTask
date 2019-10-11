@@ -93,7 +93,6 @@ def test_update_vlanpool(ip, port, headers, name, update_name, tag, vlanPoolReso
     ).json()
     code = update_vlanpool_response['status']
     assert code == 200
-    assert name not in get_vlanpool_name_list(ip, port, headers)
     assert update_name in get_vlanpool_name_list(ip, port, headers)
 
 
