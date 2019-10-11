@@ -9,11 +9,14 @@ create_network_url_path = '/admin/v1/networks/'
 get_network_url_path = '/admin/v1/networks/page/'
 ## 编辑网络
 update_network_url_path = '/admin/v1/networks/'
-# # create_subnet_url_path = "/admin/v1/subnets?networkId="
-# # get_subnet_url_path = "/admin/v1/subnets/page?networkId="
-# # update_subnet_url_path = "/admin/v1/subnets/"
-# # ## 删除子网
-# # delete_subnet_url_path = "/admin/v1/subnets/"
+## 创建子网
+create_subnet_url_path = "/admin/v1/subnets?networkId="
+## 获取子网列表
+get_subnet_url_path = "/admin/v1/subnets/page?networkId="
+## 编辑子网
+update_subnet_url_path = "/admin/v1/subnets/"
+## 删除子网
+delete_subnet_url_path = "/admin/v1/subnets/"
 # # ## 创建网络对象
 # # create_network_objects_url_path = "/admin/v1/network_objects/create?networkId="
 # # ## 获取网络所对应的资源池信息
@@ -33,10 +36,12 @@ param_create_network = read_excel_tuple('测试数据.xlsx', '创建网络')
 ## 编辑网络
 param_update_network = read_excel_tuple('测试数据.xlsx', '编辑网络')
 ## 创建子网
-param_create_subnet = read_excel_tuple('测试数据.xlsx','创建子网')
-#
+param_create_subnet = read_excel_tuple('测试数据.xlsx', '创建子网')
+## 编辑子网
+param_update_subnet = read_excel_tuple('测试数据.xlsx', '编辑子网')
+## 删除子网
+param_delete_subnet = read_excel_tuple('测试数据.xlsx', '删除子网')
 
-# # update_subnet_name = "自动化创建子网修改"
 # # object_name = "自动创建对象8"
 
 # 定义函数
@@ -63,38 +68,40 @@ def get_network_name_list(ip, port, headers):
 def get_network_id(ip, port, headers, network_name):
     network_id = []
     for i in get_network_list(ip, port, headers):
-        if network_name == i["name"]:
-            network_id.append(i["id"])
+        if network_name == i['name']:
+            network_id.append(i['id'])
     return network_id
 
 
-#
-# # ## 获取子网列表
-# # def get_subnet_list(ip,port,headers):
-# #     ip_address = "http://%s:%s" % (ip,port)
-# #     network_id = get_network_id(ip,port,headers,update_network_name)[0]
-# #     subnet_list_response = requests.get(
-# #         url = ip_address + get_subnet_url_path + str(network_id),
-# #         headers = headers
-# #     ).json()
-# #     subnet_list = subnet_list_response["data"]["list"]
-# #     return subnet_list
-# #
-# # ## 获取子网名称
-# # def get_subnet_name_list(ip,port,hearders):
-# #     subnet_name_list = []
-# #     for i in get_subnet_list(ip,port,hearders):
-# #         subnet_name_list.append(i["name"])
-# #     return subnet_name_list
-# #
-# # ## 获取子网ID
-# # def get_subnet_id(ip,port,headers,name):
-# #     subnet_id =[]
-# #     for i in get_subnet_list(ip,port,headers):
-# #         if name == i["name"]:
-# #             subnet_id.append(i["id"])
-# #     return subnet_id
-# #
+## 获取子网列表
+def get_subnet_list(ip, port, headers, network_name):
+    ip_address = 'http://%s:%s' % (ip, port)
+    network_id = get_network_id(ip, port, headers, network_name)[0]
+    subnet_list_response = requests.get(
+        url=ip_address + get_subnet_url_path + str(network_id),
+        headers=headers
+    ).json()
+    subnet_list = subnet_list_response['data']['list']
+    return subnet_list
+
+
+## 获取子网名称
+def get_subnet_name_list(ip, port, hearders, network_name):
+    subnet_name_list = []
+    for i in get_subnet_list(ip, port, hearders, network_name):
+        subnet_name_list.append(i['name'])
+    return subnet_name_list
+
+
+## 获取子网ID
+def get_subnet_id(ip, port, headers, network_name, subnet_name):
+    subnet_id = []
+    for i in get_subnet_list(ip, port, headers, network_name):
+        if subnet_name == i['name']:
+            subnet_id.append(i['id'])
+    return subnet_id
+
+
 # # ## 获取已添加对象列表
 # # def get_objects_list(ip,port,headers,name):
 # #     ip_address = "http://%s:%s" % (ip,port)
@@ -178,53 +185,73 @@ def test_update_network(ip, port, headers, name, update_name, type, vlanPoolId, 
     assert code == 200
     assert update_name in get_network_name_list(ip, port, headers)
 
-# 创建子网
-def test_create_subnet(ip,port,headers):
-    ip_address = 'http://%s:%s' % (ip,port)
-    network_id = get_network_id(ip,port,headers,update_network_name)[0]
-    create_subnet_response = requests.post(
-        url = ip_address + create_subnet_url_path + str(network_id),
-        headers = headers,
-        json = param_subnet
-    ).json()
-    code = create_subnet_response["status"]
-    assert code == 200
-    assert param_subnet["name"] in get_subnet_name_list(ip,port,headers)
 
-# # # 编辑子网
-# # def test_update_subnet(ip,port,headers):
-# #     ip_address = "http://%s:%s" % (ip,port)
-# #     subnet_id = get_subnet_id(ip,port,headers,param_subnet["name"])[0]
-# #     param_update_subnet = {
-# #             "name": update_subnet_name,
-# #             "isGatewayDisabled": "false",
-# #             "gatewayIp": "192.168.1.1",
-# #             "ipPools": "192.168.1.2,192.168.1.200",
-# #             "preferredDns": "114.114.114.114",
-# #             "alternateDns": "115.115.115.115"
-# #         }
-# #     update_subnet_response = requests.put(
-# #         url = ip_address + update_subnet_url_path +str(subnet_id),
-# #         headers = headers,
-# #         json = param_update_subnet
-# #     ).json()
-# #     code = update_subnet_response["status"]
-# #     sunnet_name = get_subnet_name_list(ip,port,headers)
-# #     assert code == 200
-# #     assert param_update_subnet["name"] in sunnet_name
-# #
-# # # 删除子网
-# # def test_delete_subnet(ip,port,headers):
-# #     ip_address = "http://%s:%s" % (ip,port)
-# #     subnet_id = get_subnet_id(ip,port,headers,update_subnet_name)[0]
-# #     delete_subnet_response = requests.delete(
-# #         url = ip_address + delete_subnet_url_path + str(subnet_id),
-# #         headers = headers
-# #     ).json()
-# #     code = delete_subnet_response["status"]
-# #     assert code == 200
-# #     assert update_subnet_name not in get_subnet_name_list(ip,port,headers)
-# #
+## 创建子网
+@pytest.mark.parametrize(
+    'network_name,subnet_name,ipProtocol,cidr,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',
+    param_create_subnet)
+def test_create_subnet(ip, port, headers, network_name, subnet_name, ipProtocol, cidr, isGatewayDisabled, gatewayIp,
+                       ipPools, preferredDns, alternateDns):
+    ip_address = 'http://%s:%s' % (ip, port)
+    network_id = get_network_id(ip, port, headers, network_name)[0]
+    param = {
+        'name': subnet_name,
+        'ipProtocol': ipProtocol,
+        'cidr': cidr,
+        'isGatewayDisabled': isGatewayDisabled,
+        'gatewayIp': gatewayIp,
+        'ipPools': ipPools,
+        'preferredDns': preferredDns,
+        'alternateDns': alternateDns
+    }
+    create_subnet_response = requests.post(
+        url=ip_address + create_subnet_url_path + str(network_id),
+        headers=headers,
+        json=param
+    ).json()
+    code = create_subnet_response['status']
+    assert code == 200
+    assert subnet_name in get_subnet_name_list(ip, port, headers, network_name)
+
+
+## 编辑子网
+@pytest.mark.parametrize(
+    'network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',
+    param_update_subnet)
+def test_update_subnet(ip, port, headers, network_name, subnet_name, update_subnet_name, isGatewayDisabled, gatewayIp,
+                       ipPools, preferredDns, alternateDns):
+    ip_address = 'http://%s:%s' % (ip, port)
+    subnet_id = get_subnet_id(ip, port, headers, network_name,subnet_name)[0]
+    param = {
+        'name': update_subnet_name,
+        'isGatewayDisabled': isGatewayDisabled,
+        'gatewayIp': gatewayIp,
+        'ipPools': ipPools,
+        'preferredDns': preferredDns,
+        'alternateDns': alternateDns
+    }
+    update_subnet_response = requests.put(
+        url=ip_address + update_subnet_url_path + str(subnet_id),
+        headers=headers,
+        json=param
+    ).json()
+    code = update_subnet_response['status']
+    assert code == 200
+    assert update_subnet_name in get_subnet_name_list(ip, port, headers,network_name)
+
+## 删除子网
+@pytest.mark.parametrize('network_name,subnet_name',param_delete_subnet)
+def test_delete_subnet(ip,port,headers,network_name,subnet_name):
+    ip_address = 'http://%s:%s' % (ip,port)
+    subnet_id = get_subnet_id(ip,port,headers,network_name,subnet_name)[0]
+    delete_subnet_response = requests.delete(
+        url = ip_address + delete_subnet_url_path + str(subnet_id),
+        headers = headers
+    ).json()
+    code = delete_subnet_response["status"]
+    assert code == 200
+    assert subnet_name not in get_subnet_name_list(ip,port,headers,network_name)
+
 # # # 创建网络对象
 # # def test_create_network_objects(ip,port,headers):
 # #     ip_address = "http://%s:%s" % (ip,port)
