@@ -26,9 +26,9 @@ get_network_dvswitch_url_path = '/admin/v1/hypersivor/vmware/dvswitches?resource
 ## 获取网络已添加对象
 get_network_object_url_path = '/admin/v1/network_objects/page?networkId='
 ## 删除网络对象
-# delete_network_objects_url_path = "/admin/v1/network_objects/"
-# # ## 修改子网ip的ip信息状态的路径
-# # # update_subnet_ip_status_path = "http://172.50.10.42:8000/admin/v1/subnet_ips/not_used"
+delete_network_object_url_path = '/admin/v1/network_objects/'
+## 删除网络
+delete_network_url_path = '/admin/v1/networks/'
 
 # 构造测试数据
 ## 创建网络
@@ -41,8 +41,14 @@ param_create_subnet = read_excel_tuple('测试数据.xlsx', '创建子网')
 param_update_subnet = read_excel_tuple('测试数据.xlsx', '编辑子网')
 ## 删除子网
 param_delete_subnet = read_excel_tuple('测试数据.xlsx', '删除子网')
-## 创建对象
+## 创建新对象
 param_create_network_object = read_excel_tuple('测试数据.xlsx', '创建新对象')
+## 添加已有对象
+
+## 删除对象
+param_delete_network_object = read_excel_tuple('测试数据.xlsx', '删除对象')
+## 删除网络
+param_delete_network = read_excel('测试数据.xlsx', '删除网络','network_name')
 
 
 # 定义函数
@@ -162,34 +168,33 @@ def get_dvswitch_id(ip, port, headers, network_name, network_resourcepool_name, 
 
 
 ## 获取已添加对象列表
-def get_object_list(ip,port,headers,network_name):
-    ip_address = 'http://%s:%s' % (ip,port)
-    network_id = get_network_id(ip,port,headers,network_name)[0]
+def get_object_list(ip, port, headers, network_name):
+    ip_address = 'http://%s:%s' % (ip, port)
+    network_id = get_network_id(ip, port, headers, network_name)[0]
     object_list_respoons = requests.get(
-        url = ip_address + get_network_object_url_path + str(network_id),
-        headers = headers
+        url=ip_address + get_network_object_url_path + str(network_id),
+        headers=headers
     ).json()
     object_list = object_list_respoons['data']['list']
     return object_list
 
+
 ## 获取已添加对象名称列表
-def get_objects_name_list(ip,port,headers,network_name):
-    objects_name_list = []
-    for i in get_object_list(ip,port,headers,network_name):
-        objects_name_list.append(i['objectName'])
-    return objects_name_list
+def get_object_name_list(ip, port, headers, network_name):
+    object_name_list = []
+    for i in get_object_list(ip, port, headers, network_name):
+        object_name_list.append(i['objectName'])
+    return object_name_list
+
 
 # 获取已添加网络对象id
-def get_objects_id(ip,port,headers,network_name,object_name):
-    objects_id = []
-    for i in get_object_list(ip,port,headers,network_name):
-        if object_name == i['name']:
-            objects_id.append(i['id'])
-    return objects_id
-# #
-# # ## 修改子网ip的ip信息状态
-# # # def update_subnet_ip_status(ip,port,headers):
-# #
+def get_object_id(ip, port, headers, network_name, object_name):
+    object_id = []
+    for i in get_object_list(ip, port, headers, network_name):
+        if object_name == i['objectName']:
+            object_id.append(i['id'])
+    return object_id
+
 
 # 测试用例
 ## 创建网络
@@ -314,8 +319,10 @@ def test_delete_subnet(ip, port, headers, network_name, subnet_name):
 
 
 ## 创建网络对象
-@pytest.mark.parametrize('network_name,network_resourcepool_name,resourcePoolType,object_name', param_create_network_object)
-def test_create_network_object(ip, port, headers, network_name, network_resourcepool_name,resourcePoolType,object_name):
+@pytest.mark.parametrize('network_name,network_resourcepool_name,resourcePoolType,object_name',
+                         param_create_network_object)
+def test_create_network_object(ip, port, headers, network_name, network_resourcepool_name, resourcePoolType,
+                               object_name):
     ip_address = 'http://%s:%s' % (ip, port)
     network_id = get_network_id(ip, port, headers, network_name)[0]
     network_resourcepool_id = get_network_resourcepool_id(ip, port, headers, network_name, network_resourcepool_name)[0]
@@ -330,30 +337,36 @@ def test_create_network_object(ip, port, headers, network_name, network_resource
             "name": object_name,
         }
     ).json()
-    code = create_network_object_response["status"]
+    code = create_network_object_response['status']
     assert code == 200
-    assert object_name in get_objects_name_list(ip, port, headers, network_name)
+    assert object_name in get_object_name_list(ip, port, headers, network_name)
 
-# # # 删除网络对象
-# # def test_delete_network_objects(ip,port,headers):
-# #     ip_address = "http://%s:%s" % (ip,port)
-# #     object_id = get_objects_id(ip,port,headers)[0]
-# #     delete_network_objects_response = requests.delete(
-# #         url = ip_address + delete_network_objects_url_path + str(object_id),
-# #         headers = headers
-# #     ).json()
-# #     code = delete_network_objects_response["status"]
-# #     assert code == 200
-# #     assert object_name not in get_objects_name_list(ip,port,headers,update_network_name)
-# #
-# # #删除网络
-# # # def test_delete_network(ip,port,headers):
-# # #     ip_address = "http://%s:%s" % (ip,port)
-# # #     network_id = get_network_id(ip,port,headers,update_network_name)
-# # #     delete_network_response = requests.delete(url =  ip_address + create_network_url_path + "/" + str(network_id[0]),
-# # #                                               headers = headers
-# # #                                               ).json()
-# # #     code =delete_network_response["status"]
-# # #     assert code == 200
-# # #     assert update_network_name not in get_network_name_list(ip,port,headers)
 
+## 删除网络对象
+@pytest.mark.parametrize('network_name,object_name', param_delete_network_object)
+def test_delete_network_object(ip, port, headers, network_name, object_name):
+    ip_address = 'http://%s:%s' % (ip, port)
+    object_id = get_object_id(ip, port, headers, network_name, object_name)[0]
+    delete_network_object_response = requests.delete(
+        url=ip_address + delete_network_object_url_path + str(object_id),
+        headers=headers
+    ).json()
+    code = delete_network_object_response['status']
+    assert code == 200
+    assert object_name not in get_object_name_list(ip, port, headers, network_name)
+
+
+## 删除网络
+@pytest.mark.parametrize('network_name', param_delete_network)
+def test_delete_network(ip, port, headers, network_name):
+    ip_address = 'http://%s:%s' % (ip, port)
+    print(network_name)
+    network_id = get_network_id(ip, port, headers, network_name)[0]
+
+    delete_network_response = requests.delete(
+        url=ip_address + delete_network_url_path + str(network_id),
+        headers=headers
+    ).json()
+    code = delete_network_response['status']
+    assert code == 200
+    assert network_name not in get_network_name_list(ip, port, headers)
