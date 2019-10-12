@@ -59,7 +59,22 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.pytest in test_network.py">
+  <component name="RunManager" selected="Python tests.pytest for test_network.test_add_network_object">
+    <configuration name="pytest for test_network.test_add_network_object" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="tcrc_api_testing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/network_resource" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_network.test_add_network_object&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="pytest for test_network.test_create_network" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="tcrc_api_testing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -87,21 +102,6 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_network.test_delete_network&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest for test_network.test_delete_network_object" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="tcrc_api_testing" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/network_resource" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_network.test_delete_network_object&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -137,11 +137,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.pytest for test_network.test_add_network_object" />
         <item itemvalue="Python tests.pytest in test_network.py" />
         <item itemvalue="Python tests.pytest for test_network.test_delete_network" />
         <item itemvalue="Python tests.pytest for test_network.test_update_network" />
         <item itemvalue="Python tests.pytest for test_network.test_create_network" />
-        <item itemvalue="Python tests.pytest for test_network.test_delete_network_object" />
       </list>
     </recent_temporary>
   </component>
@@ -345,7 +345,21 @@
       <option name="project" value="LOCAL" />
       <updated>1570850884485</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Default Changelist">
+      <created>1570860580753</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1570860580753</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Default Changelist">
+      <created>1570860595836</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1570860595836</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -19,12 +19,16 @@ update_subnet_url_path = '/admin/v1/subnets/'
 delete_subnet_url_path = '/admin/v1/subnets/'
 ## 创建网络对象
 create_network_object_url_path = '/admin/v1/network_objects/create?networkId='
+## 添加已有网络对象
+add_network_object_url_path = '/admin/v1/network_objects/add?networkId='
 ## 获取网络所对应的资源池信息
 get_network_resourcepool_url_path = '/admin/v1/networks/resource_pools/'
 ## 获取网络所对应的VMware资源池中的分布式交换机
 get_network_dvswitch_url_path = '/admin/v1/hypersivor/vmware/dvswitches?resourcePoolId='
 ## 获取网络已添加对象
 get_network_object_url_path = '/admin/v1/network_objects/page?networkId='
+## 获取网路所对应的VMware资源池中的端口组
+get_network_dvportgroup = '/admin/v1/hypersivor/vmware/dvportgroups?resourcePoolId='
 ## 删除网络对象
 delete_network_object_url_path = '/admin/v1/network_objects/'
 ## 删除网络
@@ -44,7 +48,7 @@ param_delete_subnet = read_excel_tuple('测试数据.xlsx', '删除子网')
 ## 创建新对象
 param_create_network_object = read_excel_tuple('测试数据.xlsx', '创建新对象')
 ## 添加已有对象
-
+param_add_network_object = read_excel_tuple('测试数据.xlsx', '添加已有对象')
 ## 删除对象
 param_delete_network_object = read_excel_tuple('测试数据.xlsx', '删除对象')
 ## 删除网络
@@ -196,6 +200,10 @@ def get_object_id(ip, port, headers, network_name, object_name):
     return object_id
 
 
+## 获取网络所包含资源池中的端口组列表
+# def get_network_dvportgroup
+
+
 # 测试用例
 ## 创建网络
 ### 通过选择VLAN池创建网络
@@ -319,27 +327,51 @@ def test_delete_subnet(ip, port, headers, network_name, subnet_name):
 
 
 ## 创建网络对象
-@pytest.mark.parametrize('network_name,network_resourcepool_name,resourcePoolType,object_name',
-                         param_create_network_object)
-def test_create_network_object(ip, port, headers, network_name, network_resourcepool_name, resourcePoolType,
-                               object_name):
+# @pytest.mark.parametrize('network_name,network_resourcepool_name,resourcePoolType,object_name',
+#                          param_create_network_object)
+# def test_create_network_object(ip, port, headers, network_name, network_resourcepool_name, resourcePoolType,
+#                                object_name):
+#     ip_address = 'http://%s:%s' % (ip, port)
+#     network_id = get_network_id(ip, port, headers, network_name)[0]
+#     network_resourcepool_id = get_network_resourcepool_id(ip, port, headers, network_name, network_resourcepool_name)[0]
+#     network_dvswitches_name = get_dvswitch_name_list(ip, port, headers, network_name, network_resourcepool_name)[0]
+#     param = {
+#         'resourcePoolId': network_resourcepool_id,
+#         'resourcePoolType': resourcePoolType,
+#         "dvsName": network_dvswitches_name,
+#         "name": object_name,
+#     }
+#     create_network_object_response = requests.post(
+#         url=ip_address + create_network_object_url_path + str(network_id),
+#         headers=headers,
+#         json=param
+#     ).json()
+#     code = create_network_object_response['status']
+#     assert code == 200
+#     assert object_name in get_object_name_list(ip, port, headers, network_name)
+
+
+## 添加已有对象
+@pytest.mark.parametrize('network_name,network_resourcepool_name', param_add_network_object)
+def test_add_network_object(ip, port, headers,network_name,network_resourcepool_name):
     ip_address = 'http://%s:%s' % (ip, port)
     network_id = get_network_id(ip, port, headers, network_name)[0]
     network_resourcepool_id = get_network_resourcepool_id(ip, port, headers, network_name, network_resourcepool_name)[0]
-    network_dvswitches_name = get_dvswitch_name_list(ip, port, headers, network_name, network_resourcepool_name)[0]
-    create_network_object_response = requests.post(
-        url=ip_address + create_network_object_url_path + str(network_id),
+    param = [{
+        'objectId': 'dvportgroup-1159',
+        'objectName': '自动创建网络对象1',
+        'resourcePoolId': network_resourcepool_id,
+        'resourcePoolType': 'vmware',
+        'vlanPoolResourcePoolId': network_resourcepool_id
+    }]
+    add_network_object_response = requests.post(
+        url=ip_address + add_network_object_url_path + str(network_id),
         headers=headers,
-        json={
-            'resourcePoolId': network_resourcepool_id,
-            'resourcePoolType': resourcePoolType,
-            "dvsName": network_dvswitches_name,
-            "name": object_name,
-        }
+        json=param
     ).json()
-    code = create_network_object_response['status']
+    code = add_network_object_response['status']
     assert code == 200
-    assert object_name in get_object_name_list(ip, port, headers, network_name)
+    assert '自动创建网络对象1' in get_object_name_list(ip,port,headers,network_name)
 
 
 ## 删除网络对象
