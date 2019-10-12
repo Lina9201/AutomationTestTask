@@ -48,7 +48,7 @@ param_create_network_object = read_excel_tuple('测试数据.xlsx', '创建新�
 ## 删除对象
 param_delete_network_object = read_excel_tuple('测试数据.xlsx', '删除对象')
 ## 删除网络
-param_delete_network = read_excel('测试数据.xlsx', '删除网络','network_name')
+param_delete_network = read_excel('测试数据.xlsx', '删除网络', 'network_name')
 
 
 # 定义函数
