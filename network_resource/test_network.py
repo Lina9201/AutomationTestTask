@@ -357,9 +357,10 @@ def test_add_network_object(ip, port, headers,network_name,network_resourcepool_
     ip_address = 'http://%s:%s' % (ip, port)
     network_id = get_network_id(ip, port, headers, network_name)[0]
     network_resourcepool_id = get_network_resourcepool_id(ip, port, headers, network_name, network_resourcepool_name)[0]
+    objectname = get_object_name_list(ip,port,headers,network_name)[0]
     param = [{
         'objectId': 'dvportgroup-1159',
-        'objectName': '自动创建网络对象1',
+        'objectName': objectname,
         'resourcePoolId': network_resourcepool_id,
         'resourcePoolType': 'vmware',
         'vlanPoolResourcePoolId': network_resourcepool_id
@@ -371,7 +372,7 @@ def test_add_network_object(ip, port, headers,network_name,network_resourcepool_
     ).json()
     code = add_network_object_response['status']
     assert code == 200
-    assert '自动创建网络对象1' in get_object_name_list(ip,port,headers,network_name)
+    assert objectname in get_object_name_list(ip,port,headers,network_name)
 
 
 ## 删除网络对象

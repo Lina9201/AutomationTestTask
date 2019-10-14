@@ -58,7 +58,7 @@ def test_create_vlanpool(ip, port, headers, name, tag, vlanPoolResourcePoolList,
     param = {
         'name': name,  # VLAN池名称
         'tag': tag,
-        'vlanPoolResourcePoolList': [{'resourcePoolId': 114}],  # 作用域调用资源池ID
+        'vlanPoolResourcePoolList': list(eval(vlanPoolResourcePoolList)), #[{'resourcePoolId': 114}],  # 作用域调用资源池ID
         'vlanTagEnd': vlanTagStart,  # 结束VLAN ID
         'vlanTagStart': vlanTagEnd  # 起始VLAN ID
     }
