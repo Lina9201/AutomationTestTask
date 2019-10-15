@@ -36,23 +36,23 @@ delete_network_url_path = '/admin/v1/networks/'
 
 # 构造测试数据
 ## 创建网络
-param_create_network = read_excel_tuple('测试数据.xlsx', '创建网络')
+param_create_network = read_excel_tuple('网络资源.xlsx', '创建网络')
 ## 编辑网络
-param_update_network = read_excel_tuple('测试数据.xlsx', '编辑网络')
+param_update_network = read_excel_tuple('网络资源.xlsx', '编辑网络')
 ## 创建子网
-param_create_subnet = read_excel_tuple('测试数据.xlsx', '创建子网')
+param_create_subnet = read_excel_tuple('网络资源.xlsx', '创建子网')
 ## 编辑子网
-param_update_subnet = read_excel_tuple('测试数据.xlsx', '编辑子网')
+param_update_subnet = read_excel_tuple('网络资源.xlsx', '编辑子网')
 ## 删除子网
-param_delete_subnet = read_excel_tuple('测试数据.xlsx', '删除子网')
+param_delete_subnet = read_excel_tuple('网络资源.xlsx', '删除子网')
 ## 创建新对象
-param_create_network_object = read_excel_tuple('测试数据.xlsx', '创建新对象')
+param_create_network_object = read_excel_tuple('网络资源.xlsx', '创建新对象')
 ## 添加已有对象
-param_add_network_object = read_excel_tuple('测试数据.xlsx', '添加已有对象')
+param_add_network_object = read_excel_tuple('网络资源.xlsx', '添加已有对象')
 ## 删除对象
-param_delete_network_object = read_excel_tuple('测试数据.xlsx', '删除对象')
+param_delete_network_object = read_excel_tuple('网络资源.xlsx', '删除对象')
 ## 删除网络
-param_delete_network = read_excel('测试数据.xlsx', '删除网络', 'network_name')
+param_delete_network = read_excel('网络资源.xlsx', '删除网络', 'network_name')
 
 
 # 定义函数

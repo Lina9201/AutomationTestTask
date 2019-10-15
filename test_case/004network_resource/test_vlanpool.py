@@ -14,11 +14,11 @@ delete_vlanpool_url_path = '/admin/v1/vlan_pools/'
 
 # 构造测试数据
 ## 创建VLAN池
-param_create_vlanpool = read_excel_tuple('测试数据.xlsx', '创建VLAN池')
+param_create_vlanpool = read_excel_tuple('网络资源.xlsx', '创建VLAN池')
 ## 编辑VLAN池
-param_update_vlanpool = read_excel_tuple('测试数据.xlsx', '编辑VLAN池')
+param_update_vlanpool = read_excel_tuple('网络资源.xlsx', '编辑VLAN池')
 ## 删除VLAN池
-param_delete_vlanpool = read_excel('测试数据.xlsx', '删除VLAN池', 'name')
+param_delete_vlanpool = read_excel('网络资源.xlsx', '删除VLAN池', 'name')
 
 
 # 定义函数
