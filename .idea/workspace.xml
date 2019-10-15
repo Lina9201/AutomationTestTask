@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1289f41b-55da-4c95-8165-b27850012cc3" name="Default Changelist" comment="Default Changelist">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/003business_management/test_tenant.py" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/test_images.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dictionaries/admin.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/000 pre_conditions/test_preconditions.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/099 post_conditions/test_postconditions.py" afterPath="$PROJECT_DIR$/000common/common.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/000common/common.py" afterPath="$PROJECT_DIR$/common/common.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/001test_data/delete" afterPath="$PROJECT_DIR$/test_data/delete" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/002system_management/test_user.py" afterPath="$PROJECT_DIR$/test_case/001system_management/test_user.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/003business_management/test_tenant.py" afterPath="$PROJECT_DIR$/test_case/002business_management/test_tenant.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/004cmp_compute/for_test" afterPath="$PROJECT_DIR$/test_case/003cmp_compute/for_test" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/005network_resource/fo_test" afterPath="$PROJECT_DIR$/test_case/004network_resource/fo_test" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conftest.py" afterPath="$PROJECT_DIR$/conftest.py" />
     </list>
@@ -19,18 +21,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="test_category.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="5" column="62" lean-forward="false" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="conftest.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmp/conftest.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -45,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/images/test_images.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="550">
-              <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -53,8 +43,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="common.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/000common/common.py">
+      <file leaf-file-name="common.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common/common.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="for_test" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_case/003cmp_compute/for_test">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fo_test" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test_case/004network_resource/fo_test">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="delete" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_data/delete">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -186,36 +206,6 @@
               <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
               <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
-              <item name="000common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
-              <item name="002system_management" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
-              <item name="003business_management" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
-              <item name="bpm" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tcrc_api_testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tcrc_api_testing" type="462c0819:PsiDirectoryNode" />
-              <item name="server&amp;catalog" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -227,11 +217,12 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\沈菲菲\git\tcrc_api_testing\test_case" />
+      <recent name="D:\Repos\tcrc_api_testing\cmdb" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Repos\tcrc_api_testing\cmp" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Repos\tcrc_api_testing\cmdb" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -326,20 +317,41 @@
       <option name="project" value="LOCAL" />
       <updated>1571041943407</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Default Changelist">
+      <created>1571119204011</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1571119204011</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Default Changelist">
+      <created>1571120686474</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1571120686474</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Default Changelist">
+      <created>1571121531444</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1571121531444</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28668684" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28668684" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2852459" sideWeight="0.5060514" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2852459" sideWeight="0.49394855" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2852459" sideWeight="0.49394855" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -364,32 +376,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="23" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/000common/common.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmdb/test_category.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="5" column="62" lean-forward="false" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cmp/conftest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -739,7 +725,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/002system_management/test_user.py">
+    <entry file="file://$PROJECT_DIR$/test_case/001system_management/test_user.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -749,14 +735,38 @@
     <entry file="file://$PROJECT_DIR$/images/test_images.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="550">
-          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/000common/common.py">
+    <entry file="file://$PROJECT_DIR$/test_data/delete">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_case/003cmp_compute/for_test">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_case/004network_resource/fo_test">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
