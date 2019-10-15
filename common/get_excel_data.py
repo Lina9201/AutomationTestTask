@@ -24,15 +24,17 @@ class OperationExcleData():
         # 获取excel的行数和列数
         trows = sheet.nrows
         tcols = sheet.ncols
+        print(tcols)
         for i in range(2, trows):
             tmpdict = {}
             for j in range(2, tcols):
                 case_key = sheet.cell_value(0, j)
                 case_value = sheet.cell_value(i, j)
-                # if sheet.cell_value(0, j) != "" and sheet.cell_value(0, j + 1) == "":
-                #     childdict = {}
-                if sheet.cell_value(1, j) != "":
+                if j < tcols - 1 and sheet.cell_value(0, j) != "" and sheet.cell_value(0, j + 1) == "":
                     childdict = {}
+                if sheet.cell_value(0, j) != "" and sheet.cell_value(1, j) != "":
+                    childdict = {}
+                if sheet.cell_value(1, j) != "":
                     childcase_key = sheet.cell_value(1, j)
                     childdict[childcase_key] = sheet.cell_value(i, j)
                     case_value = childdict
@@ -53,12 +55,6 @@ class OperationExcleData():
         finally:
             pass
 
-if __name__=="__main__":
-    excelFile = "E:\\AutomationTestTask\\test_data\\cmp\\资源池.xlsx"
-    sheetName = "添加资源池"
-    ed = OperationExcleData(excelFile, sheetName)
-    resourcepool_data = ed.getCaseList(excelFile, sheetName)
-    print(resourcepool_data)
 
 
 
