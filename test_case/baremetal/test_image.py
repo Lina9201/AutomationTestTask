@@ -6,7 +6,7 @@ from baremetal.excelHandle import excelHandle
 
 ip = the_ip
 port = the_port
-excel_dir = "test_image.xlsx"
+excel_dir = "../../test_data/test_image.xlsx"
 
 
 # 根据镜像名查镜像id
@@ -41,7 +41,8 @@ def test_add_image(token, resource_pool_id, name, os_type, os_version, image_des
     url = "http://%s:%s/admin/v1/hypersivor/baremetal/images?resource_pool_id=%s" % (ip, port, resource_pool_id)
     headers = {"Content-Type": "application/json",
                "T-AUTH-TOKEN": token}
-    json = {"name": name, "os_type": os_type, "os_version": os_version, "image_path": image_path, "image_desc": image_desc}
+    json = {"name": name, "os_type": os_type, "os_version": os_version, "image_path": image_path,
+            "image_desc": image_desc}
     r = requests.post(url=url, headers=headers, json=json).json()
     assert r["status"] == 200
 
@@ -50,7 +51,7 @@ def test_add_image(token, resource_pool_id, name, os_type, os_version, image_des
 @pytest.mark.parametrize("resource_pool_id,name", excelHandle(excel_dir, "test_imagelist"))
 def test_imagelist(token, resource_pool_id, name):
     url = "http://%s:%s/admin/v1/hypersivor/baremetal/images?resource_pool_id=%s&pageNum=1&pageSize=10" % (
-    ip, port, resource_pool_id)
+        ip, port, resource_pool_id)
     headers = {"T-AUTH-TOKEN": token}
     r = requests.get(url=url, headers=headers).json()
     assert name in str(r)
@@ -87,8 +88,8 @@ def test_edit_image(token, resource_pool_id, name, new_name, newos_type, new_des
 @pytest.mark.parametrize("resource_pool_id,name", excelHandle(excel_dir, "test_delete_image"))
 def test_delete_image(token, resource_pool_id, name):
     url = "http://%s:%s/admin/v1/hypersivor/baremetal/images/%s?resource_pool_id=%s" % (
-    ip, port, get_image_id(resource_pool_id, \
-                         token, name), resource_pool_id)
+        ip, port, get_image_id(resource_pool_id, \
+                               token, name), resource_pool_id)
     headers = {"T-AUTH-TOKEN": token}
     r = requests.delete(url, headers=headers).json()
     assert r["status"] == 200
