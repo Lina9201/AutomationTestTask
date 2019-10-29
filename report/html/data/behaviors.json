@@ -1,0 +1,61 @@
+{
+  "uid" : "b1a8273437954620fa374b796ffaacdd",
+  "name" : "behaviors",
+  "children" : [ {
+    "name" : "../../test_data/资源池.xlsx",
+    "children" : [ {
+      "name" : "添加数据中心",
+      "children" : [ {
+        "name" : "test_create_datacenter[datacenter_data0]",
+        "uid" : "4b6104021f5152c",
+        "parentUid" : "c939405d41a034ceab363d32951cfb4a",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251383618,
+          "stop" : 1572251383817,
+          "duration" : 199
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加vmware数据中心', 'description': 'test1'}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data1]",
+        "uid" : "7d798ef4f84fdca7",
+        "parentUid" : "c939405d41a034ceab363d32951cfb4a",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251383849,
+          "stop" : 1572251384139,
+          "duration" : 290
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加openstack数据中心', 'description': 'test2'}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data2]",
+        "uid" : "9f7901d3857ebae0",
+        "parentUid" : "c939405d41a034ceab363d32951cfb4a",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251384171,
+          "stop" : 1572251384578,
+          "duration" : 407
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加vmware数据中心', 'description': 'test1'}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data3]",
+        "uid" : "f85f653db0985fa",
+        "parentUid" : "c939405d41a034ceab363d32951cfb4a",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251384747,
+          "stop" : 1572251384897,
+          "duration" : 150
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '', 'description': ''}" ]
+      } ],
+      "uid" : "c939405d41a034ceab363d32951cfb4a"
+    } ],
+    "uid" : "ea67365b68f9ddb0534c588298a59f5c"
+  } ]
+}
