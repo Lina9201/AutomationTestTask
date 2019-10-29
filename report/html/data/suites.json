@@ -1,0 +1,61 @@
+{
+  "uid" : "98d3104e051c652961429bf95fa0b5d6",
+  "name" : "suites",
+  "children" : [ {
+    "name" : "test_case.cmp_compute",
+    "children" : [ {
+      "name" : "test_datacenter",
+      "children" : [ {
+        "name" : "test_create_datacenter[datacenter_data0]",
+        "uid" : "4b6104021f5152c",
+        "parentUid" : "80daaae997d094d2fabbda5d13ac6439",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251383618,
+          "stop" : 1572251383817,
+          "duration" : 199
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加vmware数据中心', 'description': 'test1'}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data1]",
+        "uid" : "7d798ef4f84fdca7",
+        "parentUid" : "80daaae997d094d2fabbda5d13ac6439",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251383849,
+          "stop" : 1572251384139,
+          "duration" : 290
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加openstack数据中心', 'description': 'test2'}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data2]",
+        "uid" : "9f7901d3857ebae0",
+        "parentUid" : "80daaae997d094d2fabbda5d13ac6439",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251384171,
+          "stop" : 1572251384578,
+          "duration" : 407
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加vmware数据中心', 'description': 'test1'}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data3]",
+        "uid" : "f85f653db0985fa",
+        "parentUid" : "80daaae997d094d2fabbda5d13ac6439",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251384747,
+          "stop" : 1572251384897,
+          "duration" : 150
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '', 'description': ''}" ]
+      } ],
+      "uid" : "80daaae997d094d2fabbda5d13ac6439"
+    } ],
+    "uid" : "b13cf58c7667ef73605bfee1c72c51f7"
+  } ]
+}

@@ -1,0 +1,33 @@
+"Status","Name","Duration in ms","Description"
+"passed","test_case.cmp_compute.test_datacenter#test_create_datacenter","407","
+    创建数据中心接口
+    :param ip:
+    :param port:
+    :param headers:
+    :param datacenter_data:测试用例
+    :return:
+    "
+"passed","test_case.cmp_compute.test_datacenter#test_create_datacenter","150","
+    创建数据中心接口
+    :param ip:
+    :param port:
+    :param headers:
+    :param datacenter_data:测试用例
+    :return:
+    "
+"passed","test_case.cmp_compute.test_datacenter#test_create_datacenter","290","
+    创建数据中心接口
+    :param ip:
+    :param port:
+    :param headers:
+    :param datacenter_data:测试用例
+    :return:
+    "
+"passed","test_case.cmp_compute.test_datacenter#test_create_datacenter","199","
+    创建数据中心接口
+    :param ip:
+    :param port:
+    :param headers:
+    :param datacenter_data:测试用例
+    :return:
+    "
