@@ -28,13 +28,18 @@ def port(request):
 
 
 @pytest.fixture(scope="session")
-def auth_token(ip, port):
-    ip_address = "http://%s:%s" % (ip, port)
+def uri(ip,port):
+    uri = "http://%s:%s" % (ip, port)
+    return uri
+
+
+@pytest.fixture(scope="session")
+def auth_token(uri):
     headers = {"User-Agent": "automation",
                "content-type": "application/json;charset=UTF-8"
                }
 
-    post_response = requests.post(url=ip_address + authentication_url_path,
+    post_response = requests.post(url=uri + authentication_url_path,
                                   json=json_login,
                                   headers=headers)
 
@@ -47,13 +52,12 @@ def auth_token(ip, port):
 
 
 @pytest.fixture(scope="session")
-def headers(ip, port):
-    ip_address = "http://%s:%s" % (ip, port)
+def headers(uri):
     headers = {"User-Agent": "automation",
                "content-type": "application/json;charset=UTF-8"
                }
 
-    post_response = requests.post(url=ip_address + authentication_url_path,
+    post_response = requests.post(url=uri + authentication_url_path,
                                   json=json_login,
                                   headers=headers)
 
