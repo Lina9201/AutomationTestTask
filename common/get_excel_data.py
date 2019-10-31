@@ -4,23 +4,28 @@
 
 import xlrd
 import openpyxl
+import os
 
-class OperationExcleData():
+class OperationExcleData:
     """对excel进行操作，包括读取请求参数，和填写操作结果"""
     def __init__(self, excelFile, sheetName):
-        self.sheetName = sheetName
-        self.excelFile = excelFile
-        self.caseList = []
+        # 验证文件是否存在，如果存在读取，不存在报错
+        if os.path.exists(excelFile):
+            self.excelFile = excelFile
+            self.sheetName = sheetName
+            self.caseList = []
+        else:
+            raise FileNotFoundError("文件不存在")
 
-    def getCaseList(self, excelFile, sheetName):
+    def getCaseList(self):
         """
         获取excel中维护的测试用例，每个{}包含字段和对应值的键对值
         :param excelFile: 传入excel文件的名字
         :param sheetName: 传入接口所在sheet页的名字
         :return: 最终返回所有的测试用例
         """
-        readExcel = xlrd.open_workbook(excelFile)
-        sheet = readExcel.sheet_by_name(sheetName)
+        readExcel = xlrd.open_workbook(self.excelFile)
+        sheet = readExcel.sheet_by_name(self.sheetName)
         # 获取excel的行数和列数
         trows = sheet.nrows
         tcols = sheet.ncols
@@ -44,12 +49,12 @@ class OperationExcleData():
         return self.caseList
 
 
-    def writeExcel(self, excelFile, sheetName, writeData):
-        writeExcel = openpyxl.load_workbook(excelFile)
+    def writeExcel(self,writeData):
+        writeExcel = openpyxl.load_workbook(self.excelFile)
         try:
-            writeSheet = writeExcel[sheetName]
+            writeSheet = writeExcel[self.sheetName]
             writeSheet["C2"]=writeData
-            writeExcel.save(excelFile)
+            writeExcel.save(self.excelFile)
         except Exception as e:
             raise
         finally:

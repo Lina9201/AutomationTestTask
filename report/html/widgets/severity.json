@@ -1,0 +1,41 @@
+[ {
+  "uid" : "7d798ef4f84fdca7",
+  "name" : "test_create_datacenter[datacenter_data1]",
+  "time" : {
+    "start" : 1572251383849,
+    "stop" : 1572251384139,
+    "duration" : 290
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "4b6104021f5152c",
+  "name" : "test_create_datacenter[datacenter_data0]",
+  "time" : {
+    "start" : 1572251383618,
+    "stop" : 1572251383817,
+    "duration" : 199
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "9f7901d3857ebae0",
+  "name" : "test_create_datacenter[datacenter_data2]",
+  "time" : {
+    "start" : 1572251384171,
+    "stop" : 1572251384578,
+    "duration" : 407
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "f85f653db0985fa",
+  "name" : "test_create_datacenter[datacenter_data3]",
+  "time" : {
+    "start" : 1572251384747,
+    "stop" : 1572251384897,
+    "duration" : 150
+  },
+  "status" : "passed",
+  "severity" : "normal"
+} ]

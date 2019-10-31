@@ -1,0 +1,61 @@
+{
+  "uid" : "ab17fc5a4eb3bca4b216b548c7f9fcbc",
+  "name" : "timeline",
+  "children" : [ {
+    "name" : "DESKTOP-PKGI7TE",
+    "children" : [ {
+      "name" : "6480-MainThread",
+      "children" : [ {
+        "name" : "test_create_datacenter[datacenter_data2]",
+        "uid" : "9f7901d3857ebae0",
+        "parentUid" : "2a34ec69511d13258aaf350e2916de25",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251384171,
+          "stop" : 1572251384578,
+          "duration" : 407
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加vmware数据中心', 'description': 'test1'}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data3]",
+        "uid" : "f85f653db0985fa",
+        "parentUid" : "2a34ec69511d13258aaf350e2916de25",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251384747,
+          "stop" : 1572251384897,
+          "duration" : 150
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '', 'description': ''}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data1]",
+        "uid" : "7d798ef4f84fdca7",
+        "parentUid" : "2a34ec69511d13258aaf350e2916de25",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251383849,
+          "stop" : 1572251384139,
+          "duration" : 290
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加openstack数据中心', 'description': 'test2'}" ]
+      }, {
+        "name" : "test_create_datacenter[datacenter_data0]",
+        "uid" : "4b6104021f5152c",
+        "parentUid" : "2a34ec69511d13258aaf350e2916de25",
+        "status" : "passed",
+        "time" : {
+          "start" : 1572251383618,
+          "stop" : 1572251383817,
+          "duration" : 199
+        },
+        "flaky" : false,
+        "parameters" : [ "{'name': '添加vmware数据中心', 'description': 'test1'}" ]
+      } ],
+      "uid" : "2a34ec69511d13258aaf350e2916de25"
+    } ],
+    "uid" : "7829c2b896adf053f3dcfcab5773fdc2"
+  } ]
+}
