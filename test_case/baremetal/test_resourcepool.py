@@ -1,3 +1,4 @@
+#前置条件：没有名叫 裸金属 和 new裸金属 的资源池
 import pytest
 import requests
 
@@ -40,7 +41,6 @@ def test_add_resource_pool(token, region, name, type, theip, theport, username, 
             "protocol": protocol
         }
     }
-    print(json)
     r = requests.post(url, headers=headers, json=json).json()
     print(r)
     assert r["status"] == 200
@@ -67,6 +67,7 @@ def test_edit_resource_pool(token, region, name, new_name, newtype, new_desc, ne
         "username": username
     }
     r = requests.put(url, headers=headers, json=json).json()
+    print (r)
     assert r["status"] == 200
     assert getresource_pool_id(int(region), new_name, token) != 0
 
@@ -82,4 +83,5 @@ def test_change_password(region, token, name, password, oldpassword):
         "oldPassword": oldpassword
     }
     r = requests.put(url, headers=headers, json=json).json()
+    print(r)
     assert r["status"] == 200

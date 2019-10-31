@@ -13,7 +13,13 @@ def excelHandle(excel_dir, sheetName):
     if rows >= 1 and cols > 0:
         for i in range(1, rows):
             for j in range(cols):
-                l.append(sheet.cell(i, j).value)
+                v=sheet.cell(i, j).value
+                ctype=sheet.cell(i, j).ctype
+                if ctype == 2 and v % 1 == 0.0:  # ctype为2且为浮点
+                    cell = int(v)
+                else:
+                    cell=v
+                l.append(cell)
             if len(l) == 1:
                 param.append(l[0])
             else:
@@ -25,4 +31,4 @@ def excelHandle(excel_dir, sheetName):
 
 if __name__ == '__main__':
     excel_dir = "../../test_data/test_host.xlsx"
-    print(excelHandle(excel_dir, "test_test_connect"))
+    print(excelHandle(excel_dir, "test_get_hostlist"))
