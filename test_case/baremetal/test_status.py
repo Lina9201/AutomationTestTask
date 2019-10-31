@@ -1,9 +1,12 @@
 #前置条件：有名为115的主机，且未处于维护模式
+import time
+
 import pytest
 import requests
 
 from baremetal.conftest import the_port, the_ip
 from baremetal.excelHandle import excelHandle
+from test_power import get_host_status
 
 ip = the_ip
 port = the_port
@@ -36,6 +39,12 @@ def get_host(name, resource_pool_id, token):
 @pytest.mark.parametrize("name,resource_pool_id", excelHandle(excel_dir, "test_maintenance"))
 def test_maintenance(token, name, resource_pool_id):
     id = get_host_id(name, resource_pool_id, token)
+    # 确保主机是开机状态
+    status = get_host_status(name, resource_pool_id, token)
+    if status["data"]["powerStatus"] != "power on":
+        time.sleep(3)
+        status = get_host_status(name, resource_pool_id, token)
+
     url = "http://%s:%s/admin/v1/hypersivor/baremetal/hosts/%s/maintenance?resourcePoolId=%s" % (
     ip, port, id, resource_pool_id)
     headers = {"Content-Type": "application/x-www-form-urlencoded",

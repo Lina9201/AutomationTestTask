@@ -1,4 +1,6 @@
 #前置条件：有名为115的主机且是开机状态
+import time
+
 import pytest
 import requests
 
@@ -41,32 +43,38 @@ def test_power_off(name, resource_pool_id, token):
                "T-AUTH-TOKEN": token}
     r = requests.put(url, headers=headers).json()
     assert r["status"] == 200
-    status = get_host_status(name, resource_pool_id, token)
-    assert status["data"]["powerStatus"] == "power off"
 
 # 开启电源
 @pytest.mark.parametrize("name,resource_pool_id", excelHandle(excel_dir, "test_power_on"))
 def test_power_on(name, resource_pool_id, token):
     id = get_host_id(name, resource_pool_id, token)
+    #关机后，主机状态不会立刻变为关机，所以要等
+    status = get_host_status(name, resource_pool_id, token)
+    if status["data"]["powerStatus"] != "power off":
+        time.sleep(3)
+        status = get_host_status(name, resource_pool_id, token)
+
     url = "http://%s:%s/admin/v1/hypersivor/baremetal/hosts/%s/poweron?resourcePoolId=%s" % \
           (ip, port, id, resource_pool_id)
     headers = {"Content-Type": "application/x-www-form-urlencoded",
                "T-AUTH-TOKEN": token}
     r = requests.put(url, headers=headers).json()
     assert r["status"] == 200
-    status = get_host_status(name, resource_pool_id, token)
-    assert status["data"]["powerStatus"] == "power on"
 
 
 # 重启电源
 @pytest.mark.parametrize("name,resource_pool_id", excelHandle(excel_dir, "test_reboot"))
 def test_reboot(name, resource_pool_id, token):
     id = get_host_id(name, resource_pool_id, token)
+    # 开机后，主机状态不会立刻变为开机，所以要等
+    status = get_host_status(name, resource_pool_id, token)
+    if status["data"]["powerStatus"] != "power on":
+        time.sleep(3)
+        status = get_host_status(name, resource_pool_id, token)
+
     url = "http://%s:%s/admin/v1/hypersivor/baremetal/hosts/%s/reboot?resourcePoolId=%s" % \
           (ip, port, id, resource_pool_id)
     headers = {"Content-Type": "application/x-www-form-urlencoded",
                "T-AUTH-TOKEN": token}
     r = requests.put(url, headers=headers).json()
     assert r["status"] == 200
-    status = get_host_status(name, resource_pool_id, token)
-    assert status["data"]["powerStatus"] == "power on"

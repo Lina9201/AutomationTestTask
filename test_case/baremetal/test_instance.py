@@ -141,6 +141,12 @@ def test_instance_list(token, resource_pool_id, name):
     url = "http://%s:%s/admin/v1/instances?start=0&limit=100&resourcePoolId=%s" % (ip, port, resource_pool_id)
     headers = {"T-AUTH-TOKEN": token}
     r = requests.get(url=url, headers=headers).json()
+    #从实例创建到实例加入实例列表会花些时间，所以要等
+    while True:
+        if name in str(r):
+            break
+        r = requests.get(url=url, headers=headers).json()
+
     assert name in str(r)
 
 
