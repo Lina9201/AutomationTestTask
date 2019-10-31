@@ -1,3 +1,5 @@
+import os
+
 import xlrd
 
 
@@ -30,5 +32,4 @@ def excelHandle(excel_dir, sheetName):
 
 
 if __name__ == '__main__':
-    excel_dir = "../../test_data/test_host.xlsx"
-    print(excelHandle(excel_dir, "test_get_hostlist"))
+    print(os.getcwd())

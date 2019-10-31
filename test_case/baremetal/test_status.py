@@ -4,13 +4,13 @@ import time
 import pytest
 import requests
 
-from baremetal.conftest import the_port, the_ip
+from baremetal.conftest import the_port, the_ip,dir
 from baremetal.excelHandle import excelHandle
 from test_power import get_host_status
 
 ip = the_ip
 port = the_port
-excel_dir = "../../test_data/test_status.xlsx"
+excel_dir = dir+"test_data/test_status.xlsx"
 
 
 # 根据主机名获取主机id

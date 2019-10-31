@@ -4,12 +4,12 @@ import json
 import pytest
 import requests
 
-from baremetal.conftest import the_port, the_ip
+from baremetal.conftest import the_port, the_ip,dir
 from baremetal.excelHandle import excelHandle
 
 ip = the_ip
 port = the_port
-excel_dir = "../../test_data/test_instance.xlsx"
+excel_dir = dir+"test_data/test_instance.xlsx"
 
 
 # 根据实例名，返回实例id

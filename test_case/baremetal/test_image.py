@@ -4,12 +4,12 @@ import json
 import pytest
 import requests
 
-from baremetal.conftest import the_ip, the_port
+from baremetal.conftest import the_ip, the_port,dir
 from baremetal.excelHandle import excelHandle
 
 ip = the_ip
 port = the_port
-excel_dir = "../../test_data/test_image.xlsx"
+excel_dir = dir+"test_data/test_image.xlsx"
 
 
 # 根据镜像名查镜像id
