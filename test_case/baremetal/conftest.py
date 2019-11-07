@@ -1,3 +1,4 @@
+import os
 from time import sleep
 
 import pytest
@@ -13,6 +14,11 @@ login_api="/v1/tokens"
 logout_api="/v1/tokens/logout"
 user="jfquanneng"
 password="0V7PrMAZUVgx92QWSIvfmw=="
+
+if "baremetal" in os.getcwd():
+    dir="../../"
+else:
+    dir=""
 
 @pytest.fixture()
 def token(ip,port):
