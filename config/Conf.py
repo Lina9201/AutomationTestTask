@@ -15,7 +15,7 @@ print(BASE_DIR)
 _config_path = BASE_DIR + os.sep + "config"
 
 # 定义report目录的路径
-_report_path = BASE_DIR + os.sep + "result"
+_report_path = BASE_DIR + os.sep + "report"
 
 # 定义test_data目录的路径
 _testdata_path = BASE_DIR + os.sep + "test_data"

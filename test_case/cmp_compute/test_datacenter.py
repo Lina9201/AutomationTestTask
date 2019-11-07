@@ -21,7 +21,7 @@ datacenter_data = OperationExcleData(excelFile, sheetName).getCaseList()
 
 
 @pytest.mark.parametrize("datacenter_data", datacenter_data)
-def test_create_datacenter(ip, port, headers, datacenter_data):
+def test_create_datacenter(uri, headers, datacenter_data):
     """
     创建数据中心接口
     :param ip:
@@ -30,8 +30,7 @@ def test_create_datacenter(ip, port, headers, datacenter_data):
     :param datacenter_data:测试用例
     :return:
     """
-    ip_address = "http://%s:%s" % (ip, port)
-    createDataCenter_response = requests.post(url=ip_address + createDataCenter_url,
+    createDataCenter_response = requests.post(url=uri + createDataCenter_url,
                                          data=json.dumps(datacenter_data),
                                          headers=headers)
     code = createDataCenter_response.status_code
@@ -40,7 +39,7 @@ def test_create_datacenter(ip, port, headers, datacenter_data):
     allure.dynamic.story(sheetName)
 
 
-def get_datacenterid(ip, port, headers, name):
+def get_datacenterid(uri, headers, name):
     """
     根据创建数据中心名称获取所属ID
     :param ip:
@@ -48,12 +47,12 @@ def get_datacenterid(ip, port, headers, name):
     :param headers:
     :return:
     """
-    ip_address = "http://%s:%s" % (ip, port)
-    getDataCenter_response = requests.get(url=ip_address + createDataCenter_url,
+    getDataCenter_response = requests.get(url=uri + createDataCenter_url,
                                    headers=headers).json()
     for dc in getDataCenter_response["data"]:
         if dc["name"] == name:
             return dc["id"]
+
 
 
 if __name__ == '__main__':
