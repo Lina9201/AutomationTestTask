@@ -1,0 +1,8 @@
+执行顺序：test_resourcepool.py test_image.py test_power.py test_status.py test_instance.py test_host.py
+前置条件：
+没有名叫 裸金属 和 new裸金属 的资源池，现有的裸金属资源池id为115
+ironic的/httpboot下有redhat6.4.qcow2文件，平台镜像列表没有叫test、test1、test2、newtest的镜像
+有名为115的主机，且是开机状态
+名为115的主机，未处于维护模式
+名为115的主机是可使用状态；有id为9bafce63a2314c97abb03dccaddf1d23的镜像，没有名为redhat64的实例
+114主机没有注册
