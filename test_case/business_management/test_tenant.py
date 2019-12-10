@@ -1,7 +1,6 @@
 import pytest
 import requests
 import json
-import pymysql
 import os
 from config import Conf
 from common.get_excel_data import OperationExcleData

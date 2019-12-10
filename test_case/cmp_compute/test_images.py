@@ -41,6 +41,7 @@ def get_template_list(uri, headers, resourcepoolType, resourcepoolName):
         get_openstack_template_response = requests.get(url=uri + get_openstack_templates_url + str(resourcepool_id),
                                                        headers=headers).json()
         template_list = get_openstack_template_response['data']
+    # print(template_list)
     return template_list
 
 
@@ -51,11 +52,15 @@ def get_template_name(uri, headers, resourcepoolType, resourcepoolName):
         template_name.append(template['name'])
     return template_name
 
+
 # 根据选择的资源池名称获取资源池id
 def get_template_id(uri, headers, resourcepoolType, resourcepoolName, template_name):
     for template in get_template_list(uri, headers, resourcepoolType, resourcepoolName):
         if template['name'] == template_name:
-            return template['id'] or template['morValue']
+            if resourcepoolType == "vmware":
+                return template['morValue']
+            elif resourcepoolType == "openstack":
+                return template['id']
 
 
 # 获取镜像列表
@@ -115,7 +120,7 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
                                    },
                                    "loading": loading,
                                    "relavant": {},
-                                   "relavantId": templateId[0],
+                                   "relavantId": templateId,
                                    "relavantName": template_name,
                                    "resourcepoolId": resourcepoolid,
                                    "resourcepoolType": resourcepoolType
@@ -125,7 +130,7 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
     create_images_response = requests.post(url=uri + create_images_url,
                                            json=create_images_param,
                                            headers=headers).json()
-    assert create_images_response["status"] == 200
+    assert create_images_response['status'] == 200
     # 获取已关联的资源池模板id
     # resourcepool_template_list = test_get_resourcepool_template_list(uri, headers)
     # 断言创建的镜像名称能在查询到的响应结果中存在
