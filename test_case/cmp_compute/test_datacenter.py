@@ -9,17 +9,18 @@ import allure
 import os
 from config import Conf
 from common.get_excel_data import OperationExcleData
+from utils.AssertUtil import AssertUtil
 
 # 创建数据中心请求url
 createDataCenter_url = "/admin/v1/regions"
 
 # 获取创建数据中心请求参数数据
 testdata_path = Conf.get_testdata_path()
-excelFile = testdata_path + os.sep + "资源池.xlsx"
+excelFile = testdata_path + os.sep + "物理资源.xlsx"
 sheetName = "添加数据中心"
 datacenter_data = OperationExcleData(excelFile, sheetName).getCaseList()
 
-
+@pytest.mark.run(order=1)
 @pytest.mark.parametrize("datacenter_data", datacenter_data)
 def test_create_datacenter(uri, headers, datacenter_data):
     """
@@ -34,12 +35,12 @@ def test_create_datacenter(uri, headers, datacenter_data):
                                          data=json.dumps(datacenter_data),
                                          headers=headers)
     code = createDataCenter_response.status_code
-    assert code == 200
+    AssertUtil().assert_code(code, 200)
     allure.dynamic.feature(excelFile)
     allure.dynamic.story(sheetName)
 
 
-def get_datacenterid(uri, headers, name):
+def get_datacenterid(uri, headers, datacentername):
     """
     根据创建数据中心名称获取所属ID
     :param ip:
@@ -47,18 +48,23 @@ def get_datacenterid(uri, headers, name):
     :param headers:
     :return:
     """
-    getDataCenter_response = requests.get(url=uri + createDataCenter_url,
+    getDataCenterId_response = requests.get(url=uri + createDataCenter_url,
                                    headers=headers).json()
-    for dc in getDataCenter_response["data"]:
-        if dc["name"] == name:
+    for dc in getDataCenterId_response["data"]:
+        if dc["name"] == datacentername:
             return dc["id"]
 
+
+def get_datacenter(uri, headers):
+    getDataCenter_response = requests.get(url=uri + createDataCenter_url,
+                                            headers=headers).json()
+    return getDataCenter_response["data"]
 
 
 if __name__ == '__main__':
     report_raw_path = "../../report/allure_raw"
     testdata_path = Conf.get_testdata_path()
-    excelFile = testdata_path + "资源池.xlsx"
+    excelFile = testdata_path + "物理资源.xlsx"
     print(excelFile)
 
 
