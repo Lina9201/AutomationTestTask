@@ -60,6 +60,22 @@ def test_createResourcePool(uri, headers,ID,testcases, regionname,name,type,desc
          "password": password
     }
 
+    create_bmsresourcepool_data = {
+        "region": get_datacenterid(uri, headers, regionname),
+        "name": name,
+        "type": type,
+        "extra": {
+            "protocol": protocol
+        },
+        "ip": rpip,
+        "port": rpport,
+        "proxyIp": proxyIp,
+        "proxyPort": proxyPort,
+        "username": username,
+        "password": password
+
+    }
+
     if type == "vmware":
         createvcResourcePool_response = requests.post(url=uri + createResourcePool_url,
                                               data=json.dumps(create_vcresourcepool_data),
@@ -74,6 +90,12 @@ def test_createResourcePool(uri, headers,ID,testcases, regionname,name,type,desc
         code = createvcResourcePool_response.status_code
         assert code == 200
         print(createvcResourcePool_response.text)
+    elif type == "baremetal":
+        createbmsResourcePool_response = requests.post(url=uri + createResourcePool_url,
+                                                       data=json.dumps(create_bmsresourcepool_data),
+                                                       headers=headers)
+        code = createbmsResourcePool_response.status_code
+        assert  code == 200
 
 
 def get_resourcepoolid(uri, headers, resourcepoolname):
