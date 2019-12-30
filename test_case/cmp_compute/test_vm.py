@@ -6,6 +6,7 @@ import os
 import pytest
 import json
 import requests
+import urllib.parse
 from common.get_excel_data import OperationExcleData
 from test_case.cmp_compute.test_resourcepool import get_resourcepoolid
 from test_case.cmp_compute.test_images import get_image_id
@@ -78,3 +79,34 @@ def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, p
 										   headers = headers,
 										   data=json.dumps(create_instance_data)).json()
 		assert create_vm_response['status'] == 200
+
+#根据虚拟机名称获取虚拟机id
+def get_instance_id(uri, headers, instance_name,resourcepool):
+	resourcePoolId = get_resourcepoolid(uri, headers, resourcepool)
+	url_data={
+		"resourcePoolId" : resourcePoolId,
+		"start" : 0,
+		"limit" : 100
+	}
+	query_vms = urllib.parse.urlencode(url_data)
+	get_instance_response = requests.get(url = uri + create_instance_url+"?" + query_vms
+										 ,headers = headers).json()
+	for instance in get_instance_response["data"]["list"]:
+		if instance["name"] == instance_name:
+			return instance["id"]
+
+
+#根据虚拟机名称获取虚拟机电源状态
+def get_instance_powerStatus(uri, headers, instance_name,resourcepool):
+	resourcePoolId = get_resourcepoolid(uri, headers, resourcepool)
+	url_data={
+		"resourcePoolId" : resourcePoolId,
+		"start" : 0,
+		"limit" : 100
+	}
+	query_vms = urllib.parse.urlencode(url_data)
+	get_instance_response = requests.get(url = uri + create_instance_url+"?" + query_vms
+										 ,headers = headers).json()
+	for instance in get_instance_response["data"]["list"]:
+		if instance["name"] == instance_name:
+			return instance["powerStatus"]
