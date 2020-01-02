@@ -4,7 +4,7 @@ import json
 import os
 from config import Conf
 from common.get_excel_data import OperationExcleData
-from test_case.cmp_compute.test_datacenter import get_datacenterid
+from test_case.cmp_compute.test_datacenter import get_datacenterid,get_datacenter
 
 # 添加资源池请求url
 createResourcePool_url = "/admin/v1/resourcepools"
@@ -79,23 +79,121 @@ def test_createResourcePool(uri, headers,ID,testcases, regionname,name,type,desc
     if type == "vmware":
         createvcResourcePool_response = requests.post(url=uri + createResourcePool_url,
                                               data=json.dumps(create_vcresourcepool_data),
-                                              headers=headers)
-        code = createvcResourcePool_response.status_code
+                                              headers=headers).json()
+        code = createvcResourcePool_response['status']
         assert code == 200
-        print(createvcResourcePool_response.text)
     elif type == "openstack":
         createvcResourcePool_response = requests.post(url=uri + createResourcePool_url,
                                                       data=json.dumps(create_opresourcepool_data),
-                                                      headers=headers)
-        code = createvcResourcePool_response.status_code
+                                                      headers=headers).json()
+        code = createvcResourcePool_response['status']
         assert code == 200
-        print(createvcResourcePool_response.text)
     elif type == "baremetal":
         createbmsResourcePool_response = requests.post(url=uri + createResourcePool_url,
                                                        data=json.dumps(create_bmsresourcepool_data),
-                                                       headers=headers)
-        code = createbmsResourcePool_response.status_code
-        assert  code == 200
+                                                       headers=headers).json()
+        code = createbmsResourcePool_response['status']
+        assert code == 200
+
+
+@pytest.mark.parametrize("ID,testcases,regionname,name,type,description,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version", resourcepool_data)
+def test_update_resourcePool(uri, headers,ID,testcases, regionname,name,type,description,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version):
+    """
+    编辑资源池接口
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param regionname:
+    :param name:
+    :param type:
+    :param descrption:
+    :param rpip:
+    :param rpport:
+    :param proxyIp:
+    :param proxyPort:
+    :param username:
+    :param password:
+    :param datacenter:
+    :param domain:
+    :param projectId:
+    :param protocol:
+    :param region:
+    :param version:
+    :return:
+    """
+    update_vcresourcepool_data = {
+        "region": get_datacenterid(uri, headers, regionname),
+        "name": name,
+        "type": type,
+        "description": description,
+        "extra":{
+            "datacenter": datacenter
+        },
+        "ip": rpip,
+        "port": rpport,
+        "proxyIp": proxyIp,
+        "proxyPort": proxyPort,
+        "username": username,
+        "password": password
+    }
+    update_opresourcepool_data = {
+        "region": get_datacenterid(uri, headers, regionname),
+        "name": name,
+        "type": type,
+        "description": description,
+        "extra": {
+            "version": version,
+            "region": region,
+            "domain": domain,
+            "projectId": projectId,
+            "protocol": protocol
+        },
+        "ip": rpip,
+        "port": rpport,
+        "proxyIp": proxyIp,
+        "proxyPort": proxyPort,
+        "username": username,
+        "password": password
+    }
+    update_bmsresourcepool_data = {
+        "region": get_datacenterid(uri, headers, regionname),
+        "name": name,
+        "type": type,
+        "description": description,
+        "extra": {
+            "protocol": protocol
+        },
+        "ip": rpip,
+        "port": rpport,
+        "proxyIp": proxyIp,
+        "proxyPort": proxyPort,
+        "username": username,
+        "password": password
+
+    }
+
+    if type == "vmware":
+        resourcepoolId = str(get_resourcepoolid(uri, headers, name))
+        updatevcResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
+                                                      data=json.dumps(update_vcresourcepool_data),
+                                                      headers=headers).json()
+        code = updatevcResourcePool_response['status']
+        assert code == 200
+    elif type == "openstack":
+        resourcepoolId = str(get_resourcepoolid(uri, headers, name))
+        updatevcResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
+                                                      data=json.dumps(update_opresourcepool_data),
+                                                      headers=headers).json()
+        code = updatevcResourcePool_response['status']
+        assert code == 200
+    elif type == "baremetal":
+        resourcepoolId = str(get_resourcepoolid(uri, headers, name))
+        updatebmsResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
+                                                       data=json.dumps(update_bmsresourcepool_data),
+                                                       headers=headers).json()
+        code = updatebmsResourcePool_response['status']
+        assert code == 200
 
 
 def get_resourcepoolid(uri, headers, resourcepoolname):
@@ -112,8 +210,6 @@ def get_resourcepoolid(uri, headers, resourcepoolname):
         if rp["name"] == resourcepoolname:
             return rp["id"]
 
-if __name__ == '__main__':
-        pytest.main()
 
 
 

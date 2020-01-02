@@ -45,6 +45,7 @@ def get_template_list(uri, headers, resourcepoolType, resourcepoolName):
     return template_list
 
 
+
 # 根据传入的资源池获取镜像模板列表名称
 def get_template_name(uri, headers, resourcepoolType, resourcepoolName):
     template_name = []
@@ -100,11 +101,10 @@ def get_image_id(uri, headers, imagename):
 #
 # 创建镜像：操作系统为linux,操作系统版本为Centos6.5
 @pytest.mark.run(order=3)
-@pytest.mark.parametrize("name,description,os,osType,osDisk,password,username,loading,resourcepoolType,resourcepoolName",
+@pytest.mark.parametrize("name,description,os,osType,osDisk,password,username,loading,resourcepoolType,resourcepoolName,template_name",
                          param_create_images)
 def test_create_images(uri, headers, name, description, os, osType, osDisk, password, username, loading,
-                    resourcepoolName, resourcepoolType):
-    template_name = get_template_name(uri, headers, resourcepoolType, resourcepoolName)[0]
+                    resourcepoolName, resourcepoolType,template_name):
     templateId = get_template_id(uri, headers, resourcepoolType, resourcepoolName, template_name)
     resourcepoolid = get_resourcepoolid(uri, headers, resourcepoolName)
     create_images_param = {"description": description,
@@ -180,9 +180,8 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
 # 添加关联的资源池模板
 # @pytest.mark.parametrize("loading,osDisk,password,username,relavantName,resourcepoolType",
 #                          param_create_template)
-# def test_create_resourcepoll_template(ip, port, headers, loading, osDisk, password, username, relavantName,
+# def test_create_resourcepool_template(uri, headers, loading, osDisk, password, username, relavantName,
 #                                       resourcepoolType):
-#     ip_address = "http://%s:%s" % (ip, port)
 #     resourcepoolid = 114
 #     relavant_template_id = test_get_vmware_template_id(ip, port, headers)[0]
 #     image_id = test_get_images_id(ip, port, headers)[0][0]
@@ -286,8 +285,8 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
 
 
 # 删除镜像
-# @pytest.mark.parametrize('image_name', param_delete_images)
-# def test_delete_image(ip, port, headers, image_name):
+# @pytest.mark.parametrize('image_name', pip, port, headers, image_namearam_delete_images)
+# def test_delete_image():
 #     ip_address = 'http://%s:%s' % (ip, port)
 #     print(image_name)
 #     image_id = test_get_update_images_id(ip, port, headers)[0]

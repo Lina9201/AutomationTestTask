@@ -38,6 +38,11 @@ def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, p
 		imageId = get_image_id(uri, headers,image)
 		subnetipId = get_subnetip_id(uri, headers, net, subnet, ipaddress)
 		objectId = get_object_id(uri, headers, resourcepool, net)
+		global targetId
+		if resourcepooltype == "vmware":
+			targetId = objectId
+		elif resourcepooltype == "openstack":
+			targetId = netId
 
 		create_instance_data = [{
 			"count": account,
@@ -69,7 +74,7 @@ def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, p
 				"ipId": subnetipId,
 				"ip": ipaddress,
 				"type": nettype,
-				"targetId": objectId,
+				"targetId": targetId,
 				"extra": {}
 			 }]
 		}]
