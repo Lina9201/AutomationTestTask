@@ -285,8 +285,8 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
 
 
 # 删除镜像
-# @pytest.mark.parametrize('image_name', param_delete_images)
-# def test_delete_image(ip, port, headers, image_name):
+# @pytest.mark.parametrize('image_name', pip, port, headers, image_namearam_delete_images)
+# def test_delete_image():
 #     ip_address = 'http://%s:%s' % (ip, port)
 #     print(image_name)
 #     image_id = test_get_update_images_id(ip, port, headers)[0]
