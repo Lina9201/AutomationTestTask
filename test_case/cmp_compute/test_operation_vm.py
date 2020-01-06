@@ -54,7 +54,6 @@ def test_instance_powerOn(uri, headers, vmname, resourcepool):
     instance_powerOn_response = requests.post(url = uri + instance_powerOn_url,
                                               headers = headers,
                                               data = json.dumps(instance_powerOn_data)).json()
-    print(instance_powerOn_response)
     assert  instance_powerOn_response["status"] == 200
 
     # 虚拟机开机后等待60s再硬重启
@@ -74,18 +73,55 @@ def test_instance_restart(uri, headers, vmname, resourcepool):
     assert instance_restart_response["status"] == 200
 
     #虚拟机硬重启后等待30s
-    time.sleep(30)
+    time.sleep(60)
 
 #虚拟机软重启
 
-@pytest.mark.parametrize("vmname, resourcepool")
+@pytest.mark.parametrize("vmname, resourcepool", instance_data)
 def test_instance_rebootOS(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
     instance_rebootOS_url = create_instance_url +"/" + str(instance_id) + "/rebootOS"
     instance_rebootOS_data = {
         "instanceId": instance_id
     }
-    instance_restart_response = requests.post(url = uri + instance_rebootOS_url,
+    instance_rebootOS_response = requests.post(url = uri + instance_rebootOS_url,
                                               headers = headers,
                                               data = json.dumps(instance_rebootOS_data)).json()
-    assert instance_restart_response["status"] == 200
+    assert instance_rebootOS_response["status"] == 200
+
+    #虚拟机软重启后等待30s
+    time.sleep(60)
+
+
+#虚拟机关闭操作系统
+
+@pytest.mark.parametrize("vmname, resourcepool", instance_data)
+def test_instance_shutdownOS(uri, headers, vmname, resourcepool):
+    instance_id = get_instance_id(uri, headers, vmname, resourcepool)
+    instance_shutdownOS_url = create_instance_url +"/" + str(instance_id) + "/shutdownOS"
+    instance_shutdownOS_data = {
+        "instanceId": instance_id
+    }
+    instance_shutdownOS_response = requests.post(url = uri + instance_shutdownOS_url,
+                                              headers = headers,
+                                              data = json.dumps(instance_shutdownOS_data)).json()
+    assert instance_shutdownOS_response["status"] == 200
+
+    #虚拟机软重启后等待30s
+    time.sleep(60)
+
+#编辑配置
+#编辑磁盘
+#编辑网卡
+
+
+
+#删除虚拟机
+@pytest.mark.parametrize("vmname, resourcepool", instance_data)
+def test_instance_delete(uri, headers, vmname, resourcepool):
+    instance_id = get_instance_id(uri, headers, vmname, resourcepool)
+    instance_delete_url = create_instance_url + "/" + str(instance_id)
+    instance_delete_response = requests.delete(url= uri + instance_delete_url,
+                                               headers = headers).json()
+    assert instance_delete_response["status"] == 200
+
