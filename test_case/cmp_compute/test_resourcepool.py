@@ -4,7 +4,7 @@ import json
 import os
 from config import Conf
 from common.get_excel_data import OperationExcleData
-from test_case.cmp_compute.test_datacenter import get_datacenterid,get_datacenter
+from test_case.cmp_compute.test_datacenter import get_datacenterid, get_datacenter
 
 # 添加资源池请求url
 createResourcePool_url = "/admin/v1/resourcepools"

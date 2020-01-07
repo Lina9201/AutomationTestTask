@@ -296,3 +296,33 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
 #     ).json()
 #     assert delete_images_response['status'] == 200
 #     assert image_name not in test_get_images_name_list(ip, port, headers)
+
+# 添加关联的资源池模板
+@pytest.mark.parametrize("init_name,resourcepool,loading,osDisk,password,username,template_name,resourcepoolType",
+                         param_create_template)
+def test_create_resourcepool_template(uri, headers, init_name,resourcepool,loading, osDisk, password, username, template_name,
+                                      resourcepoolType):
+    images_Id = str(get_image_id(uri,headers,init_name))
+    resourcePoolId = get_resourcepoolid(uri, headers, resourcepool)
+    relavant_id=str(get_template_id(uri, headers, resourcepoolType, resourcepool, template_name))
+    relation_url = "/relations"
+    create_resourcepool_template_param =[{
+         "imageId": images_Id,
+         "loading": loading,
+         "extra":
+             {
+                 "osDisk": osDisk,
+                 "password": password,
+                 "username": username
+             },
+         "relavant": {},
+         "relavantId": relavant_id,
+         "relavantName": template_name,
+         "resourcepoolId": resourcePoolId,
+         "resourcepoolType": resourcepoolType
+         }]
+    create_resourcepool_template_response = requests.post(
+        url=uri + get_images_url + images_Id + relation_url,
+        json=create_resourcepool_template_param,
+        headers=headers).json()
+    assert create_resourcepool_template_response["status"] == 200
