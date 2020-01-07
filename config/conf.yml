@@ -1,8 +1,0 @@
-BASE:
-  tcrc_db:
-    db_host: "172.50.10.41"
-    db_user: "root"
-    db_password: "root1234"
-    db_name: "mysql"
-    db_charset: "utf-8"
-    db_port: "3306"

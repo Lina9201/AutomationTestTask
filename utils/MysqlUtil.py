@@ -5,19 +5,17 @@
 import pymysql
 
 class MysqlUtil:
-    def __init__(self, host, username, password, database, charset="utf8", port=3306):
+    def __init__(self,host,user,password,database,charset="utf8",port=3306):
+        self.conn = pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=database,
+            charset=charset,
+            port=port
+        )
+        self.cursor = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
 
-            # 连接数据库信息
-            self.conn = pymysql.connect(
-                host = host,
-                username = username,
-                password = password,
-                database = database,
-                charset = charset,
-                port = port
-            )
-            # 创建光标对象
-            self.cursor = self.conn.cursor()
 
     # 创建查询、执行方法
     def fetchone(self, sql):
@@ -62,5 +60,15 @@ class MysqlUtil:
         # 关闭连接对象
         if self.conn is not None:
             self.conn.close()
+
+if __name__ == "__main__":
+    mysql = MysqlUtil("172.50.10.41",
+                  "root",
+                  "root1234",
+                  "cmp_compute",
+                  charset="utf8",
+                  port=3306)
+    res = mysql.exec("select * from instance")
+    print(res)
 
 
