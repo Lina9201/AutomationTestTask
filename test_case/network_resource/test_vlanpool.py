@@ -26,7 +26,7 @@ param_create_vlanpool = read_excel_tuple(excelFile, '创建VLAN池')
 ## 编辑VLAN池
 param_update_vlanpool = read_excel_tuple(excelFile, '编辑VLAN池')
 ## 删除VLAN池
-param_delete_vlanpool = read_excel(excelFile, '删除VLAN池', 'name')
+param_delete_vlanpool = read_excel_tuple(excelFile, '删除VLAN池')
 
 # 定义函数
 ## 获取VLAN池列表
@@ -70,8 +70,8 @@ def get_vlan_id(uri, headers, vlanpoolId):
              vlan_list.append(vlan['id'])
     return vlan_list
 
-# 测试用例
-## 创建VLAN池
+#测试用例
+#创建VLAN池
 @pytest.mark.run(order=4)
 @pytest.mark.parametrize('name,tag,ResourcePoolName,vlanTagStart,vlanTagEnd', param_create_vlanpool)
 def test_create_vlanpool(uri, headers, name, tag, ResourcePoolName, vlanTagStart, vlanTagEnd):
@@ -92,3 +92,27 @@ def test_create_vlanpool(uri, headers, name, tag, ResourcePoolName, vlanTagStart
     code = create_vlanpool_response['status']
     assert code == 200
 
+#编辑VLAN池
+@pytest.mark.parametrize('vlanpool_name, update_vlanpool_name, ResourcePool, vlanTagStart, vlanTagEnd', param_update_vlanpool)
+def test_update_vlanpool(uri,headers,vlanpool_name,update_vlanpool_name,ResourcePool,vlanTagStart,vlanTagEnd):
+    vlanpoolId=get_vlanpool_id(uri,headers,vlanpool_name)
+    resourcepoolid = get_resourcepoolid(uri, headers, ResourcePool)
+    update_vlanpool_param={
+        'name':update_vlanpool_name,
+        'vlanTagStart':vlanTagStart,
+        'vlanTagEnd':vlanTagEnd,
+        'vlanPoolResourcePoolList': [{'resourcePoolId': resourcepoolid,'vlanPoolId':vlanpoolId}]
+    }
+    update_vlanpool_response=requests.put(url=uri+update_vlanpool_url_path+str(vlanpoolId),
+                                       headers=headers,json=update_vlanpool_param).json()
+    code=update_vlanpool_response['status']
+    assert code == 200
+
+#删除VLAN池
+@pytest.mark.parametrize('ID,vlanpool_name',param_delete_vlanpool)
+def test_delete_vlanpool(uri, headers,ID,vlanpool_name):
+    vlanpoolId=get_vlanpool_id(uri,headers,vlanpool_name)
+    delete_vlanpool_response=requests.delete(url=uri+delete_vlanpool_url_path+str(vlanpoolId),
+                                           headers=headers).json()
+    code=delete_vlanpool_response['status']
+    assert code == 200
