@@ -28,6 +28,8 @@ delete_subnet_url_path = '/admin/v1/subnets/'
 create_network_object_url_path = '/admin/v1/network_objects/create?networkId='
 ## 添加已有网络对象
 add_network_object_url_path = '/admin/v1/network_objects/add?networkId='
+#编辑网络对象
+update_network_object_url_path='admin/v1/network_objects/'
 ## 获取网络所对应的资源池信息
 get_network_resourcepool_url_path = '/admin/v1/networks/resource_pools/'
 ## 获取网络所对应的VMware资源池中的分布式交换机
@@ -42,6 +44,8 @@ get_network_openstack_url_path = '/admin/v1/hypersivor/openstack/networks?resour
 network_object_url_path = '/admin/v1/network_objects/'
 ## 删除网络
 delete_network_url_path = '/admin/v1/networks/'
+#删除网络对象
+delete_network_object_url_path ='/admin/v1/network_objects/'
 
 # 获取构造测试数据
 testdata_path = Conf.get_testdata_path()
@@ -61,11 +65,11 @@ param_create_network_object = read_excel_tuple(excelFile, '创建新对象')
 ## 添加已有对象
 param_add_network_object = read_excel_tuple(excelFile, '添加已有对象')
 ## 编辑对象
-# param_update_network_object = read_excel_tuple(excelFile, '编辑对象')
+param_update_network_object = read_excel_tuple(excelFile, '编辑对象')
 ## 删除对象
 param_delete_network_object = read_excel_tuple(excelFile, '删除对象')
 ## 删除网络
-param_delete_network = read_excel(excelFile, '删除网络', 'network_name')
+param_delete_network = read_excel_tuple(excelFile, '删除网络')
 
 ## 获取子网列表
 def get_subnet_list(uri, headers, network_name):
@@ -128,7 +132,7 @@ def get_subnetip_id(uri, headers, network_name, subnet_name, ipaddress):
         if subnetip['ip'] == ipaddress:
             return subnetip['id']
 
-## 获取资源池中分布式交换机名称列表
+# # 获取资源池中分布式交换机名称列表
 # def get_dvswitch_name_list(uri, headers, network_name, network_resourcepool_name):
 #     network_dvswitch_name_list = []
 #     for i in get_dvswitch_list(uri, headers, network_name, network_resourcepool_name):
@@ -136,13 +140,13 @@ def get_subnetip_id(uri, headers, network_name, subnet_name, ipaddress):
 #     return network_dvswitch_name_list
 
 
-## 获取资源池中分布式交换机id
-# def get_dvswitch_id(uri, headers, network_name, network_resourcepool_name, dvswitch_name):
-#     network_dvswitch_id = []
-#     for i in get_dvswitch_list(uri, headers, network_name, network_resourcepool_name):
-#         if dvswitch_name == i['name']:
-#             network_dvswitch_id = (i['id'])
-#     return network_dvswitch_id
+# 获取资源池中分布式交换机id
+def get_dvswitch_id(uri, headers, network_name, network_resourcepool_name, dvswitch_name):
+    network_dvswitch_id = []
+    for i in get_dvswitch_list(uri, headers, network_name, network_resourcepool_name):
+        if dvswitch_name == i['name']:
+            network_dvswitch_id = (i['id'])
+    return network_dvswitch_id
 
 
 ## 根据选择的资源池、网络获取可选择的端口组id
@@ -210,7 +214,6 @@ def get_network_dvportgroup_id(uri, headers, resourcePoolType, network_resourcep
                 network_dvportgroup_id = (i['id'])
     return network_dvportgroup_id
 
-
 def get_network_id(uri, headers, network_name):
     """
     根据传入的网络名称获取对应的网络ID
@@ -224,10 +227,25 @@ def get_network_id(uri, headers, network_name):
         if network['name'] == network_name:
             return network['id']
 
+#根据网络、资源池、端口组名称获取端口组的id
+def get_network_object_id(uri, headers, resourcepool, network_name,objectName):
+    networkId = get_network_id(uri, headers, network_name)
+    resourcepoolId = get_resourcepoolid(uri, headers, resourcepool)
+    data_url = {
+        "networkdId": networkId,
+        "resourcePoolId": resourcepoolId
+    }
+    query_object = urllib.parse.urlencode(data_url)
+    get_network_object_id_response = requests.get(url = uri + network_object_url_path + "?" + query_object,
+                                       headers = headers).json()
+    for object in get_network_object_id_response['data']:
+        if object['objectName'] == objectName:
+            return object['id']
+
 
 # 测试用例
-## 创建网络
-### 通过选择VLAN池创建网络
+# ## 创建网络
+# ### 通过选择VLAN池创建网络
 @pytest.mark.run(order=5)
 @pytest.mark.parametrize('name,type,vlanPoolName,category,tagType,description', param_create_network)
 def test_create_network(uri, headers, name, type, vlanPoolName, category, tagType,
@@ -277,46 +295,63 @@ def test_add_network_object(uri, headers, network_name,resourcePoolType, network
     code = add_network_object_response['status']
     # assert code == 200
 
+## 创建新对象
+@pytest.mark.parametrize('network_name,resourcePoolType,network_resourcepool_name,object_name,dvsName', param_create_network_object)
+def test_create_network_object(uri, headers, network_name,resourcePoolType, network_resourcepool_name,object_name,dvsName):
+    network_id = get_network_id(uri, headers, network_name)
+    network_resourcepool_id = get_resourcepoolid(uri, headers, network_resourcepool_name)
+    param = [{
+        'name': object_name,
+        'dvsName': dvsName,
+        'resourcePoolId': network_resourcepool_id,
+        # 'resourcePoolType': resourcePoolType
+    }]
+    create_network_object_response = requests.post(
+        url=uri + create_network_object_url_path + str(network_id),
+        headers=headers,
+        json=param[0]
+    ).json()
+    code = create_network_object_response['status']
+    assert code == 200
 
+# 编辑网络对象
+@pytest.mark.parametrize('resourcepool,network_name,objectName,updata_object_name,resourcePoolType', param_update_network_object)
+def test_update_network_object(uri,headers,resourcepool,network_name,objectName,updata_object_name,resourcePoolType):
+    id = get_network_object_id(uri, headers, resourcepool, network_name,objectName)
+    network_id =get_network_id(uri,headers,network_name)
+    object_id = get_network_dvportgroup_id(uri, headers, resourcePoolType, resourcepool, updata_object_name)
+    resourcePoolId = get_resourcepoolid(uri, headers, resourcepool)
+    param = {
+        # 'id':  id,
+        'networkId': network_id,
+        'objectId': object_id,
+        'objectName': updata_object_name,
+        # 'objectType': 'DistributePortGroup',
+        'resourcePoolId': resourcePoolId
+        # 'resourcePoolName': resourcepool,
+        # 'resourcePoolType': resourcePoolType
+    }
+    update_network_object_response =requests.put(
+        url=uri + update_network_object_url_path+str(id)+'?networkId='+str(network_id),
+        headers=headers,
+        json=param
+    ).json()
+    code = update_network_object_response['status']
+    assert code == 200
+    # assert updata_object_name in get_object_name_list(ip,port,headers,network_name)
 
-## 编辑网络对象
-# @pytest.mark.parametrize('network_name,network_resourcepool_name,object_name,updata_object_name', param_update_network_object)
-# def test_update_network_object(ip,port,headers,network_name,network_resourcepool_name,object_name,updata_object_name):
-#     ip_address = 'http://%s:%s' % (ip, port)
-#     network_object_id = get_object_id(ip, port, headers, network_name, object_name)[0]
-#     network_id =get_network_id(ip,port,headers,network_name)[0]
-#     object_id = get_network_dvportgroup_id(ip, port, headers, network_name, network_resourcepool_name, updata_object_name)
-#     resourcePoolId = get_network_resourcepool_id(ip,port,headers,network_name,network_resourcepool_name)[0]
-#     param = {
-#         'id':  network_object_id,
-#         'networkId': network_id,
-#         'objectId': object_id,
-#         'objectName': updata_object_name,
-#         'objectType': "DistributePortGroup",
-#         'resourcePoolId': resourcePoolId,
-#         'resourcePoolName': network_resourcepool_name,
-#         'resourcePoolType': 'vmware'
-#     }
-#     update_network_object_response =requests.put(
-#         url=ip_address + update_network_object_url_path+str(network_object_id)+'?networkId='+str(network_id),
-#         headers=headers,
-#         json=param
-#     ).json()
-#     code = update_network_object_response['status']
-#     assert code == 200
-#     assert updata_object_name in get_object_name_list(ip,port,headers,network_name)
+# 删除网络对象
+@pytest.mark.parametrize('resourcepool, network_name,objectName', param_delete_network_object)
+def test_delete_network_object(uri, headers, resourcepool, network_name,objectName):
+    object_id = get_network_object_id(uri, headers, resourcepool, network_name,objectName)
+    delete_network_object_response = requests.delete(
+        url=uri+ delete_network_object_url_path + str(object_id),
+        headers=headers
+    ).json()
+    code = delete_network_object_response["status"]
+    assert code == 200
 
-## 删除网络对象
-# @pytest.mark.parametrize('network_name,object_name', param_delete_network_object)
-# def test_delete_network_object(ip, port, headers, network_name, object_name):
-#     ip_address = 'http://%s:%s' % (ip, port)
-#     object_id = get_object_id(ip, port, headers, network_name, object_name)[0]
-#     delete_network_object_response = requests.delete(
-#         url=ip_address + delete_network_object_url_path + str(object_id),
-#         headers=headers
-#     ).json()
-
-
+#添加子网
 @pytest.mark.run(order=7)
 @pytest.mark.parametrize(
     'network_name,subnet_name,ipProtocol,cidr,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',
@@ -358,3 +393,52 @@ def test_create_subnet(uri, headers, network_name, subnet_name, ipProtocol, cidr
     assert code == 200
     assert subnet_name in get_subnet_name_list(uri, headers, network_name)
 
+#编辑子网
+@pytest.mark.parametrize('network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',param_update_subnet)
+def test_update_subnet(uri,headers,network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns):
+    subnetId=get_subnet_id(uri, headers, network_name, subnet_name)
+    update_subnet_param={
+        'name':update_subnet_name,
+        'isGatewayDisabled':isGatewayDisabled,
+        'gatewayIp':gatewayIp,
+        'ipPools':ipPools,
+        'preferredDns':preferredDns,
+        'alternateDns':alternateDns
+    }
+    update_subnet_response=requests.put(url=uri+update_subnet_url_path+str(subnetId),
+                                         headers=headers,json=update_subnet_param).json()
+    code=update_subnet_response['status']
+    assert code == 200
+    
+#删除子网
+@pytest.mark.parametrize('network_name,subnet_name',param_delete_subnet)
+def test_delete_subnet(uri,headers,network_name,subnet_name):
+    subnetId=get_subnet_id(uri, headers, network_name, subnet_name)
+    delete_subnet_response=requests.delete(url=uri+delete_subnet_url_path+str(subnetId),
+                                           headers=headers).json()
+    code=delete_subnet_response['status']
+    assert code == 200
+
+#编辑网络
+@pytest.mark.parametrize('network_name,update_network_name,category,tagType,description',param_update_network)
+def test_update_network(uri,headers,network_name,update_network_name,category,tagType,description):
+    networkId=get_network_id(uri,headers,network_name)
+    update_network_param={
+        'name':update_network_name,
+        'description':description,
+        'category':category,
+        'tagType':tagType
+    }
+    update_network_response=requests.put(url=uri+update_network_url_path+str(networkId),
+                                         headers=headers,json=update_network_param).json()
+    code=update_network_response['status']
+    assert code == 200
+
+#删除网络
+@pytest.mark.parametrize('ID,network_name',param_delete_network)
+def test_delete_network(uri, headers,ID,network_name):
+    networkId = get_network_id(uri, headers, network_name)
+    delete_network_response=requests.delete(url=uri+delete_network_url_path+str(networkId),
+                                           headers=headers).json()
+    code=delete_network_response['status']
+    assert code == 200
