@@ -21,7 +21,7 @@ _report_path = BASE_DIR + os.sep + "report"
 _testdata_path = BASE_DIR + os.sep + "test_data"
 
 # 定义config.yml文件的路径
-_config_file = _config_path + os.sep + "conf.yml"
+_config_file = _config_path + os.sep + "db_conf.yml"
 
 
 def get_config_path():
