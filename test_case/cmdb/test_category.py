@@ -6,7 +6,6 @@ from config import Conf
 import pytest
 from common.get_excel_data import OperationExcleData
 import requests
-import json
 from common.get_db_data import init_arangodb
 
 # 配置项类型url
@@ -33,7 +32,7 @@ def test_create_category(uri, headers, ID, testcases, name, code, sourceCategory
     :param icon:
     :return:
     """
-    CategoryKey = get_categorykey(uri, headers, parentCategoryKey)
+    CategoryKey = get_categorykey(parentCategoryKey)
     category_param = {
         "category":{
             "sourceCategoryCode":"",
@@ -85,22 +84,18 @@ def test_create_category(uri, headers, ID, testcases, name, code, sourceCategory
         }]
     }
     create_category_response = requests.post(url=uri + base_category_url,
-                                              data=json.dumps(category_param),
-                                              headers=headers)
-    assert create_category_response.status_code == 200
+                                              json = category_param,
+                                              headers=headers).json()
+    assert create_category_response['status'] == 200
 
 
-def get_categorykey(uri, headers, categoryName):
+def get_categorykey(categoryName):
     """
-    获取树形结构的类型列表接口，根据传入的配置项类型名称获取对应id
-    :param uri:
-    :param headers:
+    查询cmdb数据库根据传入的配置项类型获取对应_key值
     :param categoryName:
     :return:
     """
     categorykey = ""
-    get_category_response = requests.get(url = uri + categorys_tree_url,
-                                         headers = headers).json()
     if categoryName == None:
         return categorykey
     else:
@@ -130,8 +125,8 @@ def test_update_category(uri, headers, ID, testcases, categoryName, updatename, 
     :param icon:
     :return:
     """
-    CategoryKey = get_categorykey(uri, headers, categoryName)
-    parentCategory = get_categorykey(uri, headers, parentCategoryKey)
+    CategoryKey = get_categorykey(categoryName)
+    parentCategory = get_categorykey(parentCategoryKey)
     update_category_param = {
         "sourceCategoryCode": "",
         "name": updatename,
@@ -161,10 +156,27 @@ def test_delete_category(uri, headers, ID, testcases, name):
     :param name:
     :return:
     """
-    CategoryKey = get_categorykey(uri, headers, name)
+    CategoryKey = get_categorykey(name)
     delete_category_response = requests.delete(url = uri + base_category_url + "/" + CategoryKey,
                                                headers = headers).json()
     assert delete_category_response['status'] == 200
+
+
+def get_category_code(categoryName):
+    """
+    查询cmdb数据库根据传入的配置项类型获取对应code值
+    :param categoryName:
+    :return:
+    """
+    # 初始化Arangodb数据库对象
+    conn = init_arangodb("cmdb_db")
+    arangodb = conn.opendb("cmdb")
+    aql = "FOR c IN category RETURN c"
+    queryresult = arangodb.AQLQuery(aql)
+    for code in queryresult:
+        if code.name == categoryName:
+            category_code = code.code
+            return category_code
 
 
 
