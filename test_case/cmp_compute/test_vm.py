@@ -94,8 +94,8 @@ def get_instance_id(uri, headers, instance_name,resourcepool):
 		"limit" : 100
 	}
 	query_vms = urllib.parse.urlencode(url_data)
-	get_instance_response = requests.get(url = uri + create_instance_url+"?" + query_vms
-										 ,headers = headers).json()
+	get_instance_response = requests.get(url = uri + create_instance_url+"?" + query_vms,
+										 headers = headers).json()
 	for instance in get_instance_response["data"]["list"]:
 		if instance["name"] == instance_name:
 			return instance["id"]
@@ -110,8 +110,8 @@ def get_instance_powerStatus(uri, headers, instance_name,resourcepool):
 		"limit" : 100
 	}
 	query_vms = urllib.parse.urlencode(url_data)
-	get_instance_response = requests.get(url = uri + create_instance_url+"?" + query_vms
-										 ,headers = headers).json()
+	get_instance_response = requests.get(url = uri + create_instance_url+"?" + query_vms,
+										 headers = headers).json()
 	for instance in get_instance_response["data"]["list"]:
 		if instance["name"] == instance_name:
 			return instance["powerStatus"]
@@ -125,8 +125,29 @@ def get_instance_vmName(uri, headers, instance_name, resourcepool):
 		"limit": 100
 	}
 	query_vms = urllib.parse.urlencode(url_data)
-	get_instance_response = requests.get(url=uri + create_instance_url + "?" + query_vms
-										 , headers=headers).json()
+	get_instance_response = requests.get(url=uri + create_instance_url + "?" + query_vms,
+										 headers=headers).json()
 	for instance in get_instance_response["data"]["list"]:
 		if instance["name"] == instance_name:
 			return instance["vmName"]
+
+#根据虚拟机名称获取虚拟机第一块网卡信息
+def get_intance_nics(uri, headers, instance_name, resourcepool):
+	instance_id = get_instance_id(uri, headers, instance_name, resourcepool)
+	instance_url = create_instance_url + "/" + str(instance_id)
+	get_instance_response = requests.get(url= uri + instance_url,
+										 headers = headers).json()
+	return get_instance_response["data"]["nicInfos"][0]
+
+#根据虚拟机名称获取虚拟机系统盘信息
+def get_instance_disks(uri, headers, instance_name, resourcepool):
+	instance_id = get_instance_id(uri, headers, instance_name, resourcepool)
+	instance_url = create_instance_url + "/" + str(instance_id)
+	get_instance_response = requests.get(url= uri + instance_url,
+										 headers = headers).json()
+	for disk in get_instance_response["data"]["disks"]:
+		if disk["name"] == "系统盘":
+			return disk
+
+
+
