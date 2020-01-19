@@ -13,7 +13,7 @@ get_parentDictionaryKey_url="/admin/v1/dictionaries/tree"
 
 #获取测试数据
 testdata_path=Conf.get_testdata_path()
-excelFile=testdata_path+os.sep+"字典管理.xlsx"
+excelFile = testdata_path + os.sep + "配置管理.xlsx"
 create_dictionaries_data=OperationExcleData(excelFile,"创建字典").getcase_tuple()
 update_dictionaries_data=OperationExcleData(excelFile,"编辑字典").getcase_tuple()
 delete_dictionarie_date=OperationExcleData(excelFile,"删除字典").getcase_tuple()

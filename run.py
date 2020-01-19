@@ -9,5 +9,5 @@ from config import Conf
 if __name__=='__main__':
     report_path = Conf.get_report_path()+os.sep+"result"
     report_html = Conf.get_report_path()+os.sep+"html"
-    pytest.main(["-m smoke_update","--alluredir", report_path])
+    pytest.main(["-m cmdb","--alluredir", report_path])
 

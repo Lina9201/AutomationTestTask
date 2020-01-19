@@ -28,7 +28,7 @@ sheetName = "创建虚拟机"
 instance_data = OperationExcleData(excelFile, sheetName).getcase_tuple()
 
 @pytest.mark.smoke
-@pytest.mark.run(order=10)
+@pytest.mark.run(order=12)
 @pytest.mark.parametrize("resourcepooltype,region,resourcepool,tenant,project,vmname,account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress", instance_data)
 def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, project, vmname,
             account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress):

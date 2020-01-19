@@ -81,10 +81,7 @@ class OperationExcleData:
         finally:
             pass
 
-if __name__=="__main__":
-    excelFile = "E:\\AutomationTestTask\\test_data\\物理资源.xlsx"
-    sheetName = "添加资源池"
-    OperationExcleData(excelFile, sheetName).getcase_tuple()
+
 
 
 

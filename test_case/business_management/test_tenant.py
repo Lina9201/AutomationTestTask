@@ -28,7 +28,7 @@ delete_tenant_data=OperationExcleData(excelFile, '删除租户').getcase_tuple()
 
 # 创建租户
 @pytest.mark.smoke
-@pytest.mark.run(order=8)
+@pytest.mark.run(order=9)
 @pytest.mark.parametrize("create_tenant_data",create_tenant_data)
 def test_create_tenant(uri, headers, create_tenant_data):
     createTenant_response = requests.post(url=uri + create_tenant_url,
@@ -56,7 +56,7 @@ def get_tenant_id(uri, headers, tenantname):
 
 #编辑租户
 @pytest.mark.smoke_update
-@pytest.mark.run(order=8)
+@pytest.mark.run(order=9)
 @pytest.mark.parametrize("ID, testcases,tenant,name,description,enableQuotas",update_tenant_data)
 def test_update_tenant(uri,headers,ID,testcases,tenant,name,description,enableQuotas):
     tenant_id = get_tenant_id(uri, headers, tenant)
@@ -82,7 +82,7 @@ def get_user_id(uri, headers, account):
 
 #租户成员管理
 @pytest.mark.smoke
-@pytest.mark.run(order=36)
+@pytest.mark.run(order=10)
 @pytest.mark.parametrize("ID,testcases,tenant,account,role",manage_user_data)
 def test_manage_user(uri,headers,ID,testcases,tenant,account,role):
     tenant_id = get_tenant_id(uri, headers, tenant)
@@ -101,7 +101,7 @@ def test_manage_user(uri,headers,ID,testcases,tenant,account,role):
 
 # 创建项目
 @pytest.mark.smoke
-@pytest.mark.run(order=9)
+@pytest.mark.run(order=11)
 @pytest.mark.parametrize("tenantname, projectname, description", create_project_data)
 def test_create_project(uri, headers, tenantname, projectname, description):
     tenant_id = get_tenant_id(uri, headers, tenantname)
@@ -135,7 +135,7 @@ def get_project_id(uri, headers, projectname):
 
 #编辑项目
 @pytest.mark.smoke_update
-@pytest.mark.run(order=9)
+@pytest.mark.run(order=10)
 @pytest.mark.parametrize("ID, testcases,project,name,description",update_project_data)
 def test_update_project(uri,headers,ID,testcases,project,name,description):
     project_id = get_project_id(uri,headers,project)
@@ -159,8 +159,7 @@ def test_delete_project(uri, headers,ID,testcases,projectname):
         url=uri + delete_project_url + str(project_id),
         headers=headers
     ).json()
-    code = delete_project_response["status"]
-    assert code == 200
+    assert delete_project_response == 200
 
 
 #删除租户

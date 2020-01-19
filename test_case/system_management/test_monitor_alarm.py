@@ -86,7 +86,7 @@ def get_fixed_vm_name_list(uri, headers, name):
 
 # 创建监控组
 @pytest.mark.smoke
-@pytest.mark.run(order=37)
+@pytest.mark.run(order=38)
 @pytest.mark.parametrize('ID,name,description,userNames,vm_name', create_monitorgroup_param)
 def test_create_monitorgroup(uri, headers, ID, name, description, userNames, vm_name):
     time.sleep(120)
@@ -109,9 +109,9 @@ def test_create_monitorgroup(uri, headers, ID, name, description, userNames, vm_
 
 # 编辑监控组
 @pytest.mark.smoke_update
-@pytest.mark.run(order=11)
+@pytest.mark.run(order=12)
 @pytest.mark.parametrize('ID,name,description,userNames,vm_name', update_monitorgroup_param)
-def test_update_orgnization(uri, headers, ID, name, description, userNames, vm_name):
+def test_update_monitorgroup(uri, headers, ID, name, description, userNames, vm_name):
     monitorgroup_Id = str(get_monitorgroup_id(uri, headers, name))
     hostkey = str(get_vm_id(uri, headers, vm_name))
     userName = userNames.split(",")

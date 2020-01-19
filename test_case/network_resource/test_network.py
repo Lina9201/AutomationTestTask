@@ -281,7 +281,8 @@ def test_add_network_object(uri, headers, network_name,resourcePoolType, network
 
 
 ## 创建新对象
-
+@pytest.mark.smoke
+@pytest.mark.run(order=7)
 @pytest.mark.parametrize('network_name,resourcePoolType,network_resourcepool_name,object_name,dvsName', param_create_network_object)
 def test_create_network_object(uri, headers, network_name,resourcePoolType, network_resourcepool_name,object_name,dvsName):
     network_id = get_network_id(uri, headers, network_name)
@@ -301,6 +302,8 @@ def test_create_network_object(uri, headers, network_name,resourcePoolType, netw
     assert code == 200
 
 # 编辑网络对象
+@pytest.mark.smoke_update
+@pytest.mark.run(order=6)
 @pytest.mark.parametrize('resourcepool,network_name,objectName,updata_object_name,resourcePoolType', param_update_network_object)
 def test_update_network_object(uri,headers,resourcepool,network_name,objectName,updata_object_name,resourcePoolType):
     id = get_network_object_id(uri, headers, resourcepool, network_name,objectName)
@@ -341,7 +344,7 @@ def test_delete_network_object(uri, headers, resourcepool, network_name,objectNa
 
 #添加子网
 @pytest.mark.smoke
-@pytest.mark.run(order=7)
+@pytest.mark.run(order=8)
 @pytest.mark.parametrize(
     'network_name,subnet_name,ipProtocol,cidr,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',
     param_create_subnet)
@@ -384,7 +387,7 @@ def test_create_subnet(uri, headers, network_name, subnet_name, ipProtocol, cidr
 
 #编辑子网
 @pytest.mark.smoke_update
-@pytest.mark.run(order=6)
+@pytest.mark.run(order=7)
 @pytest.mark.parametrize('network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',param_update_subnet)
 def test_update_subnet(uri,headers,network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns):
     subnetId=get_subnet_id(uri, headers, network_name, subnet_name)
@@ -398,8 +401,7 @@ def test_update_subnet(uri,headers,network_name,subnet_name,update_subnet_name,i
     }
     update_subnet_response=requests.put(url=uri+update_subnet_url_path+str(subnetId),
                                          headers=headers,json=update_subnet_param).json()
-    code=update_subnet_response['status']
-    assert code == 200
+    assert update_subnet_response['status'] == 200
     
 #删除子网
 @pytest.mark.smoke_delete
@@ -414,7 +416,7 @@ def test_delete_subnet(uri,headers,network_name,subnet_name):
 
 #编辑网络
 @pytest.mark.smoke_update
-@pytest.mark.run(order=7)
+@pytest.mark.run(order=8)
 @pytest.mark.parametrize('network_name,update_network_name,category,tagType,description',param_update_network)
 def test_update_network(uri,headers,network_name,update_network_name,category,tagType,description):
     networkId=get_network_id(uri,headers,network_name)
