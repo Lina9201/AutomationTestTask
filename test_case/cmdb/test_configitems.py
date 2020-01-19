@@ -19,6 +19,8 @@ category_data = OperationExcleData(excelFile, "创建配置项").getcase_tuple()
 update_category_data = OperationExcleData(excelFile, "编辑配置项").getcase_tuple()
 delete_category_data = OperationExcleData(excelFile, "删除配置项").getcase_tuple()
 
+@pytest.mark.cmdb
+@pytest.mark.run(order=3)
 @pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue", category_data)
 def test_create_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue):
    """
@@ -80,7 +82,8 @@ def test_create_configitems(uri, headers,ID, testcases,category,groupname,proper
    ).json()
    assert create_configitems_response['status'] == 200
 
-
+@pytest.mark.cmdb
+@pytest.mark.run(order=6)
 @pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue", update_category_data)
 def test_update_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue):
     """
@@ -140,7 +143,8 @@ def test_update_configitems(uri, headers,ID, testcases,category,groupname,proper
                                             json = update_configitems_param).json()
     assert update_configitems_response['status'] == 200
 
-
+@pytest.mark.cmdb
+@pytest.mark.run(order=7)
 @pytest.mark.parametrize("ID, testcases,namecode,configitem", delete_category_data)
 def test_delete_configitem(uri, headers,ID, testcases,namecode,configitem):
     """

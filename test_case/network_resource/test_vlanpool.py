@@ -72,6 +72,7 @@ def get_vlan_id(uri, headers, vlanpoolId):
 
 #测试用例
 #创建VLAN池
+@pytest.mark.smoke
 @pytest.mark.run(order=4)
 @pytest.mark.parametrize('name,tag,ResourcePoolName,vlanTagStart,vlanTagEnd', param_create_vlanpool)
 def test_create_vlanpool(uri, headers, name, tag, ResourcePoolName, vlanTagStart, vlanTagEnd):
@@ -93,6 +94,8 @@ def test_create_vlanpool(uri, headers, name, tag, ResourcePoolName, vlanTagStart
     assert code == 200
 
 #编辑VLAN池
+@pytest.mark.smoke_update
+@pytest.mark.run(order=5)
 @pytest.mark.parametrize('vlanpool_name, update_vlanpool_name, ResourcePool, vlanTagStart, vlanTagEnd', param_update_vlanpool)
 def test_update_vlanpool(uri,headers,vlanpool_name,update_vlanpool_name,ResourcePool,vlanTagStart,vlanTagEnd):
     vlanpoolId=get_vlanpool_id(uri,headers,vlanpool_name)
@@ -105,10 +108,11 @@ def test_update_vlanpool(uri,headers,vlanpool_name,update_vlanpool_name,Resource
     }
     update_vlanpool_response=requests.put(url=uri+update_vlanpool_url_path+str(vlanpoolId),
                                        headers=headers,json=update_vlanpool_param).json()
-    code=update_vlanpool_response['status']
-    assert code == 200
+    assert update_vlanpool_response['status'] == 200
 
 #删除VLAN池
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=3)
 @pytest.mark.parametrize('ID,vlanpool_name',param_delete_vlanpool)
 def test_delete_vlanpool(uri, headers,ID,vlanpool_name):
     vlanpoolId=get_vlanpool_id(uri,headers,vlanpool_name)

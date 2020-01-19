@@ -21,6 +21,7 @@ datacenter_data = OperationExcleData(excelFile, "添加数据中心").getCaseLis
 update_datacenter_data = OperationExcleData(excelFile, "编辑数据中心").getcase_tuple()
 delete_datacenter_data = OperationExcleData(excelFile, "删除数据中心").getcase_tuple()
 
+@pytest.mark.smoke
 @pytest.mark.run(order=1)
 @pytest.mark.parametrize("datacenter_data", datacenter_data)
 def test_create_datacenter(uri, headers, datacenter_data):
@@ -41,6 +42,8 @@ def test_create_datacenter(uri, headers, datacenter_data):
 
 
 @pytest.mark.parametrize("ID, testcases, regionname, upadte_region, description", update_datacenter_data)
+@pytest.mark.smoke_update
+@pytest.mark.run(order=1)
 def test_update_datacenter(uri, headers, ID, testcases, regionname, upadte_region, description):
     """
     编辑数据中心

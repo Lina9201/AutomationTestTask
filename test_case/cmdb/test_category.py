@@ -17,6 +17,8 @@ category_data = OperationExcleData(excelFile, "创建配置项类型").getcase_t
 update_category_data = OperationExcleData(excelFile, "编辑配置项类型").getcase_tuple()
 delete_category_data = OperationExcleData(excelFile, "删除配置项类型").getcase_tuple()
 
+@pytest.mark.cmdb
+@pytest.mark.run(order=1)
 @pytest.mark.parametrize("ID, testcases, name, code, sourceCategoryCode, parentCategoryKey, icon", category_data)
 def test_create_category(uri, headers, ID, testcases, name, code, sourceCategoryCode, parentCategoryKey, icon):
     """
@@ -109,7 +111,8 @@ def get_categorykey(categoryName):
                 categorykey=key._key
                 return categorykey
 
-
+@pytest.mark.cmdb
+@pytest.mark.run(order=8)
 @pytest.mark.parametrize("ID, testcases, categoryName,updatename, code, sourceCategoryCode, parentCategoryKey, icon", update_category_data)
 def test_update_category(uri, headers, ID, testcases, categoryName, updatename, code, sourceCategoryCode, parentCategoryKey, icon):
     """
@@ -144,7 +147,8 @@ def test_update_category(uri, headers, ID, testcases, categoryName, updatename, 
     print(update_category_param)
     assert update_category_response['status']== 200
 
-
+@pytest.mark.cmdb
+@pytest.mark.run(order=9)
 @pytest.mark.parametrize("ID, testcases, name", delete_category_data)
 def test_delete_category(uri, headers, ID, testcases, name):
     """

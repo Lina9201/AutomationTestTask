@@ -30,7 +30,8 @@ def get_property(propertyCode, propertyName):
         if property.name == propertyName and property.code == propertyCode:
             return property
 
-
+@pytest.mark.cmdb
+@pytest.mark.run(order=2)
 @pytest.mark.parametrize("ID, testcases, categoryname, groupname, groupweight, code, name, type, nullable,unique,readonly, key, default, encrypt, weight", add_property_data)
 def test_add_property(uri, headers, ID, testcases, categoryname, groupname, groupweight,code, name, type, nullable,unique,readonly, key, default,encrypt, weight):
     add_property_param =[

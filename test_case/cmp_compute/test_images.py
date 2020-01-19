@@ -27,8 +27,6 @@ param_update_images = read_excel_tuple(excelFile, '编辑镜像')
 param_delete_images = OperationExcleData(excelFile, "删除镜像").getcase_tuple()
 # 添加资源池模板
 param_create_template = read_excel_tuple(excelFile, '添加资源池模板')
-# 编辑资源池模板
-param_update_template = read_excel_tuple(excelFile, '编辑资源池模板')
 # 删除资源池模板
 param_delete_template = OperationExcleData(excelFile, "删除资源池模板").getcase_tuple()
 
@@ -100,11 +98,12 @@ def get_imageedited_id(uri, headers, image_name):
 
 
 # 创建镜像
+@pytest.mark.smoke
 @pytest.mark.run(order=3)
 @pytest.mark.parametrize(
-    "name,description,os,osType,osDisk,password,username,loading,resourcepoolType,resourcepool,template_name",
+    "name,description,os,osType,password,username,loading,resourcepoolType,resourcepool,template_name",
     param_create_images)
-def test_create_images(uri, headers, name, description, os, osType, osDisk, password, username, loading,
+def test_create_images(uri, headers, name, description, os, osType, password, username, loading,
                        resourcepool, resourcepoolType, template_name):
     templateId = get_template_id(uri, headers, resourcepoolType, resourcepool, template_name)
     resourcepoolid = get_resourcepoolid(uri, headers, resourcepool)
@@ -115,7 +114,6 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
                            "relations": [
                                {
                                    "extra": {
-                                       "osDisk": osDisk,
                                        "password": password,
                                        "username": username
                                    },
@@ -172,9 +170,11 @@ def test_delete_resourcepool_template(uri, headers, ID, init_name):
 
 
 # 添加关联的资源池模板
-@pytest.mark.parametrize("init_name,resourcepool,loading,osDisk,password,username,template_name,resourcepoolType",
+@pytest.mark.smoke_update
+@pytest.mark.run(order=3)
+@pytest.mark.parametrize("init_name,resourcepool,loading,password,username,template_name,resourcepoolType",
                          param_create_template)
-def test_create_resourcepool_template(uri, headers, init_name, resourcepool, loading, osDisk, password, username,
+def test_create_resourcepool_template(uri, headers, init_name, resourcepool, loading, password, username,
                                       template_name,
                                       resourcepoolType):
     images_Id = str(get_image_id(uri, headers, init_name))
@@ -186,7 +186,6 @@ def test_create_resourcepool_template(uri, headers, init_name, resourcepool, loa
         "loading": loading,
         "extra":
             {
-                "osDisk": osDisk,
                 "password": password,
                 "username": username
             },
@@ -206,8 +205,10 @@ def test_create_resourcepool_template(uri, headers, init_name, resourcepool, loa
 
 
 # 编辑镜像
+@pytest.mark.smoke_update
+@pytest.mark.run(order=4)
 @pytest.mark.parametrize("init_name,name,os,osType,deleted,isPublic", param_update_images)
-def test_udpate_images(uri, headers, init_name, name, os, osType, deleted, isPublic):
+def test_udpate_images(uri, headers, init_name, name, os,osType, deleted, isPublic):
     # 根据镜像名称获取镜像id
     images_Id = str(get_image_id(uri, headers, init_name))
     update_images_param = {"name": name,
@@ -227,6 +228,8 @@ def test_udpate_images(uri, headers, init_name, name, os, osType, deleted, isPub
 
 
 # 删除镜像
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=2)
 @pytest.mark.parametrize('ID,image_name', param_delete_images)
 def test_delete_image(uri, headers, ID, image_name):
     images_Id = str(get_imageedited_id(uri, headers, image_name))

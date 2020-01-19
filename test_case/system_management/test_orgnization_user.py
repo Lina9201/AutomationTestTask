@@ -98,6 +98,8 @@ def get_user_account_id(uri, headers, account, init_name):
 
 
 # 创建组织
+@pytest.mark.smoke
+@pytest.mark.run(order=30)
 @pytest.mark.parametrize('ID,alias,parentId,name', create_orgnization_param)
 def test_create_orgnization(uri, headers, ID, alias, parentId, name):
     create_orgnization_param = {
@@ -115,6 +117,8 @@ def test_create_orgnization(uri, headers, ID, alias, parentId, name):
 
 
 # 在组织下创建用户
+@pytest.mark.smoke
+@pytest.mark.run(order=31)
 @pytest.mark.parametrize('ID,org_name,account,password,name,status,mobilePhone,birstday,sex,isManager,roles',
                          create_user_param)
 def test_create_user(uri, headers, ID, org_name, account, password, name, status, mobilePhone, birstday, sex, isManager,
@@ -148,6 +152,8 @@ def test_create_user(uri, headers, ID, org_name, account, password, name, status
 
 
 # 修改密码
+@pytest.mark.smoke
+@pytest.mark.run(order=32)
 @pytest.mark.parametrize('ID,password,org_name,account', update_user_password_param)
 def test_update_password(uri, headers, ID, password, org_name, account):
     user_id = str(get_user_account_id(uri, headers, account, org_name))
@@ -163,6 +169,8 @@ def test_update_password(uri, headers, ID, password, org_name, account):
 
 
 # 编辑组织下的用户
+@pytest.mark.smoke
+@pytest.mark.run(order=33)
 @pytest.mark.parametrize('ID,org_name,account,name,status,mobilePhone,birstday,sex,isManager,roles', update_user_param)
 def test_udpate_user(uri, headers, ID, org_name, account, name, status, mobilePhone, birstday, sex, isManager, roles):
     user_id = str(get_user_account_id(uri, headers, account, org_name))
@@ -192,6 +200,9 @@ def test_udpate_user(uri, headers, ID, org_name, account, name, status, mobilePh
 
 
 # 在组织下添加已有用户
+@pytest.mark.smoke
+@pytest.mark.run(order=34)
+@pytest.mark.smoke
 @pytest.mark.parametrize('ID,org_name,exsiting_org_name,exsiting_account', create_exsiting_user_param)
 def test_create_existing_user(uri, headers, ID, org_name, exsiting_org_name, exsiting_account):
     user_id = str(get_user_account_id(uri, headers, exsiting_account, exsiting_org_name))
@@ -214,6 +225,9 @@ def test_create_existing_user(uri, headers, ID, org_name, exsiting_org_name, exs
 
 
 # 在组织下移除用户
+@pytest.mark.smoke
+@pytest.mark.run(order=35)
+@pytest.mark.smoke
 @pytest.mark.parametrize('ID,org_name,exsiting_org_name,exsiting_account', remove_exsiting_user_param)
 def test_remove_existing_user(uri, headers, ID, org_name, exsiting_org_name, exsiting_account):
     orgnization_id = str(get_orgnization_id(uri, headers, org_name))
@@ -229,6 +243,8 @@ def test_remove_existing_user(uri, headers, ID, org_name, exsiting_org_name, exs
 
 
 # 删除用户
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=9)
 @pytest.mark.parametrize('ID,org_name,account', delete_user_param)
 def test_delete_user(uri, headers, ID, org_name, account):
     # 删除编辑后的用户胡
@@ -243,6 +259,8 @@ def test_delete_user(uri, headers, ID, org_name, account):
 
 
 # 编辑组织
+@pytest.mark.smoke_update
+@pytest.mark.run(order=10)
 @pytest.mark.parametrize('ID,init_name,alias,name,parentId', update_orgnization_param)
 def test_update_orgnization(uri, headers, ID, init_name, alias, name, parentId):
     orgnization_Id = str(get_orgnization_id(uri, headers, init_name))
@@ -262,6 +280,8 @@ def test_update_orgnization(uri, headers, ID, init_name, alias, name, parentId):
 
 
 # 删除组织
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=10)
 @pytest.mark.parametrize('ID,name', delete_orgnization_param)
 def test_delete_orgnization(uri, headers, ID, name):
     orgnization_Id = str(get_orgnization_id(uri, headers, name))

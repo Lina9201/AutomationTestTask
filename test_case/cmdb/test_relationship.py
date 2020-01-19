@@ -19,6 +19,8 @@ excelFile = testdata_path + os.sep + "配置管理.xlsx"
 category_relationship_data = OperationExcleData(excelFile, "配置类型关系").getcase_tuple()
 configitem_relationship_data = OperationExcleData(excelFile, "配置项关系").getcase_tuple()
 
+@pytest.mark.cmdb
+@pytest.mark.run(order=4)
 @pytest.mark.parametrize("ID, testcases, categoryfrom, relationship, categoryto", category_relationship_data)
 def test_category_relationship(uri, headers, ID, testcases, categoryfrom, relationship, categoryto):
     """
@@ -45,7 +47,8 @@ def test_category_relationship(uri, headers, ID, testcases, categoryfrom, relati
                                                  json= create_categoryRelationship_param).json()
     assert create_categoryRelationship_response['status'] == 200
 
-
+@pytest.mark.cmdb
+@pytest.mark.run(order=5)
 @pytest.mark.parametrize("ID, testcases, fromcode, configitemfrom, relationship, tocode, configitemto", configitem_relationship_data)
 def test_configitem_relationship(uri, headers, ID, testcases, fromcode,configitemfrom, relationship, tocode,configitemto):
     """

@@ -14,7 +14,7 @@ excelFile = testdata_path + os.sep + "物理资源.xlsx"
 sheetName = "添加资源池"
 resourcepool_data = OperationExcleData(excelFile, sheetName).getcase_tuple()
 
-
+@pytest.mark.smoke
 @pytest.mark.run(order=2)
 @pytest.mark.parametrize("ID,testcases,regionname,name,type,descrption,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version", resourcepool_data)
 def test_createResourcePool(uri, headers,ID,testcases, regionname,name,type,descrption,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version):
@@ -95,7 +95,8 @@ def test_createResourcePool(uri, headers,ID,testcases, regionname,name,type,desc
         code = createbmsResourcePool_response['status']
         assert code == 200
 
-
+@pytest.mark.smoke_update
+@pytest.mark.run(order=2)
 @pytest.mark.parametrize("ID,testcases,regionname,name,type,description,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version", resourcepool_data)
 def test_update_resourcePool(uri, headers,ID,testcases, regionname,name,type,description,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version):
     """
@@ -178,22 +179,20 @@ def test_update_resourcePool(uri, headers,ID,testcases, regionname,name,type,des
         updatevcResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
                                                       data=json.dumps(update_vcresourcepool_data),
                                                       headers=headers).json()
-        code = updatevcResourcePool_response['status']
-        assert code == 200
+        assert updatevcResourcePool_response['status'] == 200
     elif type == "openstack":
         resourcepoolId = str(get_resourcepoolid(uri, headers, name))
-        updatevcResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
+        updateopResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
                                                       data=json.dumps(update_opresourcepool_data),
                                                       headers=headers).json()
-        code = updatevcResourcePool_response['status']
-        assert code == 200
+        assert updateopResourcePool_response['status'] == 200
+
     elif type == "baremetal":
         resourcepoolId = str(get_resourcepoolid(uri, headers, name))
         updatebmsResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
                                                        data=json.dumps(update_bmsresourcepool_data),
                                                        headers=headers).json()
-        code = updatebmsResourcePool_response['status']
-        assert code == 200
+        assert updatebmsResourcePool_response['status'] == 200
 
 
 def get_resourcepoolid(uri, headers, resourcepoolname):

@@ -3,6 +3,7 @@ import pytest
 from config import Conf
 import os
 from common.get_excel_data import OperationExcleData
+import time
 
 # 创建监控组url
 create_monitorgroup_url = "/admin/v1/groups"
@@ -84,8 +85,11 @@ def get_fixed_vm_name_list(uri, headers, name):
 
 
 # 创建监控组
+@pytest.mark.smoke
+@pytest.mark.run(order=37)
 @pytest.mark.parametrize('ID,name,description,userNames,vm_name', create_monitorgroup_param)
 def test_create_monitorgroup(uri, headers, ID, name, description, userNames, vm_name):
+    time.sleep(120)
     hostkey = str(get_vm_id(uri, headers, vm_name))
     create_monitorgroup_param = {
         "description": description,
@@ -104,6 +108,8 @@ def test_create_monitorgroup(uri, headers, ID, name, description, userNames, vm_
 
 
 # 编辑监控组
+@pytest.mark.smoke_update
+@pytest.mark.run(order=11)
 @pytest.mark.parametrize('ID,name,description,userNames,vm_name', update_monitorgroup_param)
 def test_update_orgnization(uri, headers, ID, name, description, userNames, vm_name):
     monitorgroup_Id = str(get_monitorgroup_id(uri, headers, name))
@@ -126,6 +132,8 @@ def test_update_orgnization(uri, headers, ID, name, description, userNames, vm_n
 
 
 # 删除监控组
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=8)
 @pytest.mark.parametrize('ID,name', delete_monitorgroup_param)
 def test_delete_monitorgroup(uri, headers, ID, name):
     monitorgroup_Id = str(get_monitorgroup_id(uri, headers, name))

@@ -132,22 +132,6 @@ def get_subnetip_id(uri, headers, network_name, subnet_name, ipaddress):
         if subnetip['ip'] == ipaddress:
             return subnetip['id']
 
-# # 获取资源池中分布式交换机名称列表
-# def get_dvswitch_name_list(uri, headers, network_name, network_resourcepool_name):
-#     network_dvswitch_name_list = []
-#     for i in get_dvswitch_list(uri, headers, network_name, network_resourcepool_name):
-#         network_dvswitch_name_list.append(i['name'])
-#     return network_dvswitch_name_list
-
-
-# 获取资源池中分布式交换机id
-def get_dvswitch_id(uri, headers, network_name, network_resourcepool_name, dvswitch_name):
-    network_dvswitch_id = []
-    for i in get_dvswitch_list(uri, headers, network_name, network_resourcepool_name):
-        if dvswitch_name == i['name']:
-            network_dvswitch_id = (i['id'])
-    return network_dvswitch_id
-
 
 ## 根据选择的资源池、网络获取可选择的端口组id
 def get_object_id(uri, headers, resourcepool, network_name):
@@ -246,6 +230,7 @@ def get_network_object_id(uri, headers, resourcepool, network_name,objectName):
 # 测试用例
 # ## 创建网络
 # ### 通过选择VLAN池创建网络
+@pytest.mark.smoke
 @pytest.mark.run(order=5)
 @pytest.mark.parametrize('name,type,vlanPoolName,category,tagType,description', param_create_network)
 def test_create_network(uri, headers, name, type, vlanPoolName, category, tagType,
@@ -273,12 +258,12 @@ def test_create_network(uri, headers, name, type, vlanPoolName, category, tagTyp
 
 
 ## 添加已有对象
+@pytest.mark.smoke
 @pytest.mark.run(order=6)
-@pytest.mark.parametrize('network_name,resourcePoolType,network_resourcepool_name', param_add_network_object)
-def test_add_network_object(uri, headers, network_name,resourcePoolType, network_resourcepool_name):
+@pytest.mark.parametrize('network_name,resourcePoolType,network_resourcepool_name,objectname', param_add_network_object)
+def test_add_network_object(uri, headers, network_name,resourcePoolType, network_resourcepool_name,objectname):
     network_id = get_network_id(uri, headers, network_name)
     network_resourcepool_id = get_resourcepoolid(uri, headers, network_resourcepool_name)
-    objectname = get_network_dvportgroup_name_list(uri, headers, resourcePoolType, network_resourcepool_name)[0]
     objectId = get_network_dvportgroup_id(uri, headers, resourcePoolType, network_resourcepool_name, objectname)
     param = [{
         'objectId': objectId,
@@ -292,10 +277,11 @@ def test_add_network_object(uri, headers, network_name,resourcePoolType, network
         headers=headers,
         json=param
     ).json()
-    code = add_network_object_response['status']
-    # assert code == 200
+    assert add_network_object_response['status'] == 200
+
 
 ## 创建新对象
+
 @pytest.mark.parametrize('network_name,resourcePoolType,network_resourcepool_name,object_name,dvsName', param_create_network_object)
 def test_create_network_object(uri, headers, network_name,resourcePoolType, network_resourcepool_name,object_name,dvsName):
     network_id = get_network_id(uri, headers, network_name)
@@ -341,6 +327,8 @@ def test_update_network_object(uri,headers,resourcepool,network_name,objectName,
     # assert updata_object_name in get_object_name_list(ip,port,headers,network_name)
 
 # 删除网络对象
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=4)
 @pytest.mark.parametrize('resourcepool, network_name,objectName', param_delete_network_object)
 def test_delete_network_object(uri, headers, resourcepool, network_name,objectName):
     object_id = get_network_object_id(uri, headers, resourcepool, network_name,objectName)
@@ -352,6 +340,7 @@ def test_delete_network_object(uri, headers, resourcepool, network_name,objectNa
     assert code == 200
 
 #添加子网
+@pytest.mark.smoke
 @pytest.mark.run(order=7)
 @pytest.mark.parametrize(
     'network_name,subnet_name,ipProtocol,cidr,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',
@@ -394,6 +383,8 @@ def test_create_subnet(uri, headers, network_name, subnet_name, ipProtocol, cidr
     assert subnet_name in get_subnet_name_list(uri, headers, network_name)
 
 #编辑子网
+@pytest.mark.smoke_update
+@pytest.mark.run(order=6)
 @pytest.mark.parametrize('network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',param_update_subnet)
 def test_update_subnet(uri,headers,network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns):
     subnetId=get_subnet_id(uri, headers, network_name, subnet_name)
@@ -411,6 +402,8 @@ def test_update_subnet(uri,headers,network_name,subnet_name,update_subnet_name,i
     assert code == 200
     
 #删除子网
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=5)
 @pytest.mark.parametrize('network_name,subnet_name',param_delete_subnet)
 def test_delete_subnet(uri,headers,network_name,subnet_name):
     subnetId=get_subnet_id(uri, headers, network_name, subnet_name)
@@ -420,6 +413,8 @@ def test_delete_subnet(uri,headers,network_name,subnet_name):
     assert code == 200
 
 #编辑网络
+@pytest.mark.smoke_update
+@pytest.mark.run(order=7)
 @pytest.mark.parametrize('network_name,update_network_name,category,tagType,description',param_update_network)
 def test_update_network(uri,headers,network_name,update_network_name,category,tagType,description):
     networkId=get_network_id(uri,headers,network_name)
@@ -435,6 +430,8 @@ def test_update_network(uri,headers,network_name,update_network_name,category,ta
     assert code == 200
 
 #删除网络
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=6)
 @pytest.mark.parametrize('ID,network_name',param_delete_network)
 def test_delete_network(uri, headers,ID,network_name):
     networkId = get_network_id(uri, headers, network_name)

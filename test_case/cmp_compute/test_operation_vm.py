@@ -43,6 +43,8 @@ instance_snapshot_data = OperationExcleData(excelFile, snapshot_sheetName).getca
 create_instance_url = "/admin/v1/instances"
 
 #虚拟机关机
+@pytest.mark.smoke
+@pytest.mark.run(order=11)
 @pytest.mark.parametrize("vmname,resourcepool", instance_data)
 def test_instance_powerOff(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -61,6 +63,8 @@ def test_instance_powerOff(uri, headers, vmname, resourcepool):
     time.sleep(60)
 
 #虚拟机开机
+@pytest.mark.smoke
+@pytest.mark.run(order=12)
 @pytest.mark.parametrize("vmname,resourcepool", instance_data)
 def test_instance_powerOn(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -79,6 +83,8 @@ def test_instance_powerOn(uri, headers, vmname, resourcepool):
     time.sleep(60)
 
 #克隆虚拟机
+@pytest.mark.smoke
+@pytest.mark.run(order=13)
 @pytest.mark.parametrize("cloned_vmname, resourcepool, count, region, tenant, project, hypervisorType, name,ostype, cpu, memory, network, subnet, ipaddress",instance_clone_data)
 def test_instance_clone(uri, headers, cloned_vmname, resourcepool, count, region, tenant, project, hypervisorType, name, ostype, cpu, memory, network, subnet, ipaddress):
     instance_id = get_instance_id(uri, headers, cloned_vmname, resourcepool)
@@ -139,6 +145,8 @@ def test_instance_clone(uri, headers, cloned_vmname, resourcepool, count, region
     time.sleep(300)
 
 #虚拟机挂起
+@pytest.mark.smoke
+@pytest.mark.run(order=14)
 @pytest.mark.parametrize("vmname,resourcepool", instance_data)
 def test_instance_suspend(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -150,6 +158,8 @@ def test_instance_suspend(uri, headers, vmname, resourcepool):
     time.sleep(120)
 
 #虚拟机恢复
+@pytest.mark.smoke
+@pytest.mark.run(order=15)
 @pytest.mark.parametrize("vmname,resourcepool", instance_data)
 def test_instance_resume(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -161,6 +171,8 @@ def test_instance_resume(uri, headers, vmname, resourcepool):
     time.sleep(120)
 
 #虚拟机硬重启
+@pytest.mark.smoke
+@pytest.mark.run(order=16)
 @pytest.mark.parametrize("vmname, resourcepool", instance_data)
 def test_instance_restart(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -177,7 +189,8 @@ def test_instance_restart(uri, headers, vmname, resourcepool):
     time.sleep(60)
 
 #虚拟机软重启
-
+@pytest.mark.smoke
+@pytest.mark.run(order=17)
 @pytest.mark.parametrize("vmname, resourcepool", instance_data)
 def test_instance_rebootOS(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -194,7 +207,8 @@ def test_instance_rebootOS(uri, headers, vmname, resourcepool):
     time.sleep(60)
 
 #虚拟机关闭操作系统
-
+@pytest.mark.smoke
+@pytest.mark.run(order=18)
 @pytest.mark.parametrize("vmname, resourcepool", instance_data)
 def test_instance_shutdownOS(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -211,6 +225,8 @@ def test_instance_shutdownOS(uri, headers, vmname, resourcepool):
     time.sleep(120)
 
 #编辑配置
+@pytest.mark.smoke
+@pytest.mark.run(order=19)
 @pytest.mark.parametrize("cpu, memory, name, resourcepool", instance_configCpuAndMemory_data)
 def test_instance_configCpuAndMemory(uri, headers, cpu, memory, name, resourcepool):
     instance_id = get_instance_id(uri, headers, name, resourcepool )
@@ -228,6 +244,8 @@ def test_instance_configCpuAndMemory(uri, headers, cpu, memory, name, resourcepo
     assert configCpuAndMemory_response["status"] == 200
 
 #编辑磁盘
+@pytest.mark.smoke
+@pytest.mark.run(order=20)
 @pytest.mark.parametrize("vmname, resourcepool, name, os, size, type, datastore", instance_disk_data)
 def test_instance_disks(uri, headers, vmname, resourcepool, name, os, size, type, datastore):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -249,6 +267,8 @@ def test_instance_disks(uri, headers, vmname, resourcepool, name, os, size, type
 
 
 #添加网卡
+@pytest.mark.smoke
+@pytest.mark.run(order=21)
 @pytest.mark.parametrize("vmname, resourcepool, resourcepoolType, network, subnet, ipaddress, type", instance_network_data)
 def test_instance_nic(uri, headers, vmname, resourcepool, resourcepoolType, network, subnet, ipaddress, type):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -293,6 +313,8 @@ def get_instance_nicId(uri, headers, instance_name, resourcepool, ipaddress):
             return nic["id"]
 
 #根据网卡id删除虚拟机网卡
+@pytest.mark.smoke
+@pytest.mark.run(order=22)
 @pytest.mark.parametrize("vmname, resourcepool, ipaddress", instance_deleteNic_data)
 def test_instance_delete_nic(uri, headers, vmname, resourcepool, ipaddress):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -303,6 +325,8 @@ def test_instance_delete_nic(uri, headers, vmname, resourcepool, ipaddress):
     assert instance_deleteNic_response["status"] == 200
 
 #同步虚拟机
+@pytest.mark.smoke
+@pytest.mark.run(order=23)
 @pytest.mark.parametrize("vmname, resourcepool", instance_data)
 def test_instance_sync(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -314,6 +338,8 @@ def test_instance_sync(uri, headers, vmname, resourcepool):
     assert instance_sync_response["status"] == 200
 
 #重置操作系统
+@pytest.mark.smoke
+@pytest.mark.run(order=24)
 @pytest.mark.parametrize("vmname, resourcepool", instance_data)
 def test_instance_resetOs(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -326,6 +352,8 @@ def test_instance_resetOs(uri, headers, vmname, resourcepool):
 
 
 #重装操作系统
+@pytest.mark.smoke
+@pytest.mark.run(order=25)
 @pytest.mark.parametrize("vmname, resourcepool, image", instance_rebuildOs_data)
 def test_instance_rebuildOs(uri, headers, vmname, resourcepool, image):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -338,6 +366,8 @@ def test_instance_rebuildOs(uri, headers, vmname, resourcepool, image):
 
 
 #虚拟机迁移
+@pytest.mark.smoke
+@pytest.mark.run(order=26)
 @pytest.mark.parametrize("vmname, resourcepool, hostname, storename", instance_migrate_data)
 def test_instance_migrate(uri, headers, vmname, resourcepool, hostname, storename):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -365,6 +395,8 @@ def test_instance_migrate(uri, headers, vmname, resourcepool, hostname, storenam
     assert instance_migrateStore_response["status"] == 200
 
 #创建快照
+@pytest.mark.smoke
+@pytest.mark.run(order=27)
 @pytest.mark.parametrize("vmname, resourcepool, name, desc, memory, quiesce", instance_snapshot_data)
 def test_instance_createSnapshot(uri, headers, vmname, resourcepool, name, desc, memory, quiesce):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)
@@ -394,6 +426,8 @@ def get_snapshot_id(uri, headers, vmname, resourcepool):
 
 #恢复快照
 #@pytest.mark.parametrize("vmname, resourcepool", instance_data)
+@pytest.mark.smoke
+@pytest.mark.run(order=28)
 def test_instance_revertSnapshot(uri, headers):
     vmname = instance_snapshot_data[0][0]
     resourcepool = instance_snapshot_data[0][1]
@@ -407,6 +441,8 @@ def test_instance_revertSnapshot(uri, headers):
     time.sleep(30)
 
 #删除快照
+@pytest.mark.smoke
+@pytest.mark.run(order=29)
 def test_instance_deleteSnapshot(uri, headers):
     vmname = instance_snapshot_data[0][0]
     resourcepool = instance_snapshot_data[0][1]
@@ -418,6 +454,8 @@ def test_instance_deleteSnapshot(uri, headers):
     assert instance_deleteSnapshot_response["status"] == 200
 
 #删除虚拟机
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=1)
 @pytest.mark.parametrize("vmname, resourcepool", instance_data)
 def test_instance_delete(uri, headers, vmname, resourcepool):
     instance_id = get_instance_id(uri, headers, vmname, resourcepool)

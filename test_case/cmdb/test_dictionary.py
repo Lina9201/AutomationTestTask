@@ -79,6 +79,8 @@ def get_parent_dictionaries_code(dictionaries_name):
             return parent_dictionaries_code
 
 #创建一级、二级字典
+@pytest.mark.cmdb
+@pytest.mark.run(order=6)
 @pytest.mark.parametrize('ID,testcases,dictionaries_name,dictionaries_code,parentDictionary',create_dictionaries_data)
 def test_create_dictionaries(uri,headers,ID,testcases,dictionaries_name,dictionaries_code,parentDictionary):
     parentDictionaryKey = get_dictionaries_key(parentDictionary)
@@ -96,6 +98,8 @@ def test_create_dictionaries(uri,headers,ID,testcases,dictionaries_name,dictiona
     assert code == 200
 
 #编辑一级、二级字典
+@pytest.mark.cmdb
+@pytest.mark.run(order=7)
 @pytest.mark.parametrize('ID,testcases,dictionaries_name,update_dictionaries_name',update_dictionaries_data)
 def test_update_dictionaries(uri,headers,ID,testcases,dictionaries_name,update_dictionaries_name):
     DictionaryKey=get_dictionaries_key(dictionaries_name)
@@ -115,6 +119,8 @@ def test_update_dictionaries(uri,headers,ID,testcases,dictionaries_name,update_d
     assert code == 200
 
 #删除字典
+@pytest.mark.cmdb
+@pytest.mark.run(order=8)
 @pytest.mark.parametrize("ID,testcases,dictionaries_name",delete_dictionarie_date)
 def test_delete_dictionaries(uri, headers,ID,testcases,dictionaries_name):
     DictionaryKey=get_dictionaries_key(dictionaries_name)
