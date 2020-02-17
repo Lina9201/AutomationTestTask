@@ -10,6 +10,8 @@ from test_case.cmdb.test_category import get_category_code
 from test_case.cmdb.test_group import get_group
 from test_case.cmdb.test_property import get_property
 from common.get_db_data import init_arangodb
+import allure
+from utils.LogUtil import my_log
 
 # 配置项url
 base_configitems_url = "/admin/v1/config_items"
@@ -21,6 +23,8 @@ delete_category_data = OperationExcleData(excelFile, "删除配置项").getcase_
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=3)
+@allure.feature("CMDB")
+@allure.story("创建配置项")
 @pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue", category_data)
 def test_create_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue):
    """
@@ -80,10 +84,15 @@ def test_create_configitems(uri, headers,ID, testcases,category,groupname,proper
        headers=headers,
        json=create_configitems_param
    ).json()
+   allure.attach("请求响应code", str(create_configitems_response['status']))
+   allure.attach("请求响应结果", str(create_configitems_response))
+   my_log().info(create_configitems_response)
    assert create_configitems_response['status'] == 200
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=6)
+@allure.feature("CMDB")
+@allure.story("编辑配置项")
 @pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue", update_category_data)
 def test_update_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue):
     """
@@ -141,10 +150,15 @@ def test_update_configitems(uri, headers,ID, testcases,category,groupname,proper
     update_configitems_response = requests.put(url = uri + base_configitems_url + "/" + configitem,
                                             headers = headers,
                                             json = update_configitems_param).json()
+    allure.attach("请求响应code", str(update_configitems_response['status']))
+    allure.attach("请求响应结果", str(update_configitems_response))
+    my_log().info(update_configitems_response)
     assert update_configitems_response['status'] == 200
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=7)
+@allure.feature("CMDB")
+@allure.story("删除配置项")
 @pytest.mark.parametrize("ID, testcases,namecode,configitem", delete_category_data)
 def test_delete_configitem(uri, headers,ID, testcases,namecode,configitem):
     """
@@ -161,6 +175,9 @@ def test_delete_configitem(uri, headers,ID, testcases,namecode,configitem):
     delete_configitem_response = requests.delete(url = uri + base_configitems_url + "/" + configitem,
                                                  headers = headers,
                                                  ).json()
+    allure.attach("请求响应code", str(delete_configitem_response['status']))
+    allure.attach("请求响应结果", str(delete_configitem_response))
+    my_log().info(delete_configitem_response)
     assert delete_configitem_response['status'] == 200
 
 def get_configitem_key(propertyCode,itemName):

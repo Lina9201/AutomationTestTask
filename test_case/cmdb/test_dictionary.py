@@ -4,6 +4,8 @@ import os
 from config import Conf
 from common.get_excel_data import OperationExcleData
 from common.get_db_data import init_arangodb
+import allure
+from utils.LogUtil import my_log
 
 #创建、编辑、删除字典url
 create_dictionaries_url = "/admin/v1/dictionaries"
@@ -81,6 +83,8 @@ def get_parent_dictionaries_code(dictionaries_name):
 #创建一级、二级字典
 @pytest.mark.cmdb
 @pytest.mark.run(order=6)
+@allure.feature("CMDB")
+@allure.story("创建字典")
 @pytest.mark.parametrize('ID,testcases,dictionaries_name,dictionaries_code,parentDictionary',create_dictionaries_data)
 def test_create_dictionaries(uri,headers,ID,testcases,dictionaries_name,dictionaries_code,parentDictionary):
     parentDictionaryKey = get_dictionaries_key(parentDictionary)
@@ -95,11 +99,15 @@ def test_create_dictionaries(uri,headers,ID,testcases,dictionaries_name,dictiona
     create_dictionaries_response=requests.post(url=uri+create_dictionaries_url,
                                                headers=headers,json=create_dictionaries_param).json()
     code=create_dictionaries_response['status']
+    allure.attach("请求响应code", str(create_dictionaries_response['status']))
+    allure.attach("请求响应结果", str(create_dictionaries_response))
     assert code == 200
 
 #编辑一级、二级字典
 @pytest.mark.cmdb
 @pytest.mark.run(order=7)
+@allure.feature("CMDB")
+@allure.story("编辑字典")
 @pytest.mark.parametrize('ID,testcases,dictionaries_name,update_dictionaries_name',update_dictionaries_data)
 def test_update_dictionaries(uri,headers,ID,testcases,dictionaries_name,update_dictionaries_name):
     DictionaryKey=get_dictionaries_key(dictionaries_name)
@@ -116,11 +124,16 @@ def test_update_dictionaries(uri,headers,ID,testcases,dictionaries_name,update_d
     update_dictionaries_response=requests.put(url=uri+update_dictionaries_url+str(DictionaryKey),
                                               headers=headers,json=update_dictionaries_param).json()
     code=update_dictionaries_response['status']
+    allure.attach("请求响应code", str(update_dictionaries_response['status']))
+    allure.attach("请求响应结果", str(update_dictionaries_response))
+    my_log().info(update_dictionaries_response)
     assert code == 200
 
 #删除字典
 @pytest.mark.cmdb
 @pytest.mark.run(order=8)
+@allure.feature("CMDB")
+@allure.story("删除字典")
 @pytest.mark.parametrize("ID,testcases,dictionaries_name",delete_dictionarie_date)
 def test_delete_dictionaries(uri, headers,ID,testcases,dictionaries_name):
     DictionaryKey=get_dictionaries_key(dictionaries_name)
@@ -129,4 +142,6 @@ def test_delete_dictionaries(uri, headers,ID,testcases,dictionaries_name):
         headers=headers
     ).json()
     code = delete_dictionaries_response["status"]
+    allure.attach("请求响应code", str(delete_dictionaries_response['status']))
+    allure.attach("请求响应结果", str(delete_dictionaries_response))
     assert code == 200

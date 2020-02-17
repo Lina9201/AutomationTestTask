@@ -10,6 +10,8 @@ import requests
 from test_case.cmdb.test_category import get_categorykey
 from test_case.cmdb.test_dictionary import get_dictionary
 from test_case.cmdb.test_configitems import get_configitem_key
+import allure
+from utils.LogUtil import my_log
 
 
 category_relationship_url = "/admin/v1/relationships/category_to_category"
@@ -21,6 +23,8 @@ configitem_relationship_data = OperationExcleData(excelFile, "配置项关系").
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=4)
+@allure.feature("CMDB")
+@allure.story("创建配置类型间关系")
 @pytest.mark.parametrize("ID, testcases, categoryfrom, relationship, categoryto", category_relationship_data)
 def test_category_relationship(uri, headers, ID, testcases, categoryfrom, relationship, categoryto):
     """
@@ -45,10 +49,15 @@ def test_category_relationship(uri, headers, ID, testcases, categoryfrom, relati
     create_categoryRelationship_response = requests.post(url = uri + category_relationship_url,
                                                  headers = headers,
                                                  json= create_categoryRelationship_param).json()
+    allure.attach("请求响应code", str(create_categoryRelationship_response['status']))
+    allure.attach("请求响应结果", str(create_categoryRelationship_response))
+    my_log().info(create_categoryRelationship_response)
     assert create_categoryRelationship_response['status'] == 200
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=5)
+@allure.feature("CMDB")
+@allure.story("创建配置项间关系")
 @pytest.mark.parametrize("ID, testcases, fromcode, configitemfrom, relationship, tocode, configitemto", configitem_relationship_data)
 def test_configitem_relationship(uri, headers, ID, testcases, fromcode,configitemfrom, relationship, tocode,configitemto):
     """
@@ -74,7 +83,10 @@ def test_configitem_relationship(uri, headers, ID, testcases, fromcode,configite
     }]
     create_configitemRelationship_response = requests.post(url = uri + configitem_relationship_url,
                                                            headers = headers,
-                                                           json = create_configitemRelationship_param).json()
+                                                           json =create_configitemRelationship_param).json()
+    allure.attach("请求响应code", str(create_configitemRelationship_response['status']))
+    allure.attach("请求响应结果", str(create_configitemRelationship_response))
+    my_log().info(create_configitemRelationship_response)
     assert create_configitemRelationship_response['status'] == 200
 
 
