@@ -5,6 +5,8 @@ import os
 from config import Conf
 from common.get_excel_data import OperationExcleData
 from test_case.cmp_compute.test_datacenter import get_datacenterid, get_datacenter
+import allure
+from utils.LogUtil import my_log
 
 # 添加资源池请求url
 createResourcePool_url = "/admin/v1/resourcepools"
@@ -17,6 +19,8 @@ resourcepool_data = OperationExcleData(excelFile, sheetName).getcase_tuple()
 @pytest.mark.smoke
 @pytest.mark.run(order=2)
 @pytest.mark.parametrize("ID,testcases,regionname,name,type,descrption,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version", resourcepool_data)
+@allure.feature("计算资源")
+@allure.story("添加资源池")
 def test_createResourcePool(uri, headers,ID,testcases, regionname,name,type,descrption,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version):
     """
     添加资源池接口
@@ -81,23 +85,34 @@ def test_createResourcePool(uri, headers,ID,testcases, regionname,name,type,desc
                                               data=json.dumps(create_vcresourcepool_data),
                                               headers=headers).json()
         code = createvcResourcePool_response['status']
+        allure.attach("请求响应code", str(createvcResourcePool_response['status']))
+        allure.attach("请求响应结果", str(createvcResourcePool_response))
+        my_log().info(createvcResourcePool_response)
         assert code == 200
     elif type == "openstack":
         createvcResourcePool_response = requests.post(url=uri + createResourcePool_url,
                                                       data=json.dumps(create_opresourcepool_data),
                                                       headers=headers).json()
         code = createvcResourcePool_response['status']
+        allure.attach("请求响应code", str(createvcResourcePool_response['status']))
+        allure.attach("请求响应结果", str(createvcResourcePool_response))
+        my_log().info(createvcResourcePool_response)
         assert code == 200
     elif type == "baremetal":
         createbmsResourcePool_response = requests.post(url=uri + createResourcePool_url,
                                                        data=json.dumps(create_bmsresourcepool_data),
                                                        headers=headers).json()
         code = createbmsResourcePool_response['status']
+        allure.attach("请求响应code", str(createbmsResourcePool_response['status']))
+        allure.attach("请求响应结果", str(createbmsResourcePool_response))
+        my_log().info(createbmsResourcePool_response)
         assert code == 200
 
 @pytest.mark.smoke_update
 @pytest.mark.run(order=2)
 @pytest.mark.parametrize("ID,testcases,regionname,name,type,description,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version", resourcepool_data)
+@allure.feature("计算资源")
+@allure.story("编辑资源池")
 def test_update_resourcePool(uri, headers,ID,testcases, regionname,name,type,description,rpip,rpport,proxyIp,proxyPort,username,password,datacenter,domain,projectId,protocol,region,version):
     """
     编辑资源池接口
@@ -179,12 +194,18 @@ def test_update_resourcePool(uri, headers,ID,testcases, regionname,name,type,des
         updatevcResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
                                                       data=json.dumps(update_vcresourcepool_data),
                                                       headers=headers).json()
+        allure.attach("请求响应code", str(updatevcResourcePool_response['status']))
+        allure.attach("请求响应结果", str(updatevcResourcePool_response))
+        my_log().info(updatevcResourcePool_response)
         assert updatevcResourcePool_response['status'] == 200
     elif type == "openstack":
         resourcepoolId = str(get_resourcepoolid(uri, headers, name))
         updateopResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
                                                       data=json.dumps(update_opresourcepool_data),
                                                       headers=headers).json()
+        allure.attach("请求响应code", str(updateopResourcePool_response['status']))
+        allure.attach("请求响应结果", str(updateopResourcePool_response))
+        my_log().info(updateopResourcePool_response)
         assert updateopResourcePool_response['status'] == 200
 
     elif type == "baremetal":
@@ -192,6 +213,9 @@ def test_update_resourcePool(uri, headers,ID,testcases, regionname,name,type,des
         updatebmsResourcePool_response = requests.put(url=uri + createResourcePool_url + '/' + resourcepoolId,
                                                        data=json.dumps(update_bmsresourcepool_data),
                                                        headers=headers).json()
+        allure.attach("请求响应code", str(updatebmsResourcePool_response['status']))
+        allure.attach("请求响应结果", str(updatebmsResourcePool_response))
+        my_log().info(updatebmsResourcePool_response)
         assert updatebmsResourcePool_response['status'] == 200
 
 

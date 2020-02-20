@@ -7,6 +7,9 @@ from common.get_excel import read_excel, read_excel_tuple
 from test_case.network_resource.test_vlanpool import get_vlanpool_id
 from test_case.network_resource.test_vlanpool import get_vlan_id
 from test_case.cmp_compute.test_resourcepool import get_resourcepoolid
+import allure
+from utils.LogUtil import my_log
+
 
 ## 创建网络
 create_network_url_path = '/admin/v1/networks/'
@@ -233,6 +236,8 @@ def get_network_object_id(uri, headers, resourcepool, network_name,objectName):
 @pytest.mark.smoke
 @pytest.mark.run(order=5)
 @pytest.mark.parametrize('name,type,vlanPoolName,category,tagType,description', param_create_network)
+@allure.feature("网络资源")
+@allure.story("创建网络")
 def test_create_network(uri, headers, name, type, vlanPoolName, category, tagType,
                         description):
     vlanPoolId = get_vlanpool_id(uri, headers, vlanPoolName)
@@ -253,6 +258,9 @@ def test_create_network(uri, headers, name, type, vlanPoolName, category, tagTyp
     ).json()
     print(create_network_response)
     code = create_network_response['status']
+    allure.attach("请求响应code", str(create_network_response['status']))
+    allure.attach("请求响应结果", str(create_network_response))
+    my_log().info(create_network_response)
     assert code == 200
 
 
@@ -261,6 +269,8 @@ def test_create_network(uri, headers, name, type, vlanPoolName, category, tagTyp
 @pytest.mark.smoke
 @pytest.mark.run(order=6)
 @pytest.mark.parametrize('network_name,resourcePoolType,network_resourcepool_name,objectname', param_add_network_object)
+@allure.feature("网络资源")
+@allure.story("添加已有对象")
 def test_add_network_object(uri, headers, network_name,resourcePoolType, network_resourcepool_name,objectname):
     network_id = get_network_id(uri, headers, network_name)
     network_resourcepool_id = get_resourcepoolid(uri, headers, network_resourcepool_name)
@@ -277,6 +287,9 @@ def test_add_network_object(uri, headers, network_name,resourcePoolType, network
         headers=headers,
         json=param
     ).json()
+    allure.attach("请求响应code", str(add_network_object_response['status']))
+    allure.attach("请求响应结果", str(add_network_object_response))
+    my_log().info(add_network_object_response)
     assert add_network_object_response['status'] == 200
 
 
@@ -284,6 +297,8 @@ def test_add_network_object(uri, headers, network_name,resourcePoolType, network
 @pytest.mark.smoke
 @pytest.mark.run(order=7)
 @pytest.mark.parametrize('network_name,resourcePoolType,network_resourcepool_name,object_name,dvsName', param_create_network_object)
+@allure.feature("网络资源")
+@allure.story("添加新对象")
 def test_create_network_object(uri, headers, network_name,resourcePoolType, network_resourcepool_name,object_name,dvsName):
     network_id = get_network_id(uri, headers, network_name)
     network_resourcepool_id = get_resourcepoolid(uri, headers, network_resourcepool_name)
@@ -299,12 +314,17 @@ def test_create_network_object(uri, headers, network_name,resourcePoolType, netw
         json=param[0]
     ).json()
     code = create_network_object_response['status']
+    allure.attach("请求响应code", str(create_network_object_response['status']))
+    allure.attach("请求响应结果", str(create_network_object_response))
+    my_log().info(create_network_object_response)
     assert code == 200
 
 # 编辑网络对象
 @pytest.mark.smoke_update
 @pytest.mark.run(order=6)
 @pytest.mark.parametrize('resourcepool,network_name,objectName,updata_object_name,resourcePoolType', param_update_network_object)
+@allure.feature("网络资源")
+@allure.story("编辑网络对象")
 def test_update_network_object(uri,headers,resourcepool,network_name,objectName,updata_object_name,resourcePoolType):
     id = get_network_object_id(uri, headers, resourcepool, network_name,objectName)
     network_id =get_network_id(uri,headers,network_name)
@@ -326,6 +346,9 @@ def test_update_network_object(uri,headers,resourcepool,network_name,objectName,
         json=param
     ).json()
     code = update_network_object_response['status']
+    allure.attach("请求响应code", str(update_network_object_response['status']))
+    allure.attach("请求响应结果", str(update_network_object_response))
+    my_log().info(update_network_object_response)
     assert code == 200
     # assert updata_object_name in get_object_name_list(ip,port,headers,network_name)
 
@@ -333,6 +356,8 @@ def test_update_network_object(uri,headers,resourcepool,network_name,objectName,
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=4)
 @pytest.mark.parametrize('resourcepool, network_name,objectName', param_delete_network_object)
+@allure.feature("网络资源")
+@allure.story("删除网络对象")
 def test_delete_network_object(uri, headers, resourcepool, network_name,objectName):
     object_id = get_network_object_id(uri, headers, resourcepool, network_name,objectName)
     delete_network_object_response = requests.delete(
@@ -340,6 +365,9 @@ def test_delete_network_object(uri, headers, resourcepool, network_name,objectNa
         headers=headers
     ).json()
     code = delete_network_object_response["status"]
+    allure.attach("请求响应code", str(delete_network_object_response['status']))
+    allure.attach("请求响应结果", str(delete_network_object_response))
+    my_log().info(delete_network_object_response)
     assert code == 200
 
 #添加子网
@@ -348,6 +376,8 @@ def test_delete_network_object(uri, headers, resourcepool, network_name,objectNa
 @pytest.mark.parametrize(
     'network_name,subnet_name,ipProtocol,cidr,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',
     param_create_subnet)
+@allure.feature("网络资源")
+@allure.story("添加子网")
 def test_create_subnet(uri, headers, network_name, subnet_name, ipProtocol, cidr, isGatewayDisabled, gatewayIp,
                        ipPools, preferredDns, alternateDns):
     """
@@ -382,6 +412,9 @@ def test_create_subnet(uri, headers, network_name, subnet_name, ipProtocol, cidr
         json=param
     ).json()
     code = create_subnet_response['status']
+    allure.attach("请求响应code", str(create_subnet_response['status']))
+    allure.attach("请求响应结果", str(create_subnet_response))
+    my_log().info(create_subnet_response)
     assert code == 200
     assert subnet_name in get_subnet_name_list(uri, headers, network_name)
 
@@ -389,6 +422,8 @@ def test_create_subnet(uri, headers, network_name, subnet_name, ipProtocol, cidr
 @pytest.mark.smoke_update
 @pytest.mark.run(order=7)
 @pytest.mark.parametrize('network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns',param_update_subnet)
+@allure.feature("网络资源")
+@allure.story("编辑子网")
 def test_update_subnet(uri,headers,network_name,subnet_name,update_subnet_name,isGatewayDisabled,gatewayIp,ipPools,preferredDns,alternateDns):
     subnetId=get_subnet_id(uri, headers, network_name, subnet_name)
     update_subnet_param={
@@ -401,23 +436,33 @@ def test_update_subnet(uri,headers,network_name,subnet_name,update_subnet_name,i
     }
     update_subnet_response=requests.put(url=uri+update_subnet_url_path+str(subnetId),
                                          headers=headers,json=update_subnet_param).json()
+    allure.attach("请求响应code", str(update_subnet_response['status']))
+    allure.attach("请求响应结果", str(update_subnet_response))
+    my_log().info(update_subnet_response)
     assert update_subnet_response['status'] == 200
     
 #删除子网
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=5)
 @pytest.mark.parametrize('network_name,subnet_name',param_delete_subnet)
+@allure.feature("网络资源")
+@allure.story("删除子网")
 def test_delete_subnet(uri,headers,network_name,subnet_name):
     subnetId=get_subnet_id(uri, headers, network_name, subnet_name)
     delete_subnet_response=requests.delete(url=uri+delete_subnet_url_path+str(subnetId),
                                            headers=headers).json()
     code=delete_subnet_response['status']
+    allure.attach("请求响应code", str(delete_subnet_response['status']))
+    allure.attach("请求响应结果", str(delete_subnet_response))
+    my_log().info(delete_subnet_response)
     assert code == 200
 
 #编辑网络
 @pytest.mark.smoke_update
 @pytest.mark.run(order=8)
 @pytest.mark.parametrize('network_name,update_network_name,category,tagType,description',param_update_network)
+@allure.feature("网络资源")
+@allure.story("编辑网络")
 def test_update_network(uri,headers,network_name,update_network_name,category,tagType,description):
     networkId=get_network_id(uri,headers,network_name)
     update_network_param={
@@ -429,15 +474,23 @@ def test_update_network(uri,headers,network_name,update_network_name,category,ta
     update_network_response=requests.put(url=uri+update_network_url_path+str(networkId),
                                          headers=headers,json=update_network_param).json()
     code=update_network_response['status']
+    allure.attach("请求响应code", str(update_network_response['status']))
+    allure.attach("请求响应结果", str(update_network_response))
+    my_log().info(update_network_response)
     assert code == 200
 
 #删除网络
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=6)
 @pytest.mark.parametrize('ID,network_name',param_delete_network)
+@allure.feature("网络资源")
+@allure.story("删除网络")
 def test_delete_network(uri, headers,ID,network_name):
     networkId = get_network_id(uri, headers, network_name)
     delete_network_response=requests.delete(url=uri+delete_network_url_path+str(networkId),
                                            headers=headers).json()
     code=delete_network_response['status']
+    allure.attach("请求响应code", str(delete_network_response['status']))
+    allure.attach("请求响应结果", str(delete_network_response))
+    my_log().info(delete_network_response)
     assert code == 200

@@ -4,6 +4,8 @@ import json
 from config import Conf
 import os
 from common.get_excel_data import OperationExcleData
+import allure
+from utils.LogUtil import my_log
 
 # 创建组织url
 create_orgnization_url = "/admin/v1/organizations"
@@ -101,6 +103,8 @@ def get_user_account_id(uri, headers, account, init_name):
 @pytest.mark.smoke
 @pytest.mark.run(order=32)
 @pytest.mark.parametrize('ID,alias,parentId,name', create_orgnization_param)
+@allure.feature("组织用户")
+@allure.story("创建组织")
 def test_create_orgnization(uri, headers, ID, alias, parentId, name):
     create_orgnization_param = {
         "alias": alias,
@@ -111,6 +115,9 @@ def test_create_orgnization(uri, headers, ID, alias, parentId, name):
         headers=headers,
         json=create_orgnization_param
     ).json()
+    allure.attach("请求响应code", str(create_orgnization_response['status']))
+    allure.attach("请求响应结果", str(create_orgnization_response))
+    my_log().info(create_orgnization_response)
     assert create_orgnization_response['status'] == 200
     # 断言名称在组织列表
     assert name in get_orgnization_name_list(uri, headers)
@@ -121,6 +128,8 @@ def test_create_orgnization(uri, headers, ID, alias, parentId, name):
 @pytest.mark.run(order=33)
 @pytest.mark.parametrize('ID,org_name,account,password,name,status,mobilePhone,birstday,sex,isManager,roles',
                          create_user_param)
+@allure.feature("组织用户")
+@allure.story("组织下创建用户")
 def test_create_user(uri, headers, ID, org_name, account, password, name, status, mobilePhone, birstday, sex, isManager,
                      roles):
     orgnization_id = get_orgnization_id(uri, headers, org_name)
@@ -144,6 +153,9 @@ def test_create_user(uri, headers, ID, org_name, account, password, name, status
         headers=headers,
         json=create_param
     ).json()
+    allure.attach("请求响应code", str(create_user_response['status']))
+    allure.attach("请求响应结果", str(create_user_response))
+    my_log().info(create_user_response)
     assert create_user_response['status'] == 200
     # 断言用户名在列表里
     assert account in get_user_account_list(uri, headers, org_name)
@@ -155,6 +167,8 @@ def test_create_user(uri, headers, ID, org_name, account, password, name, status
 @pytest.mark.smoke
 @pytest.mark.run(order=34)
 @pytest.mark.parametrize('ID,password,org_name,account', update_user_password_param)
+@allure.feature("组织用户")
+@allure.story("修改用户密码")
 def test_update_password(uri, headers, ID, password, org_name, account):
     user_id = str(get_user_account_id(uri, headers, account, org_name))
     password_url = "/password"
@@ -165,6 +179,9 @@ def test_update_password(uri, headers, ID, password, org_name, account):
         headers=headers,
         json=update_password_param
     ).json()
+    allure.attach("请求响应code", str(update_password_param['status']))
+    allure.attach("请求响应结果", str(update_password_param))
+    my_log().info(update_password_param)
     assert update_user_password_response['status'] == 200
 
 
@@ -172,6 +189,8 @@ def test_update_password(uri, headers, ID, password, org_name, account):
 @pytest.mark.smoke
 @pytest.mark.run(order=35)
 @pytest.mark.parametrize('ID,org_name,account,name,status,mobilePhone,birstday,sex,isManager,roles', update_user_param)
+@allure.feature("组织用户")
+@allure.story("编辑组织下用户")
 def test_udpate_user(uri, headers, ID, org_name, account, name, status, mobilePhone, birstday, sex, isManager, roles):
     user_id = str(get_user_account_id(uri, headers, account, org_name))
     roled = json.loads(roles)
@@ -192,6 +211,9 @@ def test_udpate_user(uri, headers, ID, org_name, account, name, status, mobilePh
         headers=headers,
         json=update_user_param
     ).json()
+    allure.attach("请求响应code", str(udpate_user_response['status']))
+    allure.attach("请求响应结果", str(udpate_user_response))
+    my_log().info(udpate_user_response)
     assert udpate_user_response['status'] == 200
     # 断言用户名在列表里
     assert account in get_user_account_list(uri, headers, org_name)
@@ -203,6 +225,8 @@ def test_udpate_user(uri, headers, ID, org_name, account, name, status, mobilePh
 @pytest.mark.smoke
 @pytest.mark.run(order=36)
 @pytest.mark.parametrize('ID,org_name,exsiting_org_name,exsiting_account', create_exsiting_user_param)
+@allure.feature("组织用户")
+@allure.story("组织下添加已经用户")
 def test_create_existing_user(uri, headers, ID, org_name, exsiting_org_name, exsiting_account):
     user_id = str(get_user_account_id(uri, headers, exsiting_account, exsiting_org_name))
     exsiting_orgnization_id = str(get_orgnization_id(uri, headers, exsiting_org_name))
@@ -218,6 +242,9 @@ def test_create_existing_user(uri, headers, ID, org_name, exsiting_org_name, exs
         headers=headers,
         json=create_existing_user_param
     ).json()
+    allure.attach("请求响应code", str(create_existing_user_param['status']))
+    allure.attach("请求响应结果", str(create_existing_user_param))
+    my_log().info(create_existing_user_param)
     assert create_existing_response['status'] == 200
     # 断言用户名在列表里
     assert exsiting_account in get_user_account_list(uri, headers, org_name)
@@ -227,6 +254,8 @@ def test_create_existing_user(uri, headers, ID, org_name, exsiting_org_name, exs
 @pytest.mark.smoke
 @pytest.mark.run(order=37)
 @pytest.mark.parametrize('ID,org_name,exsiting_org_name,exsiting_account', remove_exsiting_user_param)
+@allure.feature("组织用户")
+@allure.story("组织下移除用户")
 def test_remove_existing_user(uri, headers, ID, org_name, exsiting_org_name, exsiting_account):
     orgnization_id = str(get_orgnization_id(uri, headers, org_name))
     user_id = str(get_user_account_id(uri, headers, exsiting_account, exsiting_org_name))
@@ -235,6 +264,9 @@ def test_remove_existing_user(uri, headers, ID, org_name, exsiting_org_name, exs
         url=uri + update_orgnization_url + orgnization_id + users_url + user_id,
         headers=headers
     ).json()
+    allure.attach("请求响应code", str(remove_existing_user_response['status']))
+    allure.attach("请求响应结果", str(remove_existing_user_response))
+    my_log().info(remove_existing_user_response)
     assert remove_existing_user_response['status'] == 200
     # 断言用户名不在列表里
     assert exsiting_account not in get_user_account_list(uri, headers, org_name)
@@ -244,6 +276,8 @@ def test_remove_existing_user(uri, headers, ID, org_name, exsiting_org_name, exs
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=9)
 @pytest.mark.parametrize('ID,org_name,account', delete_user_param)
+@allure.feature("组织用户")
+@allure.story("删除用户")
 def test_delete_user(uri, headers, ID, org_name, account):
     # 删除编辑后的用户胡
     user_id = str(get_user_account_id(uri, headers, account, org_name))
@@ -251,6 +285,9 @@ def test_delete_user(uri, headers, ID, org_name, account):
         url=uri + update_user_url + user_id,
         headers=headers
     ).json()
+    allure.attach("请求响应code", str(delete_user_response['status']))
+    allure.attach("请求响应结果", str(delete_user_response))
+    my_log().info(delete_user_response)
     assert delete_user_response["status"] == 200
     # 断言用户名不在列表里
     assert account not in get_user_account_list(uri, headers, org_name)
@@ -260,6 +297,8 @@ def test_delete_user(uri, headers, ID, org_name, account):
 @pytest.mark.smoke_update
 @pytest.mark.run(order=11)
 @pytest.mark.parametrize('ID,init_name,alias,name,parentId', update_orgnization_param)
+@allure.feature("组织用户")
+@allure.story("编辑组织")
 def test_update_orgnization(uri, headers, ID, init_name, alias, name, parentId):
     orgnization_Id = str(get_orgnization_id(uri, headers, init_name))
     update_orgnization_param = {
@@ -272,6 +311,9 @@ def test_update_orgnization(uri, headers, ID, init_name, alias, name, parentId):
         headers=headers,
         json=update_orgnization_param
     ).json()
+    allure.attach("请求响应code", str(update_orgnization_response['status']))
+    allure.attach("请求响应结果", str(update_orgnization_response))
+    my_log().info(update_orgnization_response)
     assert update_orgnization_response['status'] == 200
     # 断言组织在列表里
     assert name in get_orgnization_name_list(uri, headers)
@@ -281,11 +323,16 @@ def test_update_orgnization(uri, headers, ID, init_name, alias, name, parentId):
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=10)
 @pytest.mark.parametrize('ID,name', delete_orgnization_param)
+@allure.feature("组织用户")
+@allure.story("删除组织")
 def test_delete_orgnization(uri, headers, ID, name):
     orgnization_Id = str(get_orgnization_id(uri, headers, name))
     delete_orgnization_response = requests.delete(
         url=uri + update_orgnization_url + orgnization_Id,
         headers=headers).json()
+    allure.attach("请求响应code", str(delete_orgnization_response['status']))
+    allure.attach("请求响应结果", str(delete_orgnization_response))
+    my_log().info(delete_orgnization_response)
     assert delete_orgnization_response["status"] == 200
     # 断言组织已删除
     assert name not in get_orgnization_name_list(uri, headers)

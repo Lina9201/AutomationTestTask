@@ -14,6 +14,8 @@ from test_case.cmp_compute.test_datacenter import get_datacenterid
 from test_case.business_management.test_tenant import get_tenant_id, get_project_id
 from test_case.network_resource.test_network import get_network_id, get_subnet_id, get_subnetip_id,get_object_id
 import time
+import allure
+from utils.LogUtil import my_log
 
 
 # 创建虚拟机请求url
@@ -30,6 +32,8 @@ instance_data = OperationExcleData(excelFile, sheetName).getcase_tuple()
 @pytest.mark.smoke
 @pytest.mark.run(order=12)
 @pytest.mark.parametrize("resourcepooltype,region,resourcepool,tenant,project,vmname,account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress", instance_data)
+@allure.feature("虚拟机")
+@allure.story("创建虚拟机")
 def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, project, vmname,
             account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress):
 
@@ -91,6 +95,9 @@ def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, p
             create_vm_response = requests.post(url = uri + create_instance_url,
                                                headers = headers,
                                                data=json.dumps(create_instance_data)).json()
+            allure.attach("请求响应code", str(create_vm_response['status']))
+            allure.attach("请求响应结果", str(create_vm_response))
+            my_log().info(create_vm_response)
             assert create_vm_response['status'] == 200
             time.sleep(120)
 

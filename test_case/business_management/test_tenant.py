@@ -5,6 +5,9 @@ import os
 from config import Conf
 from common.get_excel_data import OperationExcleData
 from common.get_excel import read_excel_tuple
+import allure
+from utils.LogUtil import my_log
+
 
 get_user_url = "/admin/v1/users"
 create_tenant_url="/admin/v1/vdcs/"
@@ -30,11 +33,16 @@ delete_tenant_data=OperationExcleData(excelFile, '删除租户').getcase_tuple()
 @pytest.mark.smoke
 @pytest.mark.run(order=9)
 @pytest.mark.parametrize("create_tenant_data",create_tenant_data)
+@allure.feature("业务管理")
+@allure.story("创建租户")
 def test_create_tenant(uri, headers, create_tenant_data):
     createTenant_response = requests.post(url=uri + create_tenant_url,
                                          data=json.dumps(create_tenant_data),
                                          headers=headers)
     code = createTenant_response.status_code
+    allure.attach("请求响应code", str(createTenant_response['status']))
+    allure.attach("请求响应结果", str(createTenant_response))
+    my_log().info(createTenant_response)
     assert code == 200
 
 #查询租户id
@@ -58,6 +66,8 @@ def get_tenant_id(uri, headers, tenantname):
 @pytest.mark.smoke_update
 @pytest.mark.run(order=9)
 @pytest.mark.parametrize("ID, testcases,tenant,name,description,enableQuotas",update_tenant_data)
+@allure.feature("业务管理")
+@allure.story("编辑租户")
 def test_update_tenant(uri,headers,ID,testcases,tenant,name,description,enableQuotas):
     tenant_id = get_tenant_id(uri, headers, tenant)
     update_tenant_data_param={
@@ -69,6 +79,9 @@ def test_update_tenant(uri,headers,ID,testcases,tenant,name,description,enableQu
                                         data=json.dumps(update_tenant_data_param),
                                         headers=headers).json()
     code = updateTenant_response['status']
+    allure.attach("请求响应code", str(updateTenant_response['status']))
+    allure.attach("请求响应结果", str(updateTenant_response))
+    my_log().info(updateTenant_response)
     assert code == 200
 
 #根据账号名称获取userID
@@ -84,6 +97,8 @@ def get_user_id(uri, headers, account):
 @pytest.mark.smoke
 @pytest.mark.run(order=10)
 @pytest.mark.parametrize("ID,testcases,tenant,account,role",manage_user_data)
+@allure.feature("业务管理")
+@allure.story("租户成员管理")
 def test_manage_user(uri,headers,ID,testcases,tenant,account,role):
     tenant_id = get_tenant_id(uri, headers, tenant)
     user_id=get_user_id(uri, headers, account)
@@ -97,12 +112,17 @@ def test_manage_user(uri,headers,ID,testcases,tenant,account,role):
                                         data=json.dumps(manage__user_param),
                                         headers=headers).json()
     code = manage_user_response['status']
+    allure.attach("请求响应code", str(manage_user_response['status']))
+    allure.attach("请求响应结果", str(manage_user_response))
+    my_log().info(manage_user_response)
     assert code == 200
 
 # 创建项目
 @pytest.mark.smoke
 @pytest.mark.run(order=11)
 @pytest.mark.parametrize("tenantname, projectname, description", create_project_data)
+@allure.feature("业务管理")
+@allure.story("创建项目")
 def test_create_project(uri, headers, tenantname, projectname, description):
     tenant_id = get_tenant_id(uri, headers, tenantname)
     create_project_data_param={
@@ -115,6 +135,9 @@ def test_create_project(uri, headers, tenantname, projectname, description):
                                          data=json.dumps(create_project_data_param),
                                          headers=headers).json()
     code = createProject_response['status']
+    allure.attach("请求响应code", str(createProject_response['status']))
+    allure.attach("请求响应结果", str(createProject_response))
+    my_log().info(createProject_response)
     assert code == 200
 
 
@@ -137,6 +160,8 @@ def get_project_id(uri, headers, projectname):
 @pytest.mark.smoke_update
 @pytest.mark.run(order=10)
 @pytest.mark.parametrize("ID, testcases,project,name,description",update_project_data)
+@allure.feature("业务管理")
+@allure.story("编辑项目")
 def test_update_project(uri,headers,ID,testcases,project,name,description):
     project_id = get_project_id(uri,headers,project)
     update_project_data_param={
@@ -147,18 +172,26 @@ def test_update_project(uri,headers,ID,testcases,project,name,description):
                                          data=json.dumps(update_project_data_param),
                                          headers=headers).json()
     code = updateProject_response['status']
+    allure.attach("请求响应code", str(updateProject_response['status']))
+    allure.attach("请求响应结果", str(updateProject_response))
+    my_log().info(updateProject_response)
     assert code == 200
 
 #删除项目
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=7)
 @pytest.mark.parametrize("ID,testcases,projectname",delete_project_data)
+@allure.feature("业务管理")
+@allure.story("删除项目")
 def test_delete_project(uri, headers,ID,testcases,projectname):
     project_id = get_project_id(uri,headers,projectname)
     delete_project_response = requests.delete(
         url=uri + delete_project_url + str(project_id),
         headers=headers
     ).json()
+    allure.attach("请求响应code", str(delete_project_response['status']))
+    allure.attach("请求响应结果", str(delete_project_response))
+    my_log().info(delete_project_response)
     assert delete_project_response == 200
 
 
@@ -166,6 +199,8 @@ def test_delete_project(uri, headers,ID,testcases,projectname):
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=11)
 @pytest.mark.parametrize("ID,testcases,tenantname",delete_tenant_data)
+@allure.feature("业务管理")
+@allure.story("删除租户")
 def test_delete_tenant(uri, headers,ID,testcases,tenantname):
     tenant_id=get_tenant_id(uri,headers,tenantname)
     delete_tenant_response = requests.delete(
@@ -173,6 +208,9 @@ def test_delete_tenant(uri, headers,ID,testcases,tenantname):
         headers=headers
     ).json()
     code = delete_tenant_response["status"]
+    allure.attach("请求响应code", str(delete_tenant_response['status']))
+    allure.attach("请求响应结果", str(delete_tenant_response))
+    my_log().info(delete_tenant_response)
     assert code == 200
 
 

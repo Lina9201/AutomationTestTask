@@ -10,6 +10,8 @@ import os
 from config import Conf
 from common.get_excel_data import OperationExcleData
 from utils.AssertUtil import AssertUtil
+import allure
+from utils.LogUtil import my_log
 
 # 创建数据中心请求url
 createDataCenter_url = "/admin/v1/regions"
@@ -23,6 +25,8 @@ delete_datacenter_data = OperationExcleData(excelFile, "删除数据中心").get
 
 @pytest.mark.smoke
 @pytest.mark.run(order=1)
+@allure.feature("计算资源")
+@allure.story("创建数据中心")
 @pytest.mark.parametrize("datacenter_data", datacenter_data)
 def test_create_datacenter(uri, headers, datacenter_data):
     """
@@ -37,6 +41,9 @@ def test_create_datacenter(uri, headers, datacenter_data):
                                          data=json.dumps(datacenter_data),
                                          headers=headers)
     code = createDataCenter_response.status_code
+    allure.attach("请求响应code", str(createDataCenter_response['status']))
+    allure.attach("请求响应结果", str(createDataCenter_response))
+    my_log().info(createDataCenter_response)
     AssertUtil().assert_code(code, 200)
     allure.dynamic.feature(excelFile)
 
@@ -44,6 +51,8 @@ def test_create_datacenter(uri, headers, datacenter_data):
 @pytest.mark.parametrize("ID, testcases, regionname, upadte_region, description", update_datacenter_data)
 @pytest.mark.smoke_update
 @pytest.mark.run(order=1)
+@allure.feature("计算资源")
+@allure.story("编辑数据中心")
 def test_update_datacenter(uri, headers, ID, testcases, regionname, upadte_region, description):
     """
     编辑数据中心
@@ -65,15 +74,23 @@ def test_update_datacenter(uri, headers, ID, testcases, regionname, upadte_regio
                                          data=json.dumps(update_datacenter_data),
                                          headers=headers)
     code = update_datacenter_response.status_code
+    allure.attach("请求响应code", str(update_datacenter_response['status']))
+    allure.attach("请求响应结果", str(update_datacenter_response))
+    my_log().info(update_datacenter_response)
     AssertUtil().assert_code(code, 200)
 
 
 @pytest.mark.parametrize("ID, testcases, regionname", delete_datacenter_data)
+@allure.feature("计算资源")
+@allure.story("删除数据中心")
 def test_delete_datacenter(uri, headers, ID, testcases, regionname):
     regionId = str(get_datacenterid(uri, headers, regionname))
     delete_datacenter_response = requests.delete(url=uri + createDataCenter_url + "/" + regionId,
                                                  headers=headers)
     code = delete_datacenter_response.status_code
+    allure.attach("请求响应code", str(delete_datacenter_response['status']))
+    allure.attach("请求响应结果", str(delete_datacenter_response))
+    my_log().info(delete_datacenter_response)
     AssertUtil().assert_code(code, 200)
 
 

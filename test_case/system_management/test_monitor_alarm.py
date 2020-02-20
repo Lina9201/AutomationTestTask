@@ -4,6 +4,9 @@ from config import Conf
 import os
 from common.get_excel_data import OperationExcleData
 import time
+import allure
+from utils.LogUtil import my_log
+
 
 # 创建监控组url
 create_monitorgroup_url = "/admin/v1/groups"
@@ -88,6 +91,8 @@ def get_fixed_vm_name_list(uri, headers, name):
 @pytest.mark.smoke
 @pytest.mark.run(order=38)
 @pytest.mark.parametrize('ID,name,description,userNames,vm_name', create_monitorgroup_param)
+@allure.feature("告警监控")
+@allure.story("创建监控组")
 def test_create_monitorgroup(uri, headers, ID, name, description, userNames, vm_name):
     time.sleep(120)
     hostkey = str(get_vm_id(uri, headers, vm_name))
@@ -102,6 +107,9 @@ def test_create_monitorgroup(uri, headers, ID, name, description, userNames, vm_
         headers=headers,
         json=create_monitorgroup_param
     ).json()
+    allure.attach("请求响应code", str(create_monitorgroup_param['status']))
+    allure.attach("请求响应结果", str(create_monitorgroup_param))
+    my_log().info(create_monitorgroup_param)
     assert create_monitorgroup_response['status'] == 200
     # 断言名称在组织列表
     assert name in get_monitorgroup_name_list(uri, headers)
@@ -111,6 +119,8 @@ def test_create_monitorgroup(uri, headers, ID, name, description, userNames, vm_
 @pytest.mark.smoke_update
 @pytest.mark.run(order=12)
 @pytest.mark.parametrize('ID,name,description,userNames,vm_name', update_monitorgroup_param)
+@allure.feature("告警监控")
+@allure.story("编辑监控组")
 def test_update_monitorgroup(uri, headers, ID, name, description, userNames, vm_name):
     monitorgroup_Id = str(get_monitorgroup_id(uri, headers, name))
     hostkey = str(get_vm_id(uri, headers, vm_name))
@@ -126,6 +136,9 @@ def test_update_monitorgroup(uri, headers, ID, name, description, userNames, vm_
         headers=headers,
         json=update_monitorgroup_param
     ).json()
+    allure.attach("请求响应code", str(update_monitorgroup_response['status']))
+    allure.attach("请求响应结果", str(update_monitorgroup_response))
+    my_log().info(update_monitorgroup_response)
     assert update_monitorgroup_response['status'] == 200
     # 断言组织在列表里
     assert vm_name in get_fixed_vm_name_list(uri, headers, name)
@@ -135,11 +148,16 @@ def test_update_monitorgroup(uri, headers, ID, name, description, userNames, vm_
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=8)
 @pytest.mark.parametrize('ID,name', delete_monitorgroup_param)
+@allure.feature("告警监控")
+@allure.story("删除监控组")
 def test_delete_monitorgroup(uri, headers, ID, name):
     monitorgroup_Id = str(get_monitorgroup_id(uri, headers, name))
     delete_monitorgroup_response = requests.delete(
         url=uri + update_monitorgroup_url + monitorgroup_Id,
         headers=headers).json()
+    allure.attach("请求响应code", str(delete_monitorgroup_response['status']))
+    allure.attach("请求响应结果", str(delete_monitorgroup_response))
+    my_log().info(delete_monitorgroup_response)
     assert delete_monitorgroup_response["status"] == 200
     # 断言组织已删除
     assert name not in get_monitorgroup_name_list(uri, headers)

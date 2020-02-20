@@ -5,6 +5,9 @@ from config import Conf
 from test_case.cmp_compute.test_resourcepool import get_resourcepoolid
 import os
 import urllib.parse
+import allure
+from utils.LogUtil import my_log
+
 
 
 ## 创建VLAN池
@@ -75,6 +78,8 @@ def get_vlan_id(uri, headers, vlanpoolId):
 @pytest.mark.smoke
 @pytest.mark.run(order=4)
 @pytest.mark.parametrize('name,tag,ResourcePoolName,vlanTagStart,vlanTagEnd', param_create_vlanpool)
+@allure.feature("网络资源")
+@allure.story("创建VLAN池")
 def test_create_vlanpool(uri, headers, name, tag, ResourcePoolName, vlanTagStart, vlanTagEnd):
     resourcepoolid = get_resourcepoolid(uri, headers, ResourcePoolName)
     param = {
@@ -91,12 +96,17 @@ def test_create_vlanpool(uri, headers, name, tag, ResourcePoolName, vlanTagStart
     ).json()
     print(create_vlanpool_response)
     code = create_vlanpool_response['status']
+    allure.attach("请求响应code", str(create_vlanpool_response['status']))
+    allure.attach("请求响应结果", str(create_vlanpool_response))
+    my_log().info(create_vlanpool_response)
     assert code == 200
 
 #编辑VLAN池
 @pytest.mark.smoke_update
 @pytest.mark.run(order=5)
 @pytest.mark.parametrize('vlanpool_name, update_vlanpool_name, ResourcePool, vlanTagStart, vlanTagEnd', param_update_vlanpool)
+@allure.feature("网络资源")
+@allure.story("编辑VLAN池")
 def test_update_vlanpool(uri,headers,vlanpool_name,update_vlanpool_name,ResourcePool,vlanTagStart,vlanTagEnd):
     vlanpoolId=get_vlanpool_id(uri,headers,vlanpool_name)
     resourcepoolid = get_resourcepoolid(uri, headers, ResourcePool)
@@ -108,15 +118,23 @@ def test_update_vlanpool(uri,headers,vlanpool_name,update_vlanpool_name,Resource
     }
     update_vlanpool_response=requests.put(url=uri+update_vlanpool_url_path+str(vlanpoolId),
                                        headers=headers,json=update_vlanpool_param).json()
+    allure.attach("请求响应code", str(update_vlanpool_response['status']))
+    allure.attach("请求响应结果", str(update_vlanpool_response))
+    my_log().info(update_vlanpool_response)
     assert update_vlanpool_response['status'] == 200
 
 #删除VLAN池
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=3)
 @pytest.mark.parametrize('ID,vlanpool_name',param_delete_vlanpool)
+@allure.feature("网络资源")
+@allure.story("删除VLAN池")
 def test_delete_vlanpool(uri, headers,ID,vlanpool_name):
     vlanpoolId=get_vlanpool_id(uri,headers,vlanpool_name)
     delete_vlanpool_response=requests.delete(url=uri+delete_vlanpool_url_path+str(vlanpoolId),
                                            headers=headers).json()
     code=delete_vlanpool_response['status']
+    allure.attach("请求响应code", str(delete_vlanpool_response['status']))
+    allure.attach("请求响应结果", str(delete_vlanpool_response))
+    my_log().info(delete_vlanpool_response)
     assert code == 200

@@ -6,6 +6,8 @@ import os
 from common.get_excel import read_excel, read_excel_tuple
 from common.get_excel_data import OperationExcleData
 from test_case.cmp_compute.test_resourcepool import get_resourcepoolid
+import allure
+from utils.LogUtil import my_log
 
 # 创建镜像
 create_images_url = "/admin/v1/images?osType="
@@ -100,6 +102,8 @@ def get_imageedited_id(uri, headers, image_name):
 # 创建镜像
 @pytest.mark.smoke
 @pytest.mark.run(order=3)
+@allure.feature("计算资源")
+@allure.story("创建镜像")
 @pytest.mark.parametrize(
     "name,description,os,osType,password,username,loading,resourcepoolType,resourcepool,template_name",
     param_create_images)
@@ -129,6 +133,9 @@ def test_create_images(uri, headers, name, description, os, osType, password, us
     create_images_response = requests.post(url=uri + create_images_url,
                                            json=create_images_param,
                                            headers=headers).json()
+    allure.attach("请求响应code", str(create_images_response['status']))
+    allure.attach("请求响应结果", str(create_images_response))
+    my_log().info(create_images_response)
     assert create_images_response['status'] == 200
     # 断言创建的镜像名称能在查询到的响应结果中存在
     assert name in get_images_name_list(uri, headers)
@@ -156,6 +163,8 @@ def get_template_name_list(uri, headers, imagename):
 # 删除关联的vmware/openstack资源池模板
 @pytest.mark.parametrize("ID,init_name",
                          param_delete_template)
+@allure.feature("计算资源")
+@allure.story("删除镜像关联模板")
 def test_delete_resourcepool_template(uri, headers, ID, init_name):
     relation_url = "/relations"
     images_Id = str(get_image_id(uri, headers, init_name))
@@ -164,6 +173,9 @@ def test_delete_resourcepool_template(uri, headers, ID, init_name):
         url=uri + get_images_url + images_Id + relation_url,
         json=delete_resourcepool_template_param,
         headers=headers).json()
+    allure.attach("请求响应code", str(delete_resourcepoll_template_response['status']))
+    allure.attach("请求响应结果", str(delete_resourcepoll_template_response))
+    my_log().info(delete_resourcepoll_template_response)
     assert delete_resourcepoll_template_response["status"] == 200
     # 断言镜像的资源池模板为空，即无数据
     assert "data" not in delete_resourcepoll_template_response.keys()
@@ -174,6 +186,8 @@ def test_delete_resourcepool_template(uri, headers, ID, init_name):
 @pytest.mark.run(order=3)
 @pytest.mark.parametrize("init_name,resourcepool,loading,password,username,template_name,resourcepoolType",
                          param_create_template)
+@allure.feature("计算资源")
+@allure.story("镜像添加关联模板")
 def test_create_resourcepool_template(uri, headers, init_name, resourcepool, loading, password, username,
                                       template_name,
                                       resourcepoolType):
@@ -199,6 +213,9 @@ def test_create_resourcepool_template(uri, headers, init_name, resourcepool, loa
         url=uri + get_images_url + images_Id + relation_url,
         json=create_resourcepool_template_param,
         headers=headers).json()
+    allure.attach("请求响应code", str(create_resourcepool_template_response['status']))
+    allure.attach("请求响应结果", str(create_resourcepool_template_response))
+    my_log().info(create_resourcepool_template_response)
     assert create_resourcepool_template_response["status"] == 200
     # 断言创建的模板关联能在查询到的响应结果中存在
     assert template_name in get_template_name_list(uri, headers, init_name)
@@ -208,6 +225,8 @@ def test_create_resourcepool_template(uri, headers, init_name, resourcepool, loa
 @pytest.mark.smoke_update
 @pytest.mark.run(order=4)
 @pytest.mark.parametrize("init_name,name,os,osType,deleted,isPublic", param_update_images)
+@allure.feature("计算资源")
+@allure.story("编辑镜像")
 def test_udpate_images(uri, headers, init_name, name, os,osType, deleted, isPublic):
     # 根据镜像名称获取镜像id
     images_Id = str(get_image_id(uri, headers, init_name))
@@ -222,6 +241,9 @@ def test_udpate_images(uri, headers, init_name, name, os,osType, deleted, isPubl
         headers=headers,
         json=update_images_param
     ).json()
+    allure.attach("请求响应code", str(update_images_param_response['status']))
+    allure.attach("请求响应结果", str(update_images_param_response))
+    my_log().info(update_images_param_response)
     assert update_images_param_response["status"] == 200
     # 断言镜像名称在列表里
     assert name in get_images_name_list(uri, headers)
@@ -231,12 +253,17 @@ def test_udpate_images(uri, headers, init_name, name, os,osType, deleted, isPubl
 @pytest.mark.smoke_delete
 @pytest.mark.run(order=2)
 @pytest.mark.parametrize('ID,image_name', param_delete_images)
+@allure.feature("计算资源")
+@allure.story("删除镜像")
 def test_delete_image(uri, headers, ID, image_name):
     images_Id = str(get_imageedited_id(uri, headers, image_name))
     delete_images_response = requests.delete(
         url=uri + get_images_url + images_Id,
         headers=headers
     ).json()
+    allure.attach("请求响应code", str(delete_images_response['status']))
+    allure.attach("请求响应结果", str(delete_images_response))
+    my_log().info(delete_images_response)
     assert delete_images_response['status'] == 200
     # 断言镜像名称不在列表里
     assert image_name not in get_images_name_list(uri, headers)
