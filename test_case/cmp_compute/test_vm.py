@@ -8,6 +8,7 @@ import json
 import requests
 import urllib.parse
 from common.get_excel_data import OperationExcleData
+from common.get_db_data import assert_mysqldb
 from test_case.cmp_compute.test_resourcepool import get_resourcepoolid
 from test_case.cmp_compute.test_images import get_image_id
 from test_case.cmp_compute.test_datacenter import get_datacenterid
@@ -16,7 +17,7 @@ from test_case.network_resource.test_network import get_network_id, get_subnet_i
 import time
 import allure
 from utils.LogUtil import my_log
-
+from utils.AssertUtil import AssertUtil
 
 # 创建虚拟机请求url
 create_instance_url = "/admin/v1/instances"
@@ -31,13 +32,11 @@ instance_data = OperationExcleData(excelFile, sheetName).getcase_tuple()
 
 @pytest.mark.smoke
 @pytest.mark.run(order=12)
-@pytest.mark.parametrize("resourcepooltype,region,resourcepool,tenant,project,vmname,account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress", instance_data)
+@pytest.mark.parametrize("resourcepooltype,region,resourcepool,tenant,project,vmname,account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress,status_code,expected_result,db_verify", instance_data)
 @allure.feature("虚拟机")
 @allure.story("创建虚拟机")
 def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, project, vmname,
-            account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress):
-
-
+            account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress,status_code,expected_result,db_verify):
             resourcePoolId = get_resourcepoolid(uri, headers, resourcepool)
             tenantId = get_tenant_id(uri, headers, tenant)
             projectId = get_project_id(uri, headers, project)
@@ -98,9 +97,10 @@ def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, p
             allure.attach("请求响应code", str(create_vm_response['status']))
             allure.attach("请求响应结果", str(create_vm_response))
             my_log().info(create_vm_response)
-            assert create_vm_response['status'] == 200
+            AssertUtil().assert_code(create_vm_response['status'], status_code)
             time.sleep(120)
-
+            AssertUtil().assert_in_body(create_vm_response['data'], expected_result)
+            assert_mysqldb("tcrc_db", create_vm_response['data'], db_verify)
 
 
 #根据虚拟机名称获取虚拟机id

@@ -12,6 +12,7 @@ from test_case.cmdb.test_property import get_property
 from common.get_db_data import init_arangodb
 import allure
 from utils.LogUtil import my_log
+from utils.AssertUtil import AssertUtil
 
 # 配置项url
 base_configitems_url = "/admin/v1/config_items"
@@ -25,8 +26,8 @@ delete_category_data = OperationExcleData(excelFile, "删除配置项").getcase_
 @pytest.mark.run(order=3)
 @allure.feature("CMDB")
 @allure.story("创建配置项")
-@pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue", category_data)
-def test_create_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue):
+@pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,status_code,expected_result", category_data)
+def test_create_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue,status_code,expected_result):
    """
    创建配置项
    :param uri:
@@ -88,13 +89,15 @@ def test_create_configitems(uri, headers,ID, testcases,category,groupname,proper
    allure.attach("请求响应结果", str(create_configitems_response))
    my_log().info(create_configitems_response)
    assert create_configitems_response['status'] == 200
+   AssertUtil().assert_code(create_configitems_response['status'],status_code)
+   AssertUtil().assert_in_body(create_configitems_response['data'],expected_result)
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=6)
 @allure.feature("CMDB")
 @allure.story("编辑配置项")
-@pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue", update_category_data)
-def test_update_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue):
+@pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue,status_code,expected_result", update_category_data)
+def test_update_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue,status_code,expected_result):
     """
     编辑配置项
     :param uri:
@@ -153,14 +156,15 @@ def test_update_configitems(uri, headers,ID, testcases,category,groupname,proper
     allure.attach("请求响应code", str(update_configitems_response['status']))
     allure.attach("请求响应结果", str(update_configitems_response))
     my_log().info(update_configitems_response)
-    assert update_configitems_response['status'] == 200
+    AssertUtil().assert_code(update_configitems_response['status'], status_code)
+    AssertUtil().assert_in_body(update_configitems_response['data'], expected_result)
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=7)
 @allure.feature("CMDB")
 @allure.story("删除配置项")
-@pytest.mark.parametrize("ID, testcases,namecode,configitem", delete_category_data)
-def test_delete_configitem(uri, headers,ID, testcases,namecode,configitem):
+@pytest.mark.parametrize("ID, testcases,namecode,configitem,status_code", delete_category_data)
+def test_delete_configitem(uri, headers,ID, testcases,namecode,configitem,status_code):
     """
     删除配置项接口
     :param uri:
@@ -178,7 +182,20 @@ def test_delete_configitem(uri, headers,ID, testcases,namecode,configitem):
     allure.attach("请求响应code", str(delete_configitem_response['status']))
     allure.attach("请求响应结果", str(delete_configitem_response))
     my_log().info(delete_configitem_response)
-    assert delete_configitem_response['status'] == 200
+    AssertUtil().assert_code(delete_configitem_response['status'], status_code)
+    assert configitem not in get_configitems()
+
+
+def get_configitems():
+    """
+    获取所有配置项
+    :return:
+    """
+    conn = init_arangodb("cmdb_db")
+    arangodb = conn.opendb("cmdb")
+    aql = "FOR c IN config_item RETURN c"
+    configitems = arangodb.AQLQuery(aql)
+    return configitems
 
 def get_configitem_key(propertyCode,itemName):
     """
@@ -186,11 +203,8 @@ def get_configitem_key(propertyCode,itemName):
     :param itemName:
     :return:
     """
-    conn = init_arangodb("cmdb_db")
-    arangodb = conn.opendb("cmdb")
-    aql = "FOR c IN config_item RETURN c"
-    queryresult = arangodb.AQLQuery(aql)
-    for configitem in queryresult:
+    configitems = get_configitems()
+    for configitem in configitems:
         if configitem.property['%s' % propertyCode] == itemName:
             return configitem._key
 

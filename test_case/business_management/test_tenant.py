@@ -38,12 +38,11 @@ delete_tenant_data=OperationExcleData(excelFile, '删除租户').getcase_tuple()
 def test_create_tenant(uri, headers, create_tenant_data):
     createTenant_response = requests.post(url=uri + create_tenant_url,
                                          data=json.dumps(create_tenant_data),
-                                         headers=headers)
-    code = createTenant_response.status_code
+                                         headers=headers).json()
     allure.attach("请求响应code", str(createTenant_response['status']))
     allure.attach("请求响应结果", str(createTenant_response))
     my_log().info(createTenant_response)
-    assert code == 200
+    assert createTenant_response['status'] == 200
 
 #查询租户id
 def get_tenant_id(uri, headers, tenantname):

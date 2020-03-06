@@ -12,6 +12,7 @@ from test_case.cmdb.test_dictionary import get_dictionary
 from test_case.cmdb.test_configitems import get_configitem_key
 import allure
 from utils.LogUtil import my_log
+from utils.AssertUtil import AssertUtil
 
 
 category_relationship_url = "/admin/v1/relationships/category_to_category"
@@ -25,8 +26,8 @@ configitem_relationship_data = OperationExcleData(excelFile, "配置项关系").
 @pytest.mark.run(order=4)
 @allure.feature("CMDB")
 @allure.story("创建配置类型间关系")
-@pytest.mark.parametrize("ID, testcases, categoryfrom, relationship, categoryto", category_relationship_data)
-def test_category_relationship(uri, headers, ID, testcases, categoryfrom, relationship, categoryto):
+@pytest.mark.parametrize("ID, testcases, categoryfrom, relationship, categoryto, status_code, expected_result", category_relationship_data)
+def test_category_relationship(uri, headers, ID, testcases, categoryfrom, relationship, categoryto,status_code, expected_result):
     """
     创建配置类型间关系
     :param uri:
@@ -52,14 +53,15 @@ def test_category_relationship(uri, headers, ID, testcases, categoryfrom, relati
     allure.attach("请求响应code", str(create_categoryRelationship_response['status']))
     allure.attach("请求响应结果", str(create_categoryRelationship_response))
     my_log().info(create_categoryRelationship_response)
-    assert create_categoryRelationship_response['status'] == 200
+    AssertUtil().assert_code(create_categoryRelationship_response['status'], status_code)
+    AssertUtil().assert_in_body(create_categoryRelationship_response['data'], expected_result)
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=5)
 @allure.feature("CMDB")
 @allure.story("创建配置项间关系")
-@pytest.mark.parametrize("ID, testcases, fromcode, configitemfrom, relationship, tocode, configitemto", configitem_relationship_data)
-def test_configitem_relationship(uri, headers, ID, testcases, fromcode,configitemfrom, relationship, tocode,configitemto):
+@pytest.mark.parametrize("ID, testcases, fromcode, configitemfrom, relationship, tocode, configitemto, status_code, expected_result", configitem_relationship_data)
+def test_configitem_relationship(uri, headers, ID, testcases, fromcode,configitemfrom, relationship, tocode,configitemto,status_code, expected_result):
     """
     创建配置项间关系
     :param uri:
@@ -87,7 +89,8 @@ def test_configitem_relationship(uri, headers, ID, testcases, fromcode,configite
     allure.attach("请求响应code", str(create_configitemRelationship_response['status']))
     allure.attach("请求响应结果", str(create_configitemRelationship_response))
     my_log().info(create_configitemRelationship_response)
-    assert create_configitemRelationship_response['status'] == 200
+    AssertUtil().assert_code(create_configitemRelationship_response['status'], status_code)
+    AssertUtil().assert_in_body(create_configitemRelationship_response['data'], expected_result)
 
 
 

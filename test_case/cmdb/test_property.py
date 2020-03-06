@@ -10,6 +10,7 @@ from test_case.cmdb.test_category import get_categorykey
 from common.get_db_data import init_arangodb
 import allure
 from utils.LogUtil import my_log
+from utils.AssertUtil import AssertUtil
 
 base_category_url = "/admin/v1/categories"
 testdata_path = Conf.get_testdata_path()
@@ -36,8 +37,8 @@ def get_property(propertyCode, propertyName):
 @pytest.mark.run(order=2)
 @allure.feature("CMDB")
 @allure.story("添加配置项类型属性")
-@pytest.mark.parametrize("ID, testcases, categoryname, groupname, groupweight, code, name, type, nullable,unique,readonly, key, default, encrypt, weight", add_property_data)
-def test_add_property(uri, headers, ID, testcases, categoryname, groupname, groupweight,code, name, type, nullable,unique,readonly, key, default,encrypt, weight):
+@pytest.mark.parametrize("ID, testcases, categoryname, groupname, groupweight, code, name, type, nullable,unique,readonly, key, default, encrypt, weight, status_code, expected_result", add_property_data)
+def test_add_property(uri, headers, ID, testcases, categoryname, groupname, groupweight,code, name, type, nullable,unique,readonly, key, default,encrypt, weight,status_code, expected_result):
     add_property_param =[
         {
             "group": {
@@ -113,7 +114,9 @@ def test_add_property(uri, headers, ID, testcases, categoryname, groupname, grou
     allure.attach("请求响应code", str(add_property_response['status']))
     allure.attach("请求响应结果", str(add_property_response))
     my_log().info(add_property_response)
-    assert add_property_response['status'] == 200
+    AssertUtil().assert_code(add_property_response['status'], status_code)
+    AssertUtil().assert_in_body(add_property_response['data'], expected_result)
+
 
 
 

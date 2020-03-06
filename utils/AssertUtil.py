@@ -3,8 +3,13 @@
 # @Author  : zhuxuefei
 
 import json
+from utils.LogUtil import my_log
+import allure
 
 class AssertUtil:
+    def __init__(self):
+        self.log = my_log("AssertUtil")
+
     def assert_code(self, code, expected_code):
         """
         验证返回code一致
@@ -14,8 +19,10 @@ class AssertUtil:
         """
         try:
             assert int(code) == int(expected_code)
+            return True
         except:
-            print("code error")
+            self.log.error("响应code error, 响应code is %s,期望code is %s"%(code, expected_code))
+            allure.attach("响应code error, 响应code is %s,期望code is %s" % (code, expected_code))
             raise
 
     def assert_body(self, body, expected_body):
@@ -27,8 +34,10 @@ class AssertUtil:
         """
         try:
             assert body == expected_body
+            return True
         except:
-            print("body error")
+            self.log.error("响应body error, 响应body is %s,期望body is %s" % (body, expected_body))
+            allure.attach("响应body error, 响应body is %s,期望body is %s" % (body, expected_body))
             raise
 
 
@@ -40,8 +49,10 @@ class AssertUtil:
         :return:
         """
         try:
-            body = json.dumps(body)
+            body = json.dumps(body,ensure_ascii=False)
             assert excepted_body in body
+            return True
         except:
-            print("body in error")
+            self.log.error("不包含或者body是错误, 响应body is %s,期望body is %s" % (body, excepted_body))
+            allure.attach("不包含或者body是错误, 响应body is %s,期望body is %s" % (body, excepted_body))
             raise

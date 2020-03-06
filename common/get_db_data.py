@@ -30,6 +30,13 @@ def init_arangodb(db_alias):
     return conn
 
 def assert_mysqldb(db_name,result,db_verify):
+    """
+    mysql数据库结果与接口返回的结果验证
+    :param db_name:
+    :param result:
+    :param db_verify:
+    :return:
+    """
     assert_util = AssertUtil()
     sql = init_mysqldb(db_name)
     db_res = sql.fetchone(db_verify)
@@ -38,4 +45,18 @@ def assert_mysqldb(db_name,result,db_verify):
         res_line = result[line]
         res_db_line = dict(db_res)[line]
         assert_util.assert_body(res_line, res_db_line)
+
+
+if __name__ == "__main__":
+    sql = init_mysqldb("tcrc_db")
+    db_res = sql.fetchone( "select * from bizops_tenant.resourcepool where name='vmware资源池' ")
+    verify_list = list(dict(db_res).keys())
+    conn = init_arangodb("cmdb_db")
+    arangodb = conn.opendb("cmdb")
+    aql = "FOR c IN category RETURN c"
+    queryresult = arangodb.AQLQuery(aql)
+
+
+
+
 

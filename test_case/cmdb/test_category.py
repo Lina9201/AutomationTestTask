@@ -8,6 +8,7 @@ from common.get_excel_data import OperationExcleData
 import requests
 from common.get_db_data import init_arangodb
 from utils.LogUtil import my_log
+from utils.AssertUtil import AssertUtil
 import allure
 
 # 配置项类型url
@@ -23,8 +24,8 @@ delete_category_data = OperationExcleData(excelFile, "删除配置项类型").ge
 @pytest.mark.run(order=1)
 @allure.feature("CMDB")
 @allure.story("创建配置项类型")
-@pytest.mark.parametrize("ID, testcases, name, code, sourceCategoryCode, parentCategoryKey, icon", category_data)
-def test_create_category(uri, headers, ID, testcases, name, code, sourceCategoryCode, parentCategoryKey, icon):
+@pytest.mark.parametrize("ID, testcases, name, code, sourceCategoryCode, parentCategoryKey, icon, status_code, expected_result", category_data)
+def test_create_category(uri, headers, ID, testcases, name, code, sourceCategoryCode, parentCategoryKey, icon,status_code, expected_result):
     """
     创建一级、二级配置项类型
     :param uri:
@@ -95,7 +96,8 @@ def test_create_category(uri, headers, ID, testcases, name, code, sourceCategory
     allure.attach("请求响应code", str(create_category_response['status']))
     allure.attach("请求响应结果", str(create_category_response))
     my_log().info(create_category_response)
-    assert create_category_response['status'] == 200
+    AssertUtil().assert_code(create_category_response['status'], status_code)
+    AssertUtil().assert_in_body(create_category_response['data'], expected_result)
 
 def get_categorykey(categoryName):
     """
@@ -108,21 +110,18 @@ def get_categorykey(categoryName):
         return categorykey
     else:
         # 初始化Arangodb数据库对象
-        conn = init_arangodb("cmdb_db")
-        arangodb = conn.opendb("cmdb")
-        aql = "FOR c IN category RETURN c"
-        queryresult = arangodb.AQLQuery(aql)
-        for key in queryresult:
-            if key.name == categoryName:
-                categorykey=key._key
+        categorys = get_categorys_db()
+        for category in categorys:
+            if category.name == categoryName:
+                categorykey=category._key
                 return categorykey
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=8)
 @allure.feature("CMDB")
 @allure.story("编辑配置项类型")
-@pytest.mark.parametrize("ID, testcases, categoryName,updatename, code, sourceCategoryCode, parentCategoryKey, icon", update_category_data)
-def test_update_category(uri, headers, ID, testcases, categoryName, updatename, code, sourceCategoryCode, parentCategoryKey, icon):
+@pytest.mark.parametrize("ID, testcases, categoryName,updatename, code, sourceCategoryCode, parentCategoryKey, icon,status_code, expected_result", update_category_data)
+def test_update_category(uri, headers, ID, testcases, categoryName, updatename, code, sourceCategoryCode, parentCategoryKey, icon,status_code, expected_result):
     """
     编辑配置项类型
     :param uri:
@@ -152,18 +151,18 @@ def test_update_category(uri, headers, ID, testcases, categoryName, updatename, 
     update_category_response = requests.put(url = uri + base_category_url + "/" + CategoryKey,
                                             headers = headers,
                                             json = update_category_param).json()
-    print(update_category_param)
     allure.attach("请求响应code", str(update_category_response['status']))
     allure.attach("请求响应结果", str(update_category_response))
     my_log().info(update_category_response)
-    assert update_category_response['status']== 200
+    AssertUtil().assert_code(update_category_response['status'], status_code)
+    AssertUtil().assert_in_body(update_category_response['data'],expected_result)
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=9)
 @allure.feature("CMDB")
 @allure.story("删除配置项类型")
-@pytest.mark.parametrize("ID, testcases, name", delete_category_data)
-def test_delete_category(uri, headers, ID, testcases, name):
+@pytest.mark.parametrize("ID, testcases, name, status_code", delete_category_data)
+def test_delete_category(uri, headers, ID, testcases, name, status_code):
     """
     删除配置项类型
     :param uri:
@@ -179,7 +178,8 @@ def test_delete_category(uri, headers, ID, testcases, name):
     allure.attach("请求响应code", str(delete_category_response['status']))
     allure.attach("请求响应结果", str(delete_category_response))
     my_log().info(delete_category_response)
-    assert delete_category_response['status'] == 200
+    AssertUtil().assert_code(delete_category_response['status'], status_code)
+    assert name not in get_categorys_db()
 
 def get_category_code(categoryName):
     """
@@ -187,15 +187,23 @@ def get_category_code(categoryName):
     :param categoryName:
     :return:
     """
+    categorys = get_categorys_db()
+    for category in categorys:
+        if category.name == categoryName:
+            category_code = category.code
+            return category_code
+
+def get_categorys_db():
+    """
+    获取所有配置项类型
+    :return:
+    """
     # 初始化Arangodb数据库对象
     conn = init_arangodb("cmdb_db")
     arangodb = conn.opendb("cmdb")
     aql = "FOR c IN category RETURN c"
-    queryresult = arangodb.AQLQuery(aql)
-    for code in queryresult:
-        if code.name == categoryName:
-            category_code = code.code
-            return category_code
+    categorys = arangodb.AQLQuery(aql)
+    return categorys
 
 
 
