@@ -8,7 +8,7 @@ import json
 import requests
 import urllib.parse
 from common.get_excel_data import OperationExcleData
-from common.get_db_data import assert_mysqldb
+from common.get_db_data import init_mysqldb,assert_mysqldb
 from test_case.cmp_compute.test_resourcepool import get_resourcepoolid
 from test_case.cmp_compute.test_images import get_image_id
 from test_case.cmp_compute.test_datacenter import get_datacenterid
@@ -32,11 +32,11 @@ instance_data = OperationExcleData(excelFile, sheetName).getcase_tuple()
 
 @pytest.mark.smoke
 @pytest.mark.run(order=12)
-@pytest.mark.parametrize("resourcepooltype,region,resourcepool,tenant,project,vmname,account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress,status_code,expected_result,db_verify", instance_data)
+@pytest.mark.parametrize("resourcepooltype,region,resourcepool,tenant,project,vmname,account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress,status_code,expected_result,expected_db", instance_data)
 @allure.feature("虚拟机")
 @allure.story("创建虚拟机")
 def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, project, vmname,
-            account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress,status_code,expected_result,db_verify):
+            account,image, ostype,cluster,host,cpu,memory,osdisk,disktype,net,subnet,nettype,ipaddress,status_code,expected_result,expected_db):
             resourcePoolId = get_resourcepoolid(uri, headers, resourcepool)
             tenantId = get_tenant_id(uri, headers, tenant)
             projectId = get_project_id(uri, headers, project)
@@ -100,7 +100,7 @@ def test_create_vm(uri, headers, resourcepooltype,region,resourcepool, tenant, p
             AssertUtil().assert_code(create_vm_response['status'], status_code)
             time.sleep(120)
             AssertUtil().assert_in_body(create_vm_response['data'], expected_result)
-            assert_mysqldb("tcrc_db", create_vm_response['data'], db_verify)
+            assert_mysqldb(get_instance_db(vmname), expected_db)
 
 
 #根据虚拟机名称获取虚拟机id
@@ -166,6 +166,19 @@ def get_instance_disks(uri, headers, instance_name, resourcepool):
         for disk in get_instance_response["data"]["disks"]:
             if disk["name"] == "系统盘":
                 return disk
+
+def get_instance_db(vmname):
+    """
+    查询instance表
+    :param vmname:
+    :return:
+    """
+    sql = init_mysqldb("tcrc_db")
+    try:
+        db_res = sql.fetchone("select * from cmp_compute.instance where name='%s'" % vmname)
+        return db_res
+    except:
+        my_log("cmp_compute_instance").error("%s名称虚拟机不存在" % vmname)
 
 
 
