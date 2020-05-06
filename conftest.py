@@ -6,14 +6,13 @@ authentication_url_path = "/v1/tokens"
 json_login = {
     "authType": "password",
     "params": {
-        "username": "zhon",
+        "username": "zhuxuefei",
         "password": "jixlb2tIrjF5t/bYQTXz4Q=="
     }
 }
 
-
 def pytest_addoption(parser):
-    parser.addoption("--ip", action="store", default="172.23.1.2", help="please input target VM ip.")
+    parser.addoption("--ip", action="store", default="172.23.1.7", help="please input target VM ip.")
     parser.addoption("--port", action="store", default="api", help="please input target service port.")
 
 

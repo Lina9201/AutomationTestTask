@@ -1,33 +1,244 @@
 "Status","Name","Duration in ms","Description"
-"passed","test_case.cmp_compute.test_datacenter#test_create_datacenter","407","
-    创建数据中心接口
-    :param ip:
-    :param port:
+"broken","test_case.cmdb.test_configitems#test_delete_configitems","360","
+    删除配置项接口
+    :param uri:
     :param headers:
-    :param datacenter_data:测试用例
+    :param ID:
+    :param testcases:
+    :param namecode:
+    :param configitem:
     :return:
     "
-"passed","test_case.cmp_compute.test_datacenter#test_create_datacenter","150","
-    创建数据中心接口
-    :param ip:
-    :param port:
+"failed","test_case.cmdb.test_dictionary#test_delete_dictionaries","252",""
+"failed","test_case.cmdb.test_dictionary#test_update_dictionaries","2498",""
+"passed","test_case.cmdb.test_category#test_update_category","665","
+    编辑配置项类型
+    :param uri:
     :param headers:
-    :param datacenter_data:测试用例
+    :param ID:
+    :param testcases:
+    :param name:
+    :param code:
+    :param sourceCategoryCode:
+    :param parentCategoryKey:
+    :param icon:
     :return:
     "
-"passed","test_case.cmp_compute.test_datacenter#test_create_datacenter","290","
-    创建数据中心接口
-    :param ip:
-    :param port:
+"passed","test_case.cmdb.test_category#test_create_category","742","
+    创建一级、二级配置项类型
+    :param uri:
     :param headers:
-    :param datacenter_data:测试用例
+    :param ID:
+    :param testcases:
+    :param name:
+    :param code:
+    :param sourceCategoryCode:
+    :param parentCategoryKey:
+    :param icon:
     :return:
     "
-"passed","test_case.cmp_compute.test_datacenter#test_create_datacenter","199","
-    创建数据中心接口
-    :param ip:
-    :param port:
+"failed","test_case.cmdb.test_category#test_delete_category","1673","
+    删除配置项类型
+    :param uri:
     :param headers:
-    :param datacenter_data:测试用例
+    :param ID:
+    :param testcases:
+    :param name:
+    :return:
+    "
+"passed","test_case.cmdb.test_category#test_update_category","212","
+    编辑配置项类型
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param name:
+    :param code:
+    :param sourceCategoryCode:
+    :param parentCategoryKey:
+    :param icon:
+    :return:
+    "
+"passed","test_case.cmdb.test_category#test_delete_category","378","
+    删除配置项类型
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param name:
+    :return:
+    "
+"passed","test_case.cmdb.test_property#test_add_property","513",""
+"passed","test_case.cmdb.test_configitems#test_update_configitems","34609","
+    编辑配置项
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param category:
+    :param groupname:
+    :param propertyname:
+    :param propertycode:
+    :param propertvalue:
+    :return:
+    "
+"passed","test_case.cmdb.test_configitems#test_create_configitems","1215","
+   创建配置项
+   :param uri:
+   :param headers:
+   :param ID:
+   :param testcases:
+   :param category:
+   :param groupname:
+   :param propertyname:
+   :param propertycode:
+   :param propertvalue:
+   :return:
+   "
+"passed","test_case.cmdb.test_category#test_create_category","1102","
+    创建一级、二级配置项类型
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param name:
+    :param code:
+    :param sourceCategoryCode:
+    :param parentCategoryKey:
+    :param icon:
+    :return:
+    "
+"failed","test_case.cmdb.test_configitems#test_import_configitems","508","
+    配置项导入接口测试
+    :param uri:
+    :param auth_token:
+    :param ID:
+    :param testcases:
+    :param category:要导入的配置项所属类型名称
+    :return:
+    "
+"passed","test_case.cmdb.test_property#test_add_property","707",""
+"passed","test_case.cmdb.test_category#test_update_category","192","
+    编辑配置项类型
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param name:
+    :param code:
+    :param sourceCategoryCode:
+    :param parentCategoryKey:
+    :param icon:
+    :return:
+    "
+"passed","test_case.cmdb.test_configitems#test_create_configitems","866","
+   创建配置项
+   :param uri:
+   :param headers:
+   :param ID:
+   :param testcases:
+   :param category:
+   :param groupname:
+   :param propertyname:
+   :param propertycode:
+   :param propertvalue:
+   :return:
+   "
+"failed","test_case.cmdb.test_dictionary#test_delete_dictionaries","306",""
+"failed","test_case.cmdb.test_dictionary#test_update_dictionaries","1177",""
+"failed","test_case.cmdb.test_dictionary#test_create_dictionaries","1246",""
+"passed","test_case.cmdb.test_configitems#test_delete_configitems","75251","
+    删除配置项接口
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param namecode:
+    :param configitem:
+    :return:
+    "
+"passed","test_case.cmdb.test_relationship#test_configitem_relationship","64607","
+    创建配置项间关系
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param fromcode:源配置项名称code
+    :param configitemfrom:源配置项名称
+    :param relationship:关系
+    :param tocode:目的配置项名称code
+    :param configitemto:目的配置项名称
+    :return:
+    "
+"broken","test_case.cmdb.test_configitems#test_export_configitems","2281",""
+"failed","test_case.cmdb.test_dictionary#test_create_dictionaries","2285",""
+"passed","test_case.cmdb.test_category#test_delete_category","600","
+    删除配置项类型
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param name:
+    :return:
+    "
+"passed","test_case.cmdb.test_relationship#test_category_relationship","855","
+    创建配置类型间关系
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param categoryfrom:源配置项类型
+    :param relationship:关系
+    :param categoryto:目的配置项类型
+    :return:
+    "
+"passed","test_case.cmdb.test_configitems#test_delete_configitems","72105","
+    删除配置项接口
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param namecode:
+    :param configitem:
+    :return:
+    "
+"passed","test_case.cmdb.test_configitems#test_update_configitems","40360","
+    编辑配置项
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param category:
+    :param groupname:
+    :param propertyname:
+    :param propertycode:
+    :param propertvalue:
+    :return:
+    "
+"passed","test_case.cmdb.test_category#test_update_category","936","
+    编辑配置项类型
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param name:
+    :param code:
+    :param sourceCategoryCode:
+    :param parentCategoryKey:
+    :param icon:
+    :return:
+    "
+"passed","test_case.cmdb.test_property#test_add_property","324",""
+"passed","test_case.cmdb.test_category#test_create_category","538","
+    创建一级、二级配置项类型
+    :param uri:
+    :param headers:
+    :param ID:
+    :param testcases:
+    :param name:
+    :param code:
+    :param sourceCategoryCode:
+    :param parentCategoryKey:
+    :param icon:
     :return:
     "

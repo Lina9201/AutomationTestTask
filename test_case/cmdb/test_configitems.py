@@ -18,15 +18,17 @@ from utils.AssertUtil import AssertUtil
 base_configitems_url = "/admin/v1/config_items"
 testdata_path = Conf.get_testdata_path()
 excelFile = testdata_path + os.sep + "配置管理.xlsx"
-category_data = OperationExcleData(excelFile, "创建配置项").getcase_tuple()
-update_category_data = OperationExcleData(excelFile, "编辑配置项").getcase_tuple()
-delete_category_data = OperationExcleData(excelFile, "删除配置项").getcase_tuple()
+importFile = testdata_path + os.sep + "云主机.xlsx"
+configitem_data = OperationExcleData(excelFile, "创建配置项").getcase_tuple()
+update_configitem_data = OperationExcleData(excelFile, "编辑配置项").getcase_tuple()
+import_configitem_data = OperationExcleData(excelFile, "导入导出配置项").getcase_tuple()
+delete_configitem_data = OperationExcleData(excelFile, "删除配置项").getcase_tuple()
 
 @pytest.mark.cmdb
 @pytest.mark.run(order=3)
 @allure.feature("CMDB")
 @allure.story("创建配置项")
-@pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,status_code,expected_result", category_data)
+@pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,status_code,expected_result", configitem_data)
 def test_create_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue,status_code,expected_result):
    """
    创建配置项
@@ -96,7 +98,7 @@ def test_create_configitems(uri, headers,ID, testcases,category,groupname,proper
 @pytest.mark.run(order=6)
 @allure.feature("CMDB")
 @allure.story("编辑配置项")
-@pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue,status_code,expected_result", update_category_data)
+@pytest.mark.parametrize("ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue,status_code,expected_result", update_configitem_data)
 def test_update_configitems(uri, headers,ID, testcases,category,groupname,propertyname,propertycode,propertvalue,updatevlaue,status_code,expected_result):
     """
     编辑配置项
@@ -159,12 +161,60 @@ def test_update_configitems(uri, headers,ID, testcases,category,groupname,proper
     AssertUtil().assert_code(update_configitems_response['status'], status_code)
     AssertUtil().assert_in_body(update_configitems_response['data'], expected_result)
 
+# @pytest.mark.cmdb
+# @pytest.mark.run(order=7)
+# @allure.feature("CMDB")
+# @allure.story("导入配置项")
+# @pytest.mark.parametrize("ID, testcases, category", import_configitem_data)
+# def test_import_configitems(uri, auth_token, ID, testcases, category):
+#     """
+#     配置项导入接口测试
+#     :param uri:
+#     :param auth_token:
+#     :param ID:
+#     :param testcases:
+#     :param category:要导入的配置项所属类型名称
+#     :return:
+#     """
+#     categoryCode = get_category_code(category)
+#     headers = {
+#                 "T-AUTH-TOKEN": auth_token
+#               }
+#     configitem_file = {'file':
+#                        open(importFile, 'rb')}
+#     import_configitems_response = requests.post(url=uri + base_configitems_url + "/import?categoryCode="
+#                                                 + categoryCode,
+#                                                headers = headers,
+#                                                files = configitem_file).json()
+#     allure.attach("请求响应code", str(import_configitems_response['status']))
+#     allure.attach("请求响应结果", str(import_configitems_response))
+#     my_log().info(import_configitems_response)
+#     assert import_configitems_response['status'] == 200
+
 @pytest.mark.cmdb
-@pytest.mark.run(order=7)
+@pytest.mark.run(order=8)
+@allure.feature("CMDB")
+@allure.story("导出配置项")
+@pytest.mark.parametrize("ID, testcases, category", import_configitem_data)
+def test_export_configitems(uri, auth_token, ID, testcases, category):
+    categoryCode = get_category_code(category)
+    headers = {
+        "T-AUTH-TOKEN": auth_token
+    }
+    export_configitems_response = requests.get(url=uri + base_configitems_url + "/export?categoryCode="
+                                                    + categoryCode,
+                                                headers=headers).json()
+    allure.attach("请求响应code", str(export_configitems_response['status']))
+    allure.attach("请求响应结果", str(export_configitems_response))
+    my_log().info(export_configitems_response)
+    assert export_configitems_response['status'] == 200
+
+@pytest.mark.cmdb
+@pytest.mark.run(order=9)
 @allure.feature("CMDB")
 @allure.story("删除配置项")
-@pytest.mark.parametrize("ID, testcases,namecode,configitem,status_code", delete_category_data)
-def test_delete_configitem(uri, headers,ID, testcases,namecode,configitem,status_code):
+@pytest.mark.parametrize("ID, testcases,namecode,configitem,status_code", delete_configitem_data)
+def test_delete_configitems(uri, headers,ID, testcases,namecode,configitem,status_code):
     """
     删除配置项接口
     :param uri:
@@ -207,4 +257,13 @@ def get_configitem_key(propertyCode,itemName):
     for configitem in configitems:
         if configitem.property['%s' % propertyCode] == itemName:
             return configitem._key
+
+
+
+
+
+
+
+
+
 

@@ -1,5 +1,149 @@
 {
   "uid" : "4b4757e66a1912dae1a509f688f20b0f",
   "name" : "categories",
-  "children" : [ ]
+  "children" : [ {
+    "name" : "Product defects",
+    "children" : [ {
+      "name" : "AssertionError: assert 500 == 200",
+      "children" : [ {
+        "name" : "test_import_configitems[1-选择某配置项导入导出-云主机]",
+        "uid" : "38a69712e2a5d11b",
+        "parentUid" : "02c5072e19457c72e6d75594e909a774",
+        "status" : "failed",
+        "time" : {
+          "start" : 1584344036067,
+          "stop" : 1584344036575,
+          "duration" : 508
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'云主机'", "'选择某配置项导入导出'" ]
+      } ],
+      "uid" : "02c5072e19457c72e6d75594e909a774"
+    }, {
+      "name" : "AssertionError",
+      "children" : [ {
+        "name" : "test_create_dictionaries[1-创建一级字典-一级字典-code_1-None-200-一级字典]",
+        "uid" : "1ac9e34d6c656b3f",
+        "parentUid" : "a0017ad855102fea08b8682d27fec4ca",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684640055,
+          "stop" : 1586684641301,
+          "duration" : 1246
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'code_1'", "'一级字典'", "'一级字典'", "None", "200", "'创建一级字典'" ]
+      }, {
+        "name" : "test_create_dictionaries[2-创建二级字典-二级字典-code_2-一级字典-200-二级字典]",
+        "uid" : "37e84de34c8e47e1",
+        "parentUid" : "a0017ad855102fea08b8682d27fec4ca",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684641495,
+          "stop" : 1586684643780,
+          "duration" : 2285
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'code_2'", "'二级字典'", "'二级字典'", "'一级字典'", "200", "'创建二级字典'" ]
+      }, {
+        "name" : "test_update_dictionaries[1-编辑一级字典-一级字典-编辑一级字典测试-200-编辑一级字典测试]",
+        "uid" : "a1576b49e1fe111d",
+        "parentUid" : "a0017ad855102fea08b8682d27fec4ca",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684643833,
+          "stop" : 1586684646331,
+          "duration" : 2498
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'一级字典'", "'编辑一级字典测试'", "200", "'编辑一级字典'", "'编辑一级字典测试'" ]
+      }, {
+        "name" : "test_update_dictionaries[2-编辑二级字典-二级字典-编辑二级字典测试-200-编辑二级字典测试]",
+        "uid" : "8c1bcd92261db4ae",
+        "parentUid" : "a0017ad855102fea08b8682d27fec4ca",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684646384,
+          "stop" : 1586684647561,
+          "duration" : 1177
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'二级字典'", "'编辑二级字典测试'", "200", "'编辑二级字典'", "'编辑二级字典测试'" ]
+      }, {
+        "name" : "test_delete_dictionaries[1-删除二级字典-编辑二级字典测试-200]",
+        "uid" : "c2672d4801f96254",
+        "parentUid" : "a0017ad855102fea08b8682d27fec4ca",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684650314,
+          "stop" : 1586684650566,
+          "duration" : 252
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'编辑二级字典测试'", "200", "'删除二级字典'" ]
+      }, {
+        "name" : "test_delete_dictionaries[2-删除一级字典-编辑一级字典测试-200]",
+        "uid" : "d382ce2f45c40e39",
+        "parentUid" : "a0017ad855102fea08b8682d27fec4ca",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684650683,
+          "stop" : 1586684650989,
+          "duration" : 306
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'编辑一级字典测试'", "200", "'删除一级字典'" ]
+      }, {
+        "name" : "test_delete_category[3-正常删除一级配置项类型-category_auto-200]",
+        "uid" : "4cc81b2ee66496c8",
+        "parentUid" : "a0017ad855102fea08b8682d27fec4ca",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684801768,
+          "stop" : 1586684803441,
+          "duration" : 1673
+        },
+        "flaky" : false,
+        "parameters" : [ "3", "'category_auto'", "200", "'正常删除一级配置项类型'" ]
+      } ],
+      "uid" : "a0017ad855102fea08b8682d27fec4ca"
+    } ],
+    "uid" : "8fb3a91ba5aaf9de24cc8a92edc82b5d"
+  }, {
+    "name" : "Test defects",
+    "children" : [ {
+      "name" : "TypeError: can only concatenate str (not \"NoneType\") to str",
+      "children" : [ {
+        "name" : "test_delete_configitems[3-删除配置项-name-import_vm1-200]",
+        "uid" : "e0ab9770f57605c",
+        "parentUid" : "7ae55e489197044a8850b123498a77e4",
+        "status" : "broken",
+        "time" : {
+          "start" : 1584344039624,
+          "stop" : 1584344039984,
+          "duration" : 360
+        },
+        "flaky" : false,
+        "parameters" : [ "3", "'import_vm1'", "'name'", "200", "'删除配置项'" ]
+      } ],
+      "uid" : "7ae55e489197044a8850b123498a77e4"
+    }, {
+      "name" : "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+      "children" : [ {
+        "name" : "test_export_configitems[1-选择某配置项导入导出-云主机]",
+        "uid" : "44bc002074626aa9",
+        "parentUid" : "7bcaf70ebf758f58bb51e7ee5ff79f52",
+        "status" : "broken",
+        "time" : {
+          "start" : 1586684647808,
+          "stop" : 1586684650089,
+          "duration" : 2281
+        },
+        "flaky" : true,
+        "parameters" : [ "1", "'云主机'", "'选择某配置项导入导出'" ]
+      } ],
+      "uid" : "7bcaf70ebf758f58bb51e7ee5ff79f52"
+    } ],
+    "uid" : "bdbf199525818fae7a8651db9eafe741"
+  } ]
 }

@@ -117,7 +117,7 @@ def get_categorykey(categoryName):
                 return categorykey
 
 @pytest.mark.cmdb
-@pytest.mark.run(order=8)
+@pytest.mark.run(order=10)
 @allure.feature("CMDB")
 @allure.story("编辑配置项类型")
 @pytest.mark.parametrize("ID, testcases, categoryName,updatename, code, sourceCategoryCode, parentCategoryKey, icon,status_code, expected_result", update_category_data)
@@ -158,7 +158,7 @@ def test_update_category(uri, headers, ID, testcases, categoryName, updatename, 
     AssertUtil().assert_in_body(update_category_response['data'],expected_result)
 
 @pytest.mark.cmdb
-@pytest.mark.run(order=9)
+@pytest.mark.run(order=11)
 @allure.feature("CMDB")
 @allure.story("删除配置项类型")
 @pytest.mark.parametrize("ID, testcases, name, status_code", delete_category_data)

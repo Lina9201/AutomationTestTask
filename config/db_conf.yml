@@ -7,6 +7,6 @@ tcrc_db:
   db_port: "3306"
 
 cmdb_db:
-  arangoURL: "http://172.23.1.2:8529"
+  arangoURL: "http://172.23.1.7:8529"
   username: "root"
   password: "root1234"

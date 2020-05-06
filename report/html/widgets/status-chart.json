@@ -1,40 +1,300 @@
 [ {
-  "uid" : "9f7901d3857ebae0",
-  "name" : "test_create_datacenter[datacenter_data2]",
+  "uid" : "e0ab9770f57605c",
+  "name" : "test_delete_configitems[3-删除配置项-name-import_vm1-200]",
   "time" : {
-    "start" : 1572251384171,
-    "stop" : 1572251384578,
-    "duration" : 407
+    "start" : 1584344039624,
+    "stop" : 1584344039984,
+    "duration" : 360
+  },
+  "status" : "broken",
+  "severity" : "normal"
+}, {
+  "uid" : "c2672d4801f96254",
+  "name" : "test_delete_dictionaries[1-删除二级字典-编辑二级字典测试-200]",
+  "time" : {
+    "start" : 1586684650314,
+    "stop" : 1586684650566,
+    "duration" : 252
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "a1576b49e1fe111d",
+  "name" : "test_update_dictionaries[1-编辑一级字典-一级字典-编辑一级字典测试-200-编辑一级字典测试]",
+  "time" : {
+    "start" : 1586684643833,
+    "stop" : 1586684646331,
+    "duration" : 2498
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "5f0cd6782b42db4e",
+  "name" : "test_update_category[1-编辑一级配置项类型-category_auto-category_auto_update-category_auto-None-None-iconfont icon-moren-200-category_auto_update]",
+  "time" : {
+    "start" : 1586684798538,
+    "stop" : 1586684799203,
+    "duration" : 665
   },
   "status" : "passed",
   "severity" : "normal"
 }, {
-  "uid" : "f85f653db0985fa",
-  "name" : "test_create_datacenter[datacenter_data3]",
+  "uid" : "1f1d3654570d084e",
+  "name" : "test_create_category[1-创建一级配置项类型-category_auto-category_auto-None-None-iconfont icon-moren-200-category_auto]",
   "time" : {
-    "start" : 1572251384747,
-    "stop" : 1572251384897,
-    "duration" : 150
+    "start" : 1586684492446,
+    "stop" : 1586684493188,
+    "duration" : 742
   },
   "status" : "passed",
   "severity" : "normal"
 }, {
-  "uid" : "7d798ef4f84fdca7",
-  "name" : "test_create_datacenter[datacenter_data1]",
+  "uid" : "4cc81b2ee66496c8",
+  "name" : "test_delete_category[3-正常删除一级配置项类型-category_auto-200]",
   "time" : {
-    "start" : 1572251383849,
-    "stop" : 1572251384139,
-    "duration" : 290
+    "start" : 1586684801768,
+    "stop" : 1586684803441,
+    "duration" : 1673
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "71a696e4e7aa81fc",
+  "name" : "test_update_category[2-编辑一级配置项类型-category_auto_update-category_auto-category_auto-None-None-iconfont icon-moren-200-category_auto]",
+  "time" : {
+    "start" : 1586684799308,
+    "stop" : 1586684799520,
+    "duration" : 212
   },
   "status" : "passed",
   "severity" : "normal"
 }, {
-  "uid" : "4b6104021f5152c",
-  "name" : "test_create_datacenter[datacenter_data0]",
+  "uid" : "37bb08d4b0e5ede6",
+  "name" : "test_delete_category[2-正常删除二级配置项类型-云主机-200]",
   "time" : {
-    "start" : 1572251383618,
-    "stop" : 1572251383817,
-    "duration" : 199
+    "start" : 1586684801368,
+    "stop" : 1586684801746,
+    "duration" : 378
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "d81e28beeda66e4d",
+  "name" : "test_add_property[1-添加SSH页签-代理机-SSH-2-None-None-None-None-None-None-None-None-None-None-200-SSH]",
+  "time" : {
+    "start" : 1586684494957,
+    "stop" : 1586684495470,
+    "duration" : 513
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "d1d47e2281d53826",
+  "name" : "test_update_configitems[2-编辑云主机配置项-云主机-基本信息-名称-name-vmtest2-vmtest1-200-vmtest1]",
+  "time" : {
+    "start" : 1586684605274,
+    "stop" : 1586684639883,
+    "duration" : 34609
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "2904f7c6d29b11f1",
+  "name" : "test_create_configitems[2-创建代理机配置项-代理机-基本信息-名称-name-proxytest1-200-proxytest1]",
+  "time" : {
+    "start" : 1586684498104,
+    "stop" : 1586684499319,
+    "duration" : 1215
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "6d667980299d41d9",
+  "name" : "test_create_category[2-创建二级配置项类型-代理机-proxyhost-None-category_auto-iconfont icon-yonghu-200-代理机]",
+  "time" : {
+    "start" : 1586684493214,
+    "stop" : 1586684494316,
+    "duration" : 1102
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "38a69712e2a5d11b",
+  "name" : "test_import_configitems[1-选择某配置项导入导出-云主机]",
+  "time" : {
+    "start" : 1584344036067,
+    "stop" : 1584344036575,
+    "duration" : 508
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "86775e84ded63c67",
+  "name" : "test_add_property[2-添加IP地址-代理机-SSH-2-IP-IP地址-input-True-True-True-False-None-False-1-200-IP地址]",
+  "time" : {
+    "start" : 1586684495667,
+    "stop" : 1586684496374,
+    "duration" : 707
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "c68bfbe3f0bfe2ec",
+  "name" : "test_update_category[3-编辑二级配置项类型为一级-代理机-代理机-proxyhost-None-None-iconfont icon-moren-200-代理机]",
+  "time" : {
+    "start" : 1586684799566,
+    "stop" : 1586684799758,
+    "duration" : 192
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "2ffb70d28dcf41e9",
+  "name" : "test_create_configitems[1-创建云主机配置项-云主机-基本信息-名称-name-vmtest1-200-vmtest1]",
+  "time" : {
+    "start" : 1586684497183,
+    "stop" : 1586684498049,
+    "duration" : 866
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "d382ce2f45c40e39",
+  "name" : "test_delete_dictionaries[2-删除一级字典-编辑一级字典测试-200]",
+  "time" : {
+    "start" : 1586684650683,
+    "stop" : 1586684650989,
+    "duration" : 306
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "8c1bcd92261db4ae",
+  "name" : "test_update_dictionaries[2-编辑二级字典-二级字典-编辑二级字典测试-200-编辑二级字典测试]",
+  "time" : {
+    "start" : 1586684646384,
+    "stop" : 1586684647561,
+    "duration" : 1177
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "1ac9e34d6c656b3f",
+  "name" : "test_create_dictionaries[1-创建一级字典-一级字典-code_1-None-200-一级字典]",
+  "time" : {
+    "start" : 1586684640055,
+    "stop" : 1586684641301,
+    "duration" : 1246
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "b547a93b55f16e45",
+  "name" : "test_delete_configitems[1-删除配置项-name-vmtest1-200]",
+  "time" : {
+    "start" : 1586684651026,
+    "stop" : 1586684726277,
+    "duration" : 75251
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "f647b9111439ff04",
+  "name" : "test_configitem_relationship[1-配置项间关系-name-proxytest1-代理-name-vmtest1-200-config_item_to_config_item]",
+  "time" : {
+    "start" : 1586684500229,
+    "stop" : 1586684564836,
+    "duration" : 64607
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "44bc002074626aa9",
+  "name" : "test_export_configitems[1-选择某配置项导入导出-云主机]",
+  "time" : {
+    "start" : 1586684647808,
+    "stop" : 1586684650089,
+    "duration" : 2281
+  },
+  "status" : "broken",
+  "severity" : "normal"
+}, {
+  "uid" : "37e84de34c8e47e1",
+  "name" : "test_create_dictionaries[2-创建二级字典-二级字典-code_2-一级字典-200-二级字典]",
+  "time" : {
+    "start" : 1586684641495,
+    "stop" : 1586684643780,
+    "duration" : 2285
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "789aaf21ef54c794",
+  "name" : "test_delete_category[1-正常删除二级配置项类型-代理机-200]",
+  "time" : {
+    "start" : 1586684800738,
+    "stop" : 1586684801338,
+    "duration" : 600
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "1dd5eab28bb0dbe9",
+  "name" : "test_category_relationship[1-代理机管理云主机类型关系-代理机-代理-云主机-200-category_to_category]",
+  "time" : {
+    "start" : 1586684499352,
+    "stop" : 1586684500207,
+    "duration" : 855
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "8e41435546f190a0",
+  "name" : "test_delete_configitems[2-删除配置项-name-proxytest1-200]",
+  "time" : {
+    "start" : 1586684726395,
+    "stop" : 1586684798500,
+    "duration" : 72105
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "3324f767b62681e3",
+  "name" : "test_update_configitems[1-编辑云主机配置项-云主机-基本信息-名称-name-vmtest1-vmtest2-200-vmtest2]",
+  "time" : {
+    "start" : 1586684564874,
+    "stop" : 1586684605234,
+    "duration" : 40360
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "65d4dfb7666f87cb",
+  "name" : "test_update_category[4-再编辑为二级-代理机-代理机-proxyhost-None-category_auto-iconfont icon-moren-200-代理机]",
+  "time" : {
+    "start" : 1586684799780,
+    "stop" : 1586684800716,
+    "duration" : 936
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "5370a543edaece31",
+  "name" : "test_add_property[3-添加用户名-代理机-SSH-2-username-用户名-input-True-True-True-False-root-False-2-200-用户名]",
+  "time" : {
+    "start" : 1586684496802,
+    "stop" : 1586684497126,
+    "duration" : 324
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "f5061fe94ffa2b18",
+  "name" : "test_create_category[3-创建二级配置项类型-云主机-cloudvm-None-category_auto-iconfont icon-yonghu-200-云主机]",
+  "time" : {
+    "start" : 1586684494336,
+    "stop" : 1586684494874,
+    "duration" : 538
   },
   "status" : "passed",
   "severity" : "normal"
