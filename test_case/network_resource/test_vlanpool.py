@@ -1,32 +1,41 @@
 import pytest
 import requests
-from network_resource.conftest import read_excel, read_excel_tuple, read_excel_dic, write_excel
+from common.get_excel import read_excel, read_excel_tuple
+from config import Conf
+from test_case.cmp_compute.test_resourcepool import get_resourcepoolid
+import os
+import urllib.parse
+import allure
+from utils.LogUtil import my_log
 
-# 路径
+
+
 ## 创建VLAN池
 create_vlanpool_url_path = '/admin/v1/vlan_pools/'
 ## 获取VLAN池
 get_vlanpool_url_path = '/admin/v1/vlan_pools/page?tag=TRADITIONAL_VLAN'
+## 获取VLAN
+get_vlan_url_path = '/admin/v1/vlans'
 ## 编辑VLAN池
 update_vlanpool_url_path = '/admin/v1/vlan_pools/'
 ## 删除VLAN池
 delete_vlanpool_url_path = '/admin/v1/vlan_pools/'
 
 # 构造测试数据
+testdata_path = Conf.get_testdata_path()
+excelFile = testdata_path + os.sep + "网络资源.xlsx"
 ## 创建VLAN池
-param_create_vlanpool = read_excel_tuple('网络资源.xlsx', '创建VLAN池')
+param_create_vlanpool = read_excel_tuple(excelFile, '创建VLAN池')
 ## 编辑VLAN池
-param_update_vlanpool = read_excel_tuple('网络资源.xlsx', '编辑VLAN池')
+param_update_vlanpool = read_excel_tuple(excelFile, '编辑VLAN池')
 ## 删除VLAN池
-param_delete_vlanpool = read_excel('网络资源.xlsx', '删除VLAN池', 'name')
-
+param_delete_vlanpool = read_excel_tuple(excelFile, '删除VLAN池')
 
 # 定义函数
 ## 获取VLAN池列表
-def get_vlanpool_list(ip, port, headers):
-    ip_address = 'http://%s:%s' % (ip, port)
+def get_vlanpool_list(uri, headers):
     vlanpool_list_response = requests.get(
-        url=ip_address + get_vlanpool_url_path,
+        url=uri + get_vlanpool_url_path,
         headers=headers
     ).json()
     vlanpool_list = vlanpool_list_response['data']['list']
@@ -34,83 +43,98 @@ def get_vlanpool_list(ip, port, headers):
 
 
 ## 获取VLAN池名称
-def get_vlanpool_name_list(ip, port, headers):
+def get_vlanpool_name_list(uri, headers):
     vlanpool_name_list = []
-    for i in get_vlanpool_list(ip, port, headers):
+    for i in get_vlanpool_list(uri, headers):
         vlanpool_name_list.append(i['name'])
     return vlanpool_name_list
 
 
 ## 获取VLAN池ID
-def get_vlanpool_id(ip, port, headers, name):
-    vlanpool_id = []
-    for i in get_vlanpool_list(ip, port, headers):
+def get_vlanpool_id(uri, headers, name):
+    for i in get_vlanpool_list(uri, headers):
         if name == i['name']:
-            vlanpool_id.append(i['id'])
-    return vlanpool_id
+            return i['id']
 
 
-# 测试用例
-## 创建VLAN池
-@pytest.mark.parametrize('name,tag,vlanPoolResourcePoolList,vlanTagStart,vlanTagEnd', param_create_vlanpool)
-def test_create_vlanpool(ip, port, headers, name, tag, vlanPoolResourcePoolList, vlanTagStart, vlanTagEnd):
-    ip_address = "http://%s:%s" % (ip, port)
+def get_vlan_id(uri, headers, vlanpoolId):
+    vlan_list = []
+    url_data = {
+        'vlanpoolId': vlanpoolId,
+        'status' : "NOT_USED"
+    }
+    query_vlans = urllib.parse.urlencode(url_data)
+    vlanIdResponse = requests.get(
+        url=uri + get_vlan_url_path + "?" + query_vlans,
+        headers=headers
+    ).json()
+    for vlan in vlanIdResponse['data']:
+        if vlanpoolId == vlan['vlanPoolId']:
+             vlan_list.append(vlan['id'])
+    return vlan_list
+
+#测试用例
+#创建VLAN池
+@pytest.mark.smoke
+@pytest.mark.run(order=4)
+@pytest.mark.parametrize('name,tag,ResourcePoolName,vlanTagStart,vlanTagEnd', param_create_vlanpool)
+@allure.feature("网络资源")
+@allure.story("创建VLAN池")
+def test_create_vlanpool(uri, headers, name, tag, ResourcePoolName, vlanTagStart, vlanTagEnd):
+    resourcepoolid = get_resourcepoolid(uri, headers, ResourcePoolName)
     param = {
         'name': name,  # VLAN池名称
         'tag': tag,
-        'vlanPoolResourcePoolList': list(eval(vlanPoolResourcePoolList)), #[{'resourcePoolId': 114}],  # 作用域调用资源池ID
+        'vlanPoolResourcePoolList': [{'resourcePoolId': resourcepoolid}],  #作用域调用资源池ID
         'vlanTagEnd': vlanTagStart,  # 结束VLAN ID
         'vlanTagStart': vlanTagEnd  # 起始VLAN ID
     }
     create_vlanpool_response = requests.post(
-        url=ip_address + create_vlanpool_url_path,
+        url=uri + create_vlanpool_url_path,
         headers=headers,
         json=param
     ).json()
     print(create_vlanpool_response)
     code = create_vlanpool_response['status']
+    allure.attach("请求响应code", str(create_vlanpool_response['status']))
+    allure.attach("请求响应结果", str(create_vlanpool_response))
+    my_log().info(create_vlanpool_response)
     assert code == 200
-    assert name in get_vlanpool_name_list(ip, port, headers)
 
-
-## 编辑VLAN池
-@pytest.mark.parametrize('name,update_name,tag,vlanPoolResourcePoolList,vlanTagStart,vlanTagEnd', param_update_vlanpool)
-def test_update_vlanpool(ip, port, headers, name, update_name, tag, vlanPoolResourcePoolList, vlanTagStart, vlanTagEnd):
-    ip_address = 'http://%s:%s' % (ip, port)
-    vlanpool_id = get_vlanpool_id(ip, port, headers, name)[0]
-    param = {
-        'id': vlanpool_id,
-        'name': update_name,
-        'tag': tag,
-        'vlanPoolResourcePoolList': [{'resourcePoolId': 114, 'vlanPoolId': vlanpool_id}],
-        'vlanTagStart': vlanTagStart,
-        'vlanTagEnd': vlanTagEnd
+#编辑VLAN池
+@pytest.mark.smoke_update
+@pytest.mark.run(order=5)
+@pytest.mark.parametrize('vlanpool_name, update_vlanpool_name, ResourcePool, vlanTagStart, vlanTagEnd', param_update_vlanpool)
+@allure.feature("网络资源")
+@allure.story("编辑VLAN池")
+def test_update_vlanpool(uri,headers,vlanpool_name,update_vlanpool_name,ResourcePool,vlanTagStart,vlanTagEnd):
+    vlanpoolId=get_vlanpool_id(uri,headers,vlanpool_name)
+    resourcepoolid = get_resourcepoolid(uri, headers, ResourcePool)
+    update_vlanpool_param={
+        'name':update_vlanpool_name,
+        'vlanTagStart':vlanTagStart,
+        'vlanTagEnd':vlanTagEnd,
+        'vlanPoolResourcePoolList': [{'resourcePoolId': resourcepoolid,'vlanPoolId':vlanpoolId}]
     }
-    update_vlanpool_response = requests.put(
-        url=ip_address + update_vlanpool_url_path + str(vlanpool_id),
-        headers=headers,
-        json=param
-    ).json()
-    code = update_vlanpool_response['status']
+    update_vlanpool_response=requests.put(url=uri+update_vlanpool_url_path+str(vlanpoolId),
+                                       headers=headers,json=update_vlanpool_param).json()
+    allure.attach("请求响应code", str(update_vlanpool_response['status']))
+    allure.attach("请求响应结果", str(update_vlanpool_response))
+    my_log().info(update_vlanpool_response)
+    assert update_vlanpool_response['status'] == 200
+
+#删除VLAN池
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=3)
+@pytest.mark.parametrize('ID,vlanpool_name',param_delete_vlanpool)
+@allure.feature("网络资源")
+@allure.story("删除VLAN池")
+def test_delete_vlanpool(uri, headers,ID,vlanpool_name):
+    vlanpoolId=get_vlanpool_id(uri,headers,vlanpool_name)
+    delete_vlanpool_response=requests.delete(url=uri+delete_vlanpool_url_path+str(vlanpoolId),
+                                           headers=headers).json()
+    code=delete_vlanpool_response['status']
+    allure.attach("请求响应code", str(delete_vlanpool_response['status']))
+    allure.attach("请求响应结果", str(delete_vlanpool_response))
+    my_log().info(delete_vlanpool_response)
     assert code == 200
-    assert update_name in get_vlanpool_name_list(ip, port, headers)
-
-
-## 删除VLAN池
-@pytest.mark.parametrize('name', param_delete_vlanpool)
-def test_delete_vlanpool(ip, port, headers, name):
-    ip_address = 'http://%s:%s' % (ip, port)
-    print(name)
-    vlanpool_id = get_vlanpool_id(ip, port, headers, name)[0]
-    print(get_vlanpool_id(ip, port, headers, name))
-    delete_vlanpool_response = requests.delete(
-        url=ip_address + delete_vlanpool_url_path + str(vlanpool_id),
-        headers=headers
-    ).json()
-    code = delete_vlanpool_response['status']
-    assert code == 200
-    assert name not in get_vlanpool_name_list(ip, port, headers)
-
-
-if __name__ == '__main__':
-    pytest.main()

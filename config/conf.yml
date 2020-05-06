@@ -1,3 +1,5 @@
 BASE:
-  test:
-    url: "http://172.50.10.42:8000"
+  #log等级
+  log_level: "debug"
+  #log扩展名
+  log_extension: ".log"

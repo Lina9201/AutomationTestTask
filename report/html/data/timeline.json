@@ -4,57 +4,373 @@
   "children" : [ {
     "name" : "DESKTOP-PKGI7TE",
     "children" : [ {
-      "name" : "6480-MainThread",
+      "name" : "17936-MainThread",
       "children" : [ {
-        "name" : "test_create_datacenter[datacenter_data2]",
-        "uid" : "9f7901d3857ebae0",
-        "parentUid" : "2a34ec69511d13258aaf350e2916de25",
-        "status" : "passed",
+        "name" : "test_delete_configitems[3-删除配置项-name-import_vm1-200]",
+        "uid" : "e0ab9770f57605c",
+        "parentUid" : "7d13f844b251ad7c27556a6c8223949f",
+        "status" : "broken",
         "time" : {
-          "start" : 1572251384171,
-          "stop" : 1572251384578,
-          "duration" : 407
+          "start" : 1584344039624,
+          "stop" : 1584344039984,
+          "duration" : 360
         },
         "flaky" : false,
-        "parameters" : [ "{'name': '添加vmware数据中心', 'description': 'test1'}" ]
+        "parameters" : [ "3", "'import_vm1'", "'name'", "200", "'删除配置项'" ]
       }, {
-        "name" : "test_create_datacenter[datacenter_data3]",
-        "uid" : "f85f653db0985fa",
-        "parentUid" : "2a34ec69511d13258aaf350e2916de25",
-        "status" : "passed",
+        "name" : "test_import_configitems[1-选择某配置项导入导出-云主机]",
+        "uid" : "38a69712e2a5d11b",
+        "parentUid" : "7d13f844b251ad7c27556a6c8223949f",
+        "status" : "failed",
         "time" : {
-          "start" : 1572251384747,
-          "stop" : 1572251384897,
-          "duration" : 150
+          "start" : 1584344036067,
+          "stop" : 1584344036575,
+          "duration" : 508
         },
         "flaky" : false,
-        "parameters" : [ "{'name': '', 'description': ''}" ]
-      }, {
-        "name" : "test_create_datacenter[datacenter_data1]",
-        "uid" : "7d798ef4f84fdca7",
-        "parentUid" : "2a34ec69511d13258aaf350e2916de25",
-        "status" : "passed",
-        "time" : {
-          "start" : 1572251383849,
-          "stop" : 1572251384139,
-          "duration" : 290
-        },
-        "flaky" : false,
-        "parameters" : [ "{'name': '添加openstack数据中心', 'description': 'test2'}" ]
-      }, {
-        "name" : "test_create_datacenter[datacenter_data0]",
-        "uid" : "4b6104021f5152c",
-        "parentUid" : "2a34ec69511d13258aaf350e2916de25",
-        "status" : "passed",
-        "time" : {
-          "start" : 1572251383618,
-          "stop" : 1572251383817,
-          "duration" : 199
-        },
-        "flaky" : false,
-        "parameters" : [ "{'name': '添加vmware数据中心', 'description': 'test1'}" ]
+        "parameters" : [ "1", "'云主机'", "'选择某配置项导入导出'" ]
       } ],
-      "uid" : "2a34ec69511d13258aaf350e2916de25"
+      "uid" : "7d13f844b251ad7c27556a6c8223949f"
+    }, {
+      "name" : "19200-MainThread",
+      "children" : [ {
+        "name" : "test_delete_dictionaries[1-删除二级字典-编辑二级字典测试-200]",
+        "uid" : "c2672d4801f96254",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684650314,
+          "stop" : 1586684650566,
+          "duration" : 252
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'编辑二级字典测试'", "200", "'删除二级字典'" ]
+      }, {
+        "name" : "test_update_dictionaries[1-编辑一级字典-一级字典-编辑一级字典测试-200-编辑一级字典测试]",
+        "uid" : "a1576b49e1fe111d",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684643833,
+          "stop" : 1586684646331,
+          "duration" : 2498
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'一级字典'", "'编辑一级字典测试'", "200", "'编辑一级字典'", "'编辑一级字典测试'" ]
+      }, {
+        "name" : "test_update_category[1-编辑一级配置项类型-category_auto-category_auto_update-category_auto-None-None-iconfont icon-moren-200-category_auto_update]",
+        "uid" : "5f0cd6782b42db4e",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684798538,
+          "stop" : 1586684799203,
+          "duration" : 665
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'category_auto'", "'category_auto'", "'category_auto_update'", "'iconfont icon-moren'", "None", "None", "200", "'编辑一级配置项类型'", "'category_auto_update'" ]
+      }, {
+        "name" : "test_create_category[1-创建一级配置项类型-category_auto-category_auto-None-None-iconfont icon-moren-200-category_auto]",
+        "uid" : "1f1d3654570d084e",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684492446,
+          "stop" : 1586684493188,
+          "duration" : 742
+        },
+        "flaky" : true,
+        "parameters" : [ "1", "'category_auto'", "'category_auto'", "'iconfont icon-moren'", "'category_auto'", "None", "None", "200", "'创建一级配置项类型'" ]
+      }, {
+        "name" : "test_delete_category[3-正常删除一级配置项类型-category_auto-200]",
+        "uid" : "4cc81b2ee66496c8",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684801768,
+          "stop" : 1586684803441,
+          "duration" : 1673
+        },
+        "flaky" : false,
+        "parameters" : [ "3", "'category_auto'", "200", "'正常删除一级配置项类型'" ]
+      }, {
+        "name" : "test_update_category[2-编辑一级配置项类型-category_auto_update-category_auto-category_auto-None-None-iconfont icon-moren-200-category_auto]",
+        "uid" : "71a696e4e7aa81fc",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684799308,
+          "stop" : 1586684799520,
+          "duration" : 212
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'category_auto_update'", "'category_auto'", "'category_auto'", "'iconfont icon-moren'", "None", "None", "200", "'编辑一级配置项类型'", "'category_auto'" ]
+      }, {
+        "name" : "test_delete_category[2-正常删除二级配置项类型-云主机-200]",
+        "uid" : "37bb08d4b0e5ede6",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684801368,
+          "stop" : 1586684801746,
+          "duration" : 378
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'云主机'", "200", "'正常删除二级配置项类型'" ]
+      }, {
+        "name" : "test_add_property[1-添加SSH页签-代理机-SSH-2-None-None-None-None-None-None-None-None-None-None-200-SSH]",
+        "uid" : "d81e28beeda66e4d",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684494957,
+          "stop" : 1586684495470,
+          "duration" : 513
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'代理机'", "None", "None", "None", "'SSH'", "'SSH'", "2", "None", "None", "None", "None", "200", "'添加SSH页签'", "None", "None", "None" ]
+      }, {
+        "name" : "test_update_configitems[2-编辑云主机配置项-云主机-基本信息-名称-name-vmtest2-vmtest1-200-vmtest1]",
+        "uid" : "d1d47e2281d53826",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684605274,
+          "stop" : 1586684639883,
+          "duration" : 34609
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'云主机'", "'vmtest1'", "'基本信息'", "'vmtest2'", "'name'", "'名称'", "200", "'编辑云主机配置项'", "'vmtest1'" ]
+      }, {
+        "name" : "test_create_configitems[2-创建代理机配置项-代理机-基本信息-名称-name-proxytest1-200-proxytest1]",
+        "uid" : "2904f7c6d29b11f1",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684498104,
+          "stop" : 1586684499319,
+          "duration" : 1215
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'代理机'", "'proxytest1'", "'基本信息'", "'proxytest1'", "'name'", "'名称'", "200", "'创建代理机配置项'" ]
+      }, {
+        "name" : "test_create_category[2-创建二级配置项类型-代理机-proxyhost-None-category_auto-iconfont icon-yonghu-200-代理机]",
+        "uid" : "6d667980299d41d9",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684493214,
+          "stop" : 1586684494316,
+          "duration" : 1102
+        },
+        "flaky" : true,
+        "parameters" : [ "2", "'proxyhost'", "'代理机'", "'iconfont icon-yonghu'", "'代理机'", "'category_auto'", "None", "200", "'创建二级配置项类型'" ]
+      }, {
+        "name" : "test_add_property[2-添加IP地址-代理机-SSH-2-IP-IP地址-input-True-True-True-False-None-False-1-200-IP地址]",
+        "uid" : "86775e84ded63c67",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684495667,
+          "stop" : 1586684496374,
+          "duration" : 707
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'代理机'", "'IP'", "None", "False", "'IP地址'", "'SSH'", "2", "False", "'IP地址'", "True", "True", "200", "'添加IP地址'", "'input'", "True", "1" ]
+      }, {
+        "name" : "test_update_category[3-编辑二级配置项类型为一级-代理机-代理机-proxyhost-None-None-iconfont icon-moren-200-代理机]",
+        "uid" : "c68bfbe3f0bfe2ec",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684799566,
+          "stop" : 1586684799758,
+          "duration" : 192
+        },
+        "flaky" : false,
+        "parameters" : [ "3", "'代理机'", "'proxyhost'", "'代理机'", "'iconfont icon-moren'", "None", "None", "200", "'编辑二级配置项类型为一级'", "'代理机'" ]
+      }, {
+        "name" : "test_create_configitems[1-创建云主机配置项-云主机-基本信息-名称-name-vmtest1-200-vmtest1]",
+        "uid" : "2ffb70d28dcf41e9",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684497183,
+          "stop" : 1586684498049,
+          "duration" : 866
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'云主机'", "'vmtest1'", "'基本信息'", "'vmtest1'", "'name'", "'名称'", "200", "'创建云主机配置项'" ]
+      }, {
+        "name" : "test_delete_dictionaries[2-删除一级字典-编辑一级字典测试-200]",
+        "uid" : "d382ce2f45c40e39",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684650683,
+          "stop" : 1586684650989,
+          "duration" : 306
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'编辑一级字典测试'", "200", "'删除一级字典'" ]
+      }, {
+        "name" : "test_update_dictionaries[2-编辑二级字典-二级字典-编辑二级字典测试-200-编辑二级字典测试]",
+        "uid" : "8c1bcd92261db4ae",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684646384,
+          "stop" : 1586684647561,
+          "duration" : 1177
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'二级字典'", "'编辑二级字典测试'", "200", "'编辑二级字典'", "'编辑二级字典测试'" ]
+      }, {
+        "name" : "test_create_dictionaries[1-创建一级字典-一级字典-code_1-None-200-一级字典]",
+        "uid" : "1ac9e34d6c656b3f",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684640055,
+          "stop" : 1586684641301,
+          "duration" : 1246
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'code_1'", "'一级字典'", "'一级字典'", "None", "200", "'创建一级字典'" ]
+      }, {
+        "name" : "test_delete_configitems[1-删除配置项-name-vmtest1-200]",
+        "uid" : "b547a93b55f16e45",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684651026,
+          "stop" : 1586684726277,
+          "duration" : 75251
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'vmtest1'", "'name'", "200", "'删除配置项'" ]
+      }, {
+        "name" : "test_configitem_relationship[1-配置项间关系-name-proxytest1-代理-name-vmtest1-200-config_item_to_config_item]",
+        "uid" : "f647b9111439ff04",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684500229,
+          "stop" : 1586684564836,
+          "duration" : 64607
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'proxytest1'", "'vmtest1'", "'config_item_to_config_item'", "'name'", "'代理'", "200", "'配置项间关系'", "'name'" ]
+      }, {
+        "name" : "test_export_configitems[1-选择某配置项导入导出-云主机]",
+        "uid" : "44bc002074626aa9",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "broken",
+        "time" : {
+          "start" : 1586684647808,
+          "stop" : 1586684650089,
+          "duration" : 2281
+        },
+        "flaky" : true,
+        "parameters" : [ "1", "'云主机'", "'选择某配置项导入导出'" ]
+      }, {
+        "name" : "test_create_dictionaries[2-创建二级字典-二级字典-code_2-一级字典-200-二级字典]",
+        "uid" : "37e84de34c8e47e1",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "failed",
+        "time" : {
+          "start" : 1586684641495,
+          "stop" : 1586684643780,
+          "duration" : 2285
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'code_2'", "'二级字典'", "'二级字典'", "'一级字典'", "200", "'创建二级字典'" ]
+      }, {
+        "name" : "test_delete_category[1-正常删除二级配置项类型-代理机-200]",
+        "uid" : "789aaf21ef54c794",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684800738,
+          "stop" : 1586684801338,
+          "duration" : 600
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'代理机'", "200", "'正常删除二级配置项类型'" ]
+      }, {
+        "name" : "test_category_relationship[1-代理机管理云主机类型关系-代理机-代理-云主机-200-category_to_category]",
+        "uid" : "1dd5eab28bb0dbe9",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684499352,
+          "stop" : 1586684500207,
+          "duration" : 855
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'代理机'", "'云主机'", "'category_to_category'", "'代理'", "200", "'代理机管理云主机类型关系'" ]
+      }, {
+        "name" : "test_delete_configitems[2-删除配置项-name-proxytest1-200]",
+        "uid" : "8e41435546f190a0",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684726395,
+          "stop" : 1586684798500,
+          "duration" : 72105
+        },
+        "flaky" : false,
+        "parameters" : [ "2", "'proxytest1'", "'name'", "200", "'删除配置项'" ]
+      }, {
+        "name" : "test_update_configitems[1-编辑云主机配置项-云主机-基本信息-名称-name-vmtest1-vmtest2-200-vmtest2]",
+        "uid" : "3324f767b62681e3",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684564874,
+          "stop" : 1586684605234,
+          "duration" : 40360
+        },
+        "flaky" : false,
+        "parameters" : [ "1", "'云主机'", "'vmtest2'", "'基本信息'", "'vmtest1'", "'name'", "'名称'", "200", "'编辑云主机配置项'", "'vmtest2'" ]
+      }, {
+        "name" : "test_update_category[4-再编辑为二级-代理机-代理机-proxyhost-None-category_auto-iconfont icon-moren-200-代理机]",
+        "uid" : "65d4dfb7666f87cb",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684799780,
+          "stop" : 1586684800716,
+          "duration" : 936
+        },
+        "flaky" : false,
+        "parameters" : [ "4", "'代理机'", "'proxyhost'", "'代理机'", "'iconfont icon-moren'", "'category_auto'", "None", "200", "'再编辑为二级'", "'代理机'" ]
+      }, {
+        "name" : "test_add_property[3-添加用户名-代理机-SSH-2-username-用户名-input-True-True-True-False-root-False-2-200-用户名]",
+        "uid" : "5370a543edaece31",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684496802,
+          "stop" : 1586684497126,
+          "duration" : 324
+        },
+        "flaky" : false,
+        "parameters" : [ "3", "'代理机'", "'username'", "'root'", "False", "'用户名'", "'SSH'", "2", "False", "'用户名'", "True", "True", "200", "'添加用户名'", "'input'", "True", "2" ]
+      }, {
+        "name" : "test_create_category[3-创建二级配置项类型-云主机-cloudvm-None-category_auto-iconfont icon-yonghu-200-云主机]",
+        "uid" : "f5061fe94ffa2b18",
+        "parentUid" : "0c6ce69b295e37dcc998709a9283fda5",
+        "status" : "passed",
+        "time" : {
+          "start" : 1586684494336,
+          "stop" : 1586684494874,
+          "duration" : 538
+        },
+        "flaky" : true,
+        "parameters" : [ "3", "'cloudvm'", "'云主机'", "'iconfont icon-yonghu'", "'云主机'", "'category_auto'", "None", "200", "'创建二级配置项类型'" ]
+      } ],
+      "uid" : "0c6ce69b295e37dcc998709a9283fda5"
     } ],
     "uid" : "7829c2b896adf053f3dcfcab5773fdc2"
   } ]

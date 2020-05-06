@@ -1,10 +1,12 @@
 import requests
 import pytest
 import json
-from network_resource.conftest import read_excel, read_excel_tuple
+from config import Conf
+import os
 from common.get_excel_data import OperationExcleData
+import allure
+from utils.LogUtil import my_log
 
-# 创建2个组织，在组织1下创建用户1，在组织2下添加已有用户，移除用户，在组织1下删除用户，编辑组织，删除组织
 # 创建组织url
 create_orgnization_url = "/admin/v1/organizations"
 # 编辑组织/删除组织url
@@ -14,30 +16,32 @@ create_user_url = "/admin/v1/users"
 # 编辑/删除用户url
 update_user_url = "/admin/v1/users/"
 
-# 测试数据
 # 创建组织
-create_orgnization_param = OperationExcleData('../../test_data/组织用户.xlsx', '创建组织').getCaseList(
-    '../../test_data/组织用户.xlsx', '创建组织')
+testdata_path = Conf.get_testdata_path()
+excelFile = testdata_path + os.sep + "组织用户.xlsx"
+create_orgnization_param = OperationExcleData(excelFile, "创建组织").getcase_tuple()
 # 编辑组织
-update_orgnization_param = OperationExcleData('../../test_data/组织用户.xlsx', '编辑组织').getCaseList(
-    '../../test_data/组织用户.xlsx', '编辑组织')
+update_orgnization_param = OperationExcleData(excelFile, '编辑组织').getcase_tuple()
 # 删除组织
-delete_orgnization_param = OperationExcleData('../../test_data/组织用户.xlsx', '删除组织').getCaseList(
-    '../../test_data/组织用户.xlsx', '删除组织')
-
+delete_orgnization_param = OperationExcleData(excelFile, '删除组织').getcase_tuple()
 # 创建用户
-create_user_param = read_excel_tuple('../../test_data/组织用户.xlsx', '创建用户')
+create_user_param = OperationExcleData(excelFile, "创建用户").getcase_tuple()
 # 编辑用户
-update_user_param = read_excel_tuple('../../test_data/组织用户.xlsx', '编辑用户')
+update_user_param = OperationExcleData(excelFile, "编辑用户").getcase_tuple()
+# 添加已有用户
+create_exsiting_user_param = OperationExcleData(excelFile, "添加已有用户").getcase_tuple()
+# 移除用户
+remove_exsiting_user_param = OperationExcleData(excelFile, "移除用户").getcase_tuple()
 # 修改密码
-update_user_password = read_excel('../../test_data/组织用户.xlsx', '修改密码', 'password')
+update_user_password_param = OperationExcleData(excelFile, "修改密码").getcase_tuple()
+# 删除用户
+delete_user_param = OperationExcleData(excelFile, "删除用户").getcase_tuple()
 
 
 # 获取组织列表
-def test_get_orgnization_list(ip, port, headers):
-    ip_address = 'http://%s:%s' % (ip, port)
+def get_orgnization_list(uri, headers):
     orgnization_list_response = requests.get(
-        url=ip_address + create_orgnization_url,
+        url=uri + create_orgnization_url,
         headers=headers
     ).json()
     orgnization_list = orgnization_list_response['data']
@@ -45,60 +49,90 @@ def test_get_orgnization_list(ip, port, headers):
 
 
 # 获取组织名称列表
-def test_get_orgnization_name_list(ip, port, headers):
+def get_orgnization_name_list(uri, headers):
     orgnization_name_list = []
-    for i in test_get_orgnization_list(ip, port, headers):
+    for i in get_orgnization_list(uri, headers):
         orgnization_name_list.append(i['alias'])
     return orgnization_name_list
 
 
-# 获取创建的组织test_org的ID
-def test_get_create_orgnization_id(ip, port, headers):
-    orgnization_id = []
-    for i in test_get_orgnization_list(ip, port, headers):
-        if create_orgnization_param[0]["name"] == i['alias']:
-            orgnization_id.append(i['id'])
-    print(orgnization_id)
-    return orgnization_id
+# 获取组织id
+def get_orgnization_id(uri, headers, init_name):
+    for orgnization in get_orgnization_list(uri, headers):
+        if orgnization['alias'] == init_name:
+            return orgnization['id']
 
 
-# 获取创建的组织test_org2的ID
-def test_get_create_orgnization_org2_id(ip, port, headers):
-    orgnization_id = []
-    for i in test_get_orgnization_list(ip, port, headers):
-        if create_orgnization_param[1]["name"] == i['alias']:
-            orgnization_id.append(i['id'])
-    print(orgnization_id)
-    return orgnization_id
+# 根据组织名称获取用户列表
+def get_fixed_user_list(uri, headers, init_name):
+    user_url = "/users"
+    orgnization_Id = str(get_orgnization_id(uri, headers, init_name))
+    fixed_orgnization_list_response = requests.get(
+        url=uri + update_orgnization_url + orgnization_Id + user_url,
+        headers=headers
+    ).json()
+    assert fixed_orgnization_list_response["status"] == 200
+    fixed_orgnization_list = fixed_orgnization_list_response['data']
+    return fixed_orgnization_list
 
 
-## 获取编辑后的组织ID
-def test_get_update_orgnization_id(ip, port, headers):
-    update_orgnization_id = []
-    for i in test_get_orgnization_list(ip, port, headers):
-        if update_orgnization_param[0]["name"] == i['alias']:
-            update_orgnization_id.append(i['id'])
-    return update_orgnization_id
+# 获取用户姓名列表
+def get_user_name_list(uri, headers, init_name):
+    user_name_list = []
+    for i in get_fixed_user_list(uri, headers, init_name):
+        user_name_list.append(i['name'])
+    return user_name_list
+
+
+# 获取用户名列表
+def get_user_account_list(uri, headers, init_name):
+    user_account_list = []
+    for i in get_fixed_user_list(uri, headers, init_name):
+        user_account_list.append(i['account'])
+    return user_account_list
+
+
+# 根据用户名称获取用户id
+def get_user_account_id(uri, headers, account, init_name):
+    for i in get_fixed_user_list(uri, headers, init_name):
+        if i['account'] == account:
+            return i['id']
 
 
 # 创建组织
-@pytest.mark.parametrize('create_orgnization_param', create_orgnization_param)
-def test_create_orgnization(ip, port, headers, create_orgnization_param):
-    ip_address = "http://%s:%s" % (ip, port)
+@pytest.mark.smoke
+@pytest.mark.run(order=32)
+@pytest.mark.parametrize('ID,alias,parentId,name', create_orgnization_param)
+@allure.feature("组织用户")
+@allure.story("创建组织")
+def test_create_orgnization(uri, headers, ID, alias, parentId, name):
+    create_orgnization_param = {
+        "alias": alias,
+        "name": name,
+    }
     create_orgnization_response = requests.post(
-        url=ip_address + create_orgnization_url,
+        url=uri + create_orgnization_url,
         headers=headers,
-        data=json.dumps(create_orgnization_param)
+        json=create_orgnization_param
     ).json()
+    allure.attach("请求响应code", str(create_orgnization_response['status']))
+    allure.attach("请求响应结果", str(create_orgnization_response))
+    my_log().info(create_orgnization_response)
     assert create_orgnization_response['status'] == 200
-    assert create_orgnization_param["name"] in test_get_orgnization_name_list(ip, port, headers)
+    # 断言名称在组织列表
+    assert name in get_orgnization_name_list(uri, headers)
 
 
-# 在组织test_org下创建用户
-@pytest.mark.parametrize('account,password,name,status,mobilePhone,birstday,sex,isManager,roles', create_user_param)
-def test_create_user(ip, port, headers, account, password, name, status, mobilePhone, birstday, sex, isManager, roles):
-    ip_address = "http://%s:%s" % (ip, port)
-    orgnization_id = test_get_create_orgnization_id(ip, port, headers)
+# 在组织下创建用户
+@pytest.mark.smoke
+@pytest.mark.run(order=33)
+@pytest.mark.parametrize('ID,org_name,account,password,name,status,mobilePhone,birstday,sex,isManager,roles',
+                         create_user_param)
+@allure.feature("组织用户")
+@allure.story("组织下创建用户")
+def test_create_user(uri, headers, ID, org_name, account, password, name, status, mobilePhone, birstday, sex, isManager,
+                     roles):
+    orgnization_id = get_orgnization_id(uri, headers, org_name)
     roled = json.loads(roles)
     create_param = {
         "account": account,
@@ -110,150 +144,55 @@ def test_create_user(ip, port, headers, account, password, name, status, mobileP
             "sex": sex,
             "isManager": isManager
         },
-        "organizations": orgnization_id,
+        "organizations": [orgnization_id],
         "roles": roled,
         "status": status,
     }
     create_user_response = requests.post(
-        url=ip_address + create_user_url,
+        url=uri + create_user_url,
         headers=headers,
         json=create_param
     ).json()
+    allure.attach("请求响应code", str(create_user_response['status']))
+    allure.attach("请求响应结果", str(create_user_response))
+    my_log().info(create_user_response)
     assert create_user_response['status'] == 200
-    assert create_param["account"] in test_get_user_account_list(ip, port, headers)[0]
-    assert create_param["name"] in test_get_user_account_list(ip, port, headers)[1]
-    # 创建时的值为["ROLE_XTGLY", "ROLE_YWGLY", "ROLE_YYGLY", "ROLE_ZH", "ROLE_ZHGLY"]，检查的值为["ROLE_YYGLY","ROLE_ZH","ROLE_XTGLY","ROLE_ZHGLY","ROLE_YWGLY"]
-    assert create_param["roles"].sort() == test_get_user_roles_id(ip, port, headers).sort()
-
-
-# 在组织test_org2下添加已有用户,便于移除用户
-def test_create_existing_user(ip, port, headers):
-    ip_address = "http://%s:%s" % (ip, port)
-    users_id = test_get_user_account_list(ip, port, headers)[2][0]
-    org_url = "/organizations"
-    orgnization_org_id = test_get_create_orgnization_id(ip, port, headers)
-    orgnization_org2_id = test_get_create_orgnization_org2_id(ip, port, headers)
-    # 传入的参数第一个是已有用户的组织id,第二个是正在添加已有用户的组织
-    create_existing_param = [orgnization_org_id[0], orgnization_org2_id[0]]
-    create_existing_response = requests.post(
-        url=ip_address + update_user_url + users_id + org_url,
-        headers=headers,
-        json=create_existing_param
-    ).json()
-    assert create_existing_response['status'] == 200
-
-
-# 在组织test_org2下移除用户
-def test_remove_existing_user(ip, port, headers):
-    ip_address = "http://%s:%s" % (ip, port)
-    users_id = test_get_user_account_list(ip, port, headers)[2][0]
-    users_url = "/users/"
-    orgnization_org2_id = test_get_create_orgnization_org2_id(ip, port, headers)[0]
-    remove_existing_user_response = requests.delete(
-        url=ip_address + update_orgnization_url + orgnization_org2_id + users_url + users_id,
-        headers=headers
-    ).json()
-    assert remove_existing_user_response['status'] == 200
-
-
-# 获取创建组织1下的用户列表
-def test_get_fixed_user_list(ip, port, headers):
-    ip_address = 'http://%s:%s' % (ip, port)
-    user_url = "/users"
-    fixed_orgnization_id = test_get_create_orgnization_id(ip, port, headers)
-    fixed_orgnization_list_response = requests.get(
-        url=ip_address + update_orgnization_url + fixed_orgnization_id[0] + user_url,
-        headers=headers
-    ).json()
-    assert fixed_orgnization_list_response["status"] == 200
-    fixed_orgnization_list = fixed_orgnization_list_response['data']
-    return fixed_orgnization_list
-
-
-# 获取创建组织2下的用户列表
-def test_get_fixed_org2_user_list(ip, port, headers):
-    ip_address = 'http://%s:%s' % (ip, port)
-    user_url = "/users"
-    fixed_orgnization_id = test_get_create_orgnization_org2_id(ip, port, headers)
-    fixed_orgnization_user_list_response = requests.get(
-        url=ip_address + update_orgnization_url + fixed_orgnization_id[0] + user_url,
-        headers=headers
-    ).json()
-    assert fixed_orgnization_user_list_response["status"] == 200
-    fixed_orgnization_user_list = fixed_orgnization_user_list_response['data']
-    return fixed_orgnization_user_list
-
-
-# 获取组织1下的用户名/姓名/id
-def test_get_user_account_list(ip, port, headers):
-    account_list = []
-    name_list = []
-    id_list = []
-    for i in test_get_fixed_user_list(ip, port, headers):
-        account_list.append(i['account'])
-        name_list.append(i['name'])
-        id_list.append(i['id'])
-    print(account_list)
-    print(name_list)
-    print(id_list)
-    # 返回元组([""],[""],[""])
-    return account_list, name_list, id_list
-
-
-# 获取组织org2下的用户名/姓名/id
-def test_get_org2_user_account_list(ip, port, headers):
-    account_list = []
-    name_list = []
-    id_list = []
-    for i in test_get_fixed_org2_user_list(ip, port, headers):
-        account_list.append(i['account'])
-        name_list.append(i['name'])
-        id_list.append(i['id'])
-    print(account_list)
-    print(name_list)
-    print(id_list)
-    # 返回元组([""],[""],[""])
-    return account_list, name_list, id_list
-
-
-# 获取用户的角色
-def test_get_user_roles_id(ip, port, headers):
-    ip_address = 'http://%s:%s' % (ip, port)
-    get_roles_url = "/roles"
-    user_role_id = []
-    user_id = test_get_user_account_list(ip, port, headers)[2]
-    get_roles_list_response = requests.get(
-        url=ip_address + update_user_url + user_id[0] + get_roles_url,
-        headers=headers
-    ).json()
-    assert get_roles_list_response["status"] == 200
-    for i in get_roles_list_response["data"]:
-        user_role_id.append(i['id'])
-    print(user_role_id)
-    return user_role_id
+    # 断言用户名在列表里
+    assert account in get_user_account_list(uri, headers, org_name)
+    # 断言姓名在列表里
+    assert name in get_user_name_list(uri, headers, org_name)
 
 
 # 修改密码
-@pytest.mark.parametrize('password', update_user_password)
-def test_update_password(ip, port, headers, password):
-    ip_address = 'http://%s:%s' % (ip, port)
-    users_id = test_get_user_account_list(ip, port, headers)[2][0]
+@pytest.mark.smoke
+@pytest.mark.run(order=34)
+@pytest.mark.parametrize('ID,password,org_name,account', update_user_password_param)
+@allure.feature("组织用户")
+@allure.story("修改用户密码")
+def test_update_password(uri, headers, ID, password, org_name, account):
+    user_id = str(get_user_account_id(uri, headers, account, org_name))
     password_url = "/password"
     update_password_param = {"password": password
                              }
     update_user_password_response = requests.post(
-        url=ip_address + update_user_url + users_id + password_url,
+        url=uri + update_user_url + user_id + password_url,
         headers=headers,
         json=update_password_param
     ).json()
+    allure.attach("请求响应code", str(update_password_param['status']))
+    allure.attach("请求响应结果", str(update_password_param))
+    my_log().info(update_password_param)
     assert update_user_password_response['status'] == 200
 
 
-# 编辑test_org组织下的用户
-@pytest.mark.parametrize('account,name,status,mobilePhone,birstday,sex,isManager,roles', update_user_param)
-def test_udpate_user(ip, port, headers, account, name, status, mobilePhone, birstday, sex, isManager, roles):
-    ip_address = "http://%s:%s" % (ip, port)
-    users_id = test_get_user_account_list(ip, port, headers)[2][0]
+# 编辑组织下的用户
+@pytest.mark.smoke
+@pytest.mark.run(order=35)
+@pytest.mark.parametrize('ID,org_name,account,name,status,mobilePhone,birstday,sex,isManager,roles', update_user_param)
+@allure.feature("组织用户")
+@allure.story("编辑组织下用户")
+def test_udpate_user(uri, headers, ID, org_name, account, name, status, mobilePhone, birstday, sex, isManager, roles):
+    user_id = str(get_user_account_id(uri, headers, account, org_name))
     roled = json.loads(roles)
     update_user_param = {
         "account": account,
@@ -268,63 +207,132 @@ def test_udpate_user(ip, port, headers, account, name, status, mobilePhone, birs
         "status": status,
     }
     udpate_user_response = requests.post(
-        url=ip_address + update_user_url + users_id,
+        url=uri + update_user_url + user_id,
         headers=headers,
         json=update_user_param
     ).json()
+    allure.attach("请求响应code", str(udpate_user_response['status']))
+    allure.attach("请求响应结果", str(udpate_user_response))
+    my_log().info(udpate_user_response)
     assert udpate_user_response['status'] == 200
-    assert update_user_param["account"] in test_get_user_account_list(ip, port, headers)[0]
-    assert update_user_param["name"] in test_get_user_account_list(ip, port, headers)[1]
-    # 创建时的值为["ROLE_XTGLY", "ROLE_YWGLY", "ROLE_YYGLY", "ROLE_ZH", "ROLE_ZHGLY"]，检查的值为["ROLE_YYGLY","ROLE_ZH","ROLE_XTGLY","ROLE_ZHGLY","ROLE_YWGLY"]
-    assert update_user_param["roles"].sort() == test_get_user_roles_id(ip, port, headers).sort()
+    # 断言用户名在列表里
+    assert account in get_user_account_list(uri, headers, org_name)
+    # 断言姓名在列表里
+    assert name in get_user_name_list(uri, headers, org_name)
+
+
+# 在组织下添加已有用户
+@pytest.mark.smoke
+@pytest.mark.run(order=36)
+@pytest.mark.parametrize('ID,org_name,exsiting_org_name,exsiting_account', create_exsiting_user_param)
+@allure.feature("组织用户")
+@allure.story("组织下添加已经用户")
+def test_create_existing_user(uri, headers, ID, org_name, exsiting_org_name, exsiting_account):
+    user_id = str(get_user_account_id(uri, headers, exsiting_account, exsiting_org_name))
+    exsiting_orgnization_id = str(get_orgnization_id(uri, headers, exsiting_org_name))
+    orgnization_id = str(get_orgnization_id(uri, headers, org_name))
+    org_url = "/organizations"
+    # 参数为组织的id第一个id为添加已有用户的所属组织id
+    create_existing_user_param = [
+        exsiting_orgnization_id,
+        orgnization_id
+    ]
+    create_existing_response = requests.post(
+        url=uri + update_user_url + user_id + org_url,
+        headers=headers,
+        json=create_existing_user_param
+    ).json()
+    allure.attach("请求响应code", str(create_existing_user_param['status']))
+    allure.attach("请求响应结果", str(create_existing_user_param))
+    my_log().info(create_existing_user_param)
+    assert create_existing_response['status'] == 200
+    # 断言用户名在列表里
+    assert exsiting_account in get_user_account_list(uri, headers, org_name)
+
+
+# 在组织下移除用户
+@pytest.mark.smoke
+@pytest.mark.run(order=37)
+@pytest.mark.parametrize('ID,org_name,exsiting_org_name,exsiting_account', remove_exsiting_user_param)
+@allure.feature("组织用户")
+@allure.story("组织下移除用户")
+def test_remove_existing_user(uri, headers, ID, org_name, exsiting_org_name, exsiting_account):
+    orgnization_id = str(get_orgnization_id(uri, headers, org_name))
+    user_id = str(get_user_account_id(uri, headers, exsiting_account, exsiting_org_name))
+    users_url = "/users/"
+    remove_existing_user_response = requests.delete(
+        url=uri + update_orgnization_url + orgnization_id + users_url + user_id,
+        headers=headers
+    ).json()
+    allure.attach("请求响应code", str(remove_existing_user_response['status']))
+    allure.attach("请求响应结果", str(remove_existing_user_response))
+    my_log().info(remove_existing_user_response)
+    assert remove_existing_user_response['status'] == 200
+    # 断言用户名不在列表里
+    assert exsiting_account not in get_user_account_list(uri, headers, org_name)
 
 
 # 删除用户
-def test_delete_user(ip, port, headers):
-    ip_address = 'http://%s:%s' % (ip, port)
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=9)
+@pytest.mark.parametrize('ID,org_name,account', delete_user_param)
+@allure.feature("组织用户")
+@allure.story("删除用户")
+def test_delete_user(uri, headers, ID, org_name, account):
     # 删除编辑后的用户胡
-    delete_user_id = test_get_user_account_list(ip, port, headers)[2][0]
+    user_id = str(get_user_account_id(uri, headers, account, org_name))
     delete_user_response = requests.delete(
-        url=ip_address + update_user_url + delete_user_id,
+        url=uri + update_user_url + user_id,
         headers=headers
     ).json()
+    allure.attach("请求响应code", str(delete_user_response['status']))
+    allure.attach("请求响应结果", str(delete_user_response))
+    my_log().info(delete_user_response)
     assert delete_user_response["status"] == 200
     # 断言用户名不在列表里
-    assert create_user_param[0][0] not in test_get_user_account_list(ip, port, headers)[0]
+    assert account not in get_user_account_list(uri, headers, org_name)
 
 
 # 编辑组织
-@pytest.mark.parametrize('update_orgnization_param', update_orgnization_param)
-def test_update_orgnization(ip, port, headers, update_orgnization_param):
-    ip_address = 'http://%s:%s' % (ip, port)
-    orgnization_id = test_get_create_orgnization_id(ip, port, headers)
-    data = json.dumps(update_orgnization_param)  # 字典转化为字符串
+@pytest.mark.smoke_update
+@pytest.mark.run(order=11)
+@pytest.mark.parametrize('ID,init_name,alias,name,parentId', update_orgnization_param)
+@allure.feature("组织用户")
+@allure.story("编辑组织")
+def test_update_orgnization(uri, headers, ID, init_name, alias, name, parentId):
+    orgnization_Id = str(get_orgnization_id(uri, headers, init_name))
+    update_orgnization_param = {
+        "alias": alias,
+        "name": name,
+        "parentId": parentId
+    }
     update_orgnization_response = requests.post(
-        url=ip_address + update_orgnization_url + orgnization_id[0],
+        url=uri + update_orgnization_url + orgnization_Id,
         headers=headers,
-        data=data
+        json=update_orgnization_param
     ).json()
+    allure.attach("请求响应code", str(update_orgnization_response['status']))
+    allure.attach("请求响应结果", str(update_orgnization_response))
+    my_log().info(update_orgnization_response)
     assert update_orgnization_response['status'] == 200
-    assert update_orgnization_param["name"] in test_get_orgnization_name_list(ip, port, headers)
+    # 断言组织在列表里
+    assert name in get_orgnization_name_list(uri, headers)
 
 
 # 删除组织
-def test_delete_orgnization(ip, port, headers):
-    ip_address = 'http://%s:%s' % (ip, port)
-    # 删除编辑后的组织
-    delete_orgnization_id = test_get_update_orgnization_id(ip, port, headers)
-    delete_orgnization_org2_id = test_get_create_orgnization_org2_id(ip, port, headers)
-    print(test_get_orgnization_name_list(ip, port, headers))
+@pytest.mark.smoke_delete
+@pytest.mark.run(order=10)
+@pytest.mark.parametrize('ID,name', delete_orgnization_param)
+@allure.feature("组织用户")
+@allure.story("删除组织")
+def test_delete_orgnization(uri, headers, ID, name):
+    orgnization_Id = str(get_orgnization_id(uri, headers, name))
     delete_orgnization_response = requests.delete(
-        url=ip_address + update_orgnization_url + delete_orgnization_id[0],
-        headers=headers
-    ).json()
-    delete_orgnization_org2_response = requests.delete(
-        url=ip_address + update_orgnization_url + delete_orgnization_org2_id[0],
-        headers=headers
-    ).json()
+        url=uri + update_orgnization_url + orgnization_Id,
+        headers=headers).json()
+    allure.attach("请求响应code", str(delete_orgnization_response['status']))
+    allure.attach("请求响应结果", str(delete_orgnization_response))
+    my_log().info(delete_orgnization_response)
     assert delete_orgnization_response["status"] == 200
-    assert delete_orgnization_org2_response["status"] == 200
     # 断言组织已删除
-    assert update_orgnization_param[0]["name"] not in test_get_orgnization_name_list(ip, port, headers)
-    assert delete_orgnization_param[1]["name"] not in test_get_orgnization_name_list(ip, port, headers)
+    assert name not in get_orgnization_name_list(uri, headers)

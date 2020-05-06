@@ -46,9 +46,4 @@ def read_excel(bookname, sheetname, columnname):
                 param.append(nrows[j].value)
             return (param)
 
-if __name__=='__main__':
-    testdata_path = Conf.get_testdata_path()
-    excelFile = testdata_path + os.sep + "网络资源.xlsx"
-    ## 创建VLAN池
-    param_create_vlanpool = read_excel_tuple(excelFile, '创建VLAN池')
-    print(param_create_vlanpool)
+

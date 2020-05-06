@@ -1,0 +1,12 @@
+tcrc_db:
+  db_host: "172.23.1.2"
+  db_user: "root"
+  db_password: "root1234"
+  db_name: "cmp_compute"
+  db_charset: "utf8"
+  db_port: "3306"
+
+cmdb_db:
+  arangoURL: "http://172.23.1.7:8529"
+  username: "root"
+  password: "root1234"

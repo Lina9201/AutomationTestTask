@@ -6,8 +6,10 @@ certifi==2019.6.16
 chardet==3.0.4
 colorama==0.4.1
 datadispatch==1.0.0
+DateTime==4.3
 et-xmlfile==1.0.1
 freeze==1.0.10
+future==0.18.2
 idna==2.8
 importlib-metadata==0.20
 jdcal==1.4.1
@@ -16,9 +18,17 @@ openpyxl==3.0.0
 packaging==19.1
 pluggy==0.12.0
 py==1.8.0
+pyArango==1.3.3
+PyMySQL==0.9.3
 pyparsing==2.4.2
 pytest==5.1.2
-PyYAML==5.1.2
+pytest-assert-utils==0.0.1
+pytest-html==2.0.0
+pytest-metadata==1.8.0
+pytest-ordering==0.6
+pytest-rerunfailures==7.0
+pytz==2019.3
+PyYAML==5.3
 requests==2.22.0
 six==1.12.0
 tasks==2.5.0
@@ -27,3 +37,4 @@ wcwidth==0.1.7
 xlrd==1.2.0
 xlwt==1.3.0
 zipp==0.6.0
+zope.interface==4.7.1
