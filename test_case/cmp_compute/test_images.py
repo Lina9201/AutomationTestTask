@@ -3,10 +3,10 @@ import pytest
 from config import Conf
 import os
 from common.get_excel import read_excel, read_excel_tuple
-from test_case.cmp_compute.test_02resourcepool import get_resourcepoolid
+from test_case.cmp_compute.test_resourcepool import get_resourcepoolid
 
 # 创建镜像
-create_images_url = "/admin/v1/images"
+create_images_url = "/admin/v1/images?osType="
 # 获取vmware模板
 get_vmware_templates_url = "/admin/v1/hypersivor/vmware/templates?resourcePoolId="
 # 获取openstack模板
@@ -41,6 +41,7 @@ def get_template_list(uri, headers, resourcepoolType, resourcepoolName):
         get_openstack_template_response = requests.get(url=uri + get_openstack_templates_url + str(resourcepool_id),
                                                        headers=headers).json()
         template_list = get_openstack_template_response['data']
+    # print(template_list)
     return template_list
 
 
@@ -51,43 +52,40 @@ def get_template_name(uri, headers, resourcepoolType, resourcepoolName):
         template_name.append(template['name'])
     return template_name
 
+
 # 根据选择的资源池名称获取资源池id
 def get_template_id(uri, headers, resourcepoolType, resourcepoolName, template_name):
     for template in get_template_list(uri, headers, resourcepoolType, resourcepoolName):
         if template['name'] == template_name:
-            return template['id'] or template['morValue']
+            if resourcepoolType == "vmware":
+                return template['morValue']
+            elif resourcepoolType == "openstack":
+                return template['id']
 
 
 # 获取镜像列表
-# def test_get_images_list(ip, port, headers):
-#     ip_address = 'http://%s:%s' % (ip, port)
-#     images_list_response = requests.get(
-#         url=ip_address + create_images_url,
-#         headers=headers
-#     ).json()
-#     images_list = images_list_response['data']
-#     return images_list
+def get_images_list(uri, headers):
+    images_list_response = requests.get(
+        url=uri + create_images_url,
+        headers=headers
+    ).json()
+    images_list = images_list_response['data']
+    return images_list
 
 
-## 获取镜像名称列表
-# def test_get_images_name_list(ip, port, headers):
+# 获取镜像名称列表
+# def test_get_images_name_list(uri, headers):
 #     images_name_list = []
-#     for i in test_get_images_list(ip, port, headers):
+#     for i in test_get_images_list(uri, headers):
 #         images_name_list.append(i['name'])
 #     return images_name_list
 
 
-# 根据镜像名称获取镜像id/操作系统版本os/操作系统类型osType
-# def test_get_images_id(ip, port, headers):
-#     get_image_id = []
-#     os_list = []
-#     osType_list = []
-#     for i in test_get_images_list(ip, port, headers):
-#         if param_create_images[0][0] == i['name']:
-#             get_image_id.append(i['id'])  # 返回[474]
-#             os_list.append(i['os'])  # 返回[""]
-#             osType_list.append(i['osType'])  # 返回[""]
-#     return get_image_id, os_list, osType_list
+# 根据镜像名称获取镜像id
+def get_image_id(uri, headers, imagename):
+    for image in get_images_list(uri, headers):
+        if image['name'] == imagename:
+            return image['id']
 
 
 ## 获取编辑后的镜像ID
@@ -101,7 +99,7 @@ def get_template_id(uri, headers, resourcepoolType, resourcepoolName, template_n
 
 #
 # 创建镜像：操作系统为linux,操作系统版本为Centos6.5
-@pytest.mark.smoke
+@pytest.mark.run(order=3)
 @pytest.mark.parametrize("name,description,os,osType,osDisk,password,username,loading,resourcepoolType,resourcepoolName",
                          param_create_images)
 def test_create_images(uri, headers, name, description, os, osType, osDisk, password, username, loading,
@@ -122,7 +120,7 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
                                    },
                                    "loading": loading,
                                    "relavant": {},
-                                   "relavantId": templateId[0],
+                                   "relavantId": templateId,
                                    "relavantName": template_name,
                                    "resourcepoolId": resourcepoolid,
                                    "resourcepoolType": resourcepoolType
@@ -132,7 +130,7 @@ def test_create_images(uri, headers, name, description, os, osType, osDisk, pass
     create_images_response = requests.post(url=uri + create_images_url,
                                            json=create_images_param,
                                            headers=headers).json()
-    assert create_images_response["status"] == 200
+    assert create_images_response['status'] == 200
     # 获取已关联的资源池模板id
     # resourcepool_template_list = test_get_resourcepool_template_list(uri, headers)
     # 断言创建的镜像名称能在查询到的响应结果中存在
